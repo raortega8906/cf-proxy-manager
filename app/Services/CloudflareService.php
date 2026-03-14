@@ -27,10 +27,33 @@ class CloudflareService
      * Obtiene el estado actual de un DNS record en Cloudflare.
      */
 
-    public function getDnsRecord(string $zone_id, string $record_id): ?array
+    // public function getDnsRecord(string $zone_id, string $record_id): ?array
+    // {
+    //     $response = Http::withHeaders($this->headers)
+    //         ->get("{$this->api_url}/zones/{$zone_id}/dns_records/{$record_id}");
+
+    //     if($response->successful()) {
+
+    //         return $response->json('result');
+
+    //     } else {
+
+    //         // Loguear error para debugging
+    //         Log::error('[Cloudflare] getDnsRecord failed', [
+    //             'zone_id' => $zone_id,
+    //             'record_id' => $record_id,
+    //             'response' => $response->json(),
+    //         ]);
+
+    //         return null;
+
+    //     }
+    // }
+
+    public function getDnsRecord(string $zone_id): ?array
     {
         $response = Http::withHeaders($this->headers)
-            ->get("{$this->api_url}/zones/{$zone_id}/dns_records/{$record_id}");
+            ->get("{$this->api_url}/zones/{$zone_id}/dns_records/");
 
         if($response->successful()) {
 
@@ -49,4 +72,11 @@ class CloudflareService
 
         }
     }
+
+     /**
+     * Activa o desactiva el proxy (nube naranja) de un DNS record.
+     *
+     * Usa PATCH para modificar solo el campo `proxied`, sin tocar
+     * el resto de campos del registro (name, content, ttl…).
+     */
 }
