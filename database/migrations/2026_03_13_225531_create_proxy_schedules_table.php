@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('proxy_schedules', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
+            $table->string('type');                         // laliga_match | ssl_renewal | manual
             $table->string('description')->nullable();
-            $table->dateTime('disable_at')->nullable();
-            $table->dateTime('enable_at')->nullable();
-            $table->string('status');
-            $table->json('site_ids');
+            $table->dateTime('disable_at');
+            $table->dateTime('enable_at');
+            $table->string('status')->default('pending');   // pending | active | completed | failed
+            $table->json('site_ids');                       // Array de IDs de sites afectados
             $table->timestamps();
         });
     }

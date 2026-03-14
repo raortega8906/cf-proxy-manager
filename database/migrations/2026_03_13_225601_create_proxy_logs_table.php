@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('proxy_logs', function (Blueprint $table) {
             $table->id();
-            $table->string('action');
-            $table->string('reason');
-            $table->string('status');
+            $table->string('action');                                                       // proxy_enabled | proxy_disabled
+            $table->string('reason');                                                       // laliga | ssl_renewal | manual
+            $table->string('status');                                                       // success | error
             $table->text('message')->nullable();
             $table->foreignId('site_id')->constrained('proxy_sites')->cascadeOnDelete();
             $table->timestamps();
