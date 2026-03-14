@@ -4,10 +4,12 @@
 @section('page-sub', 'Gestiona el proxy de cada dominio Cloudflare')
 
 @section('topbar-actions')
-    <a href="{{ route('sites.create') }}" class="btn btn-primary">+ Añadir sitio</a>
-@endsection
 
 @section('content')
+
+<div class="flex mb-4">
+    <a href="{{ route('sites.create') }}" class="btn btn-primary">+ Añadir Sitio</a>
+</div>
 
 <div class="card">
     <table class="table">

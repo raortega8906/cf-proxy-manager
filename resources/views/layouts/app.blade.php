@@ -247,6 +247,12 @@
         </div>
         <div class="flex gap-2">
             @yield('topbar-actions')
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="btn btn-ghost">
+                    🚪 Cerrar sesión
+                </button>
+            </form>
         </div>
     </div>
 
