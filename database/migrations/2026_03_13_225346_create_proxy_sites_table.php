@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('proxy_sites', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('domain');
+            $table->string('cloudflare_zone_id');
+            $table->string('cloudflare_dns_record_id');
+            $table->boolean('proxy_enabled');
+            $table->boolean('ssl_auto_renewal')->default(false);
+            $table->date('ssl_next_renewal')->nullable();
+            $table->boolean('affected_by_laliga')->default(false);
             $table->timestamps();
         });
     }
