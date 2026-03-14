@@ -9,6 +9,10 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
+Route::get('/register', function () {
+    return redirect('/login');
+});
+
 Route::middleware('auth', 'verified')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
