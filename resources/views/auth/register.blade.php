@@ -1,52 +1,66 @@
-<x-guest-layout>
+@extends('layouts.guest')
+
+@section('title', 'Crear cuenta')
+
+@section('content')
+    <div class="guest-card-title">Crear cuenta</div>
+    <div class="guest-card-sub">Empieza a automatizar tu proxy de Cloudflare.</div>
+
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        <div class="form-group">
+            <label class="form-label" for="name">Nombre</label>
+            <input id="name" name="name" type="text"
+                class="form-control {{ $errors->get('name') ? 'is-invalid' : '' }}"
+                value="{{ old('name') }}"
+                required autofocus autocomplete="name" />
+            @foreach($errors->get('name') as $err)
+                <div class="invalid-feedback">{{ $err }}</div>
+            @endforeach
         </div>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <div class="form-group">
+            <label class="form-label" for="email">Email</label>
+            <input id="email" name="email" type="email"
+                class="form-control {{ $errors->get('email') ? 'is-invalid' : '' }}"
+                value="{{ old('email') }}"
+                required autocomplete="username" />
+            @foreach($errors->get('email') as $err)
+                <div class="invalid-feedback">{{ $err }}</div>
+            @endforeach
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div class="form-group">
+            <label class="form-label" for="password">Contraseña</label>
+            <input id="password" name="password" type="password"
+                class="form-control {{ $errors->get('password') ? 'is-invalid' : '' }}"
+                required autocomplete="new-password" />
+            @foreach($errors->get('password') as $err)
+                <div class="invalid-feedback">{{ $err }}</div>
+            @endforeach
         </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        <div class="form-group">
+            <label class="form-label" for="password_confirmation">Confirmar contraseña</label>
+            <input id="password_confirmation" name="password_confirmation" type="password"
+                class="form-control {{ $errors->get('password_confirmation') ? 'is-invalid' : '' }}"
+                required autocomplete="new-password" />
+            @foreach($errors->get('password_confirmation') as $err)
+                <div class="invalid-feedback">{{ $err }}</div>
+            @endforeach
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
+        <div class="divider"></div>
+
+        <button type="submit" class="btn btn-primary btn-full">
+            Crear cuenta →
+        </button>
+
+        <div class="text-center mt-4">
+            <a href="{{ route('login') }}" class="guest-link">
+                ¿Ya tienes cuenta? Inicia sesión
             </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
         </div>
     </form>
-</x-guest-layout>
+@endsection

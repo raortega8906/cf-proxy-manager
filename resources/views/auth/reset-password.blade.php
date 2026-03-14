@@ -1,39 +1,50 @@
-<x-guest-layout>
+@extends('layouts.guest')
+
+@section('title', 'Restablecer contraseña')
+
+@section('content')
+    <div class="guest-card-title">Nueva contraseña</div>
+    <div class="guest-card-sub">Elige una contraseña segura para tu cuenta.</div>
+
     <form method="POST" action="{{ route('password.store') }}">
         @csrf
-
-        <!-- Password Reset Token -->
         <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <div class="form-group">
+            <label class="form-label" for="email">Email</label>
+            <input id="email" name="email" type="email"
+                class="form-control {{ $errors->get('email') ? 'is-invalid' : '' }}"
+                value="{{ old('email', $request->email) }}"
+                required autofocus autocomplete="username" />
+            @foreach($errors->get('email') as $err)
+                <div class="invalid-feedback">{{ $err }}</div>
+            @endforeach
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div class="form-group">
+            <label class="form-label" for="password">Nueva contraseña</label>
+            <input id="password" name="password" type="password"
+                class="form-control {{ $errors->get('password') ? 'is-invalid' : '' }}"
+                required autocomplete="new-password" />
+            @foreach($errors->get('password') as $err)
+                <div class="invalid-feedback">{{ $err }}</div>
+            @endforeach
         </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        <div class="form-group">
+            <label class="form-label" for="password_confirmation">Confirmar contraseña</label>
+            <input id="password_confirmation" name="password_confirmation" type="password"
+                class="form-control {{ $errors->get('password_confirmation') ? 'is-invalid' : '' }}"
+                required autocomplete="new-password" />
+            @foreach($errors->get('password_confirmation') as $err)
+                <div class="invalid-feedback">{{ $err }}</div>
+            @endforeach
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Reset Password') }}
-            </x-primary-button>
-        </div>
+        <div class="divider"></div>
+
+        <button type="submit" class="btn btn-primary btn-full">
+            Restablecer contraseña →
+        </button>
     </form>
-</x-guest-layout>
+@endsection
