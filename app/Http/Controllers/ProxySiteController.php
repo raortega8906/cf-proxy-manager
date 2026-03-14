@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProxySite;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class ProxySiteController extends Controller
@@ -10,17 +11,18 @@ class ProxySiteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
-        //
+        $sites = ProxySite::all();
+        return view('sites.index', compact('sites'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('sites.create');
     }
 
     /**
