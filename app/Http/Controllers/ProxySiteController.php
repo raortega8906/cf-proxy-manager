@@ -87,6 +87,15 @@ class ProxySiteController extends Controller
     {
         $data = $request->validated();
 
+        // Los checkboxes no se envían si no están marcados, forzamos el valor
+        $data['ssl_auto_renewal']   = $request->boolean('ssl_auto_renewal');
+        $data['affected_by_laliga'] = $request->boolean('affected_by_laliga');
+
+        // Si desmarcaron SSL, limpiamos la fecha
+        if (!$data['ssl_auto_renewal']) {
+            $data['ssl_next_renewal'] = null;
+        }
+
         $proxySite->update($data);
 
         return redirect()->route('sites.index')->with('success', 'Proxy site updated successfully.');

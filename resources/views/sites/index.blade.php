@@ -35,13 +35,13 @@
                         <div style="color:var(--cyan);font-size:11px">{{ $site->domain }}</div>
                     </td>
                     <td>
-                        @if($site->affected_by_liga)
+                        @if($site->affected_by_laliga)
                             <span class="badge badge-laliga">⚽ LaLiga</span>
                         @endif
                         @if($site->ssl_auto_renewal)
                             <span class="badge badge-ssl">🔒 SSL auto</span>
                         @endif
-                        @if (!$site->ssl_auto_renewal && !$site->affected_by_liga)
+                        @if(!$site->affected_by_laliga && !$site->ssl_auto_renewal)
                             <span class="badge badge-manual">⚠️ Sin opciones marcadas</span>
                         @endif
                     </td>

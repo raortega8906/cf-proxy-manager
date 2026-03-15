@@ -3,8 +3,6 @@
 @section('page-title', 'Nuevo sitio')
 @section('page-sub', 'Añade un dominio gestionado con Cloudflare')
 
-@section('topbar-actions')
-
 @section('content')
 
 <div class="flex mb-4">
@@ -54,6 +52,54 @@
                 @endforeach
                 <div style="font-size:10px;color:var(--muted);margin-top:6px;">
                     Lo encuentras en el Overview de tu dominio en Cloudflare → zona derecha inferior.
+                </div>
+            </div>
+
+            {{-- DIVIDER --}}
+            <div style="height:1px;background:var(--border);margin:24px 0;"></div>
+
+            {{-- SSL AUTO RENEWAL --}}
+            <div class="form-group">
+                <label class="form-check" for="ssl_auto_renewal" style="margin-bottom:0">
+                    <input id="ssl_auto_renewal" name="ssl_auto_renewal" type="checkbox"
+                        value="1" {{ old('ssl_auto_renewal') ? 'checked' : '' }}
+                        onchange="document.getElementById('ssl_renewal_date_wrap').style.display = this.checked ? 'block' : 'none'" />
+                    <span class="form-check-label">
+                        🔒 Renovación SSL automática
+                    </span>
+                </label>
+                <div style="font-size:10px;color:var(--muted);margin-top:4px;padding-left:22px;">
+                    Desactiva el proxy automáticamente durante la ventana de renovación del certificado.
+                </div>
+            </div>
+
+            <div id="ssl_renewal_date_wrap"
+                style="display:{{ old('ssl_auto_renewal') ? 'block' : 'none' }};margin-top:12px;">
+                <div class="form-group">
+                    <label class="form-label" for="ssl_next_renewal">Próxima renovación SSL</label>
+                    <input id="ssl_next_renewal" name="ssl_next_renewal" type="date"
+                        class="form-control {{ $errors->get('ssl_next_renewal') ? 'is-invalid' : '' }}"
+                        value="{{ old('ssl_next_renewal') }}" />
+                    @foreach($errors->get('ssl_next_renewal') as $err)
+                        <div class="invalid-feedback">{{ $err }}</div>
+                    @endforeach
+                    <div style="font-size:10px;color:var(--muted);margin-top:6px;">
+                        El proxy se desactivará 5 minutos antes y se reactivará 35 minutos después.
+                    </div>
+                </div>
+            </div>
+
+            {{-- AFFECTED BY LALIGA --}}
+            <div class="form-group">
+                <label class="form-check" for="affected_by_laliga" style="margin-bottom:0">
+                    <input id="affected_by_laliga" name="affected_by_laliga" type="checkbox"
+                        value="1" {{ old('affected_by_laliga') ? 'checked' : '' }} />
+                    <span class="form-check-label">
+                        ⚽ Afectado por bloqueos de LaLiga
+                    </span>
+                </label>
+                <div style="font-size:10px;color:var(--muted);margin-top:4px;padding-left:22px;">
+                    El proxy se desactivará automáticamente durante los partidos de LaLiga.
                 </div>
             </div>
 

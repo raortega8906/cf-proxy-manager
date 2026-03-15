@@ -24,13 +24,9 @@ class UpdateProxySiteRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'domain' => 'required|string|max:255',
-            'cloudflare_zone_id' => 'required|string|max:255',
-            'cloudflare_dns_record_id' => 'nullable|string|max:255|unique:proxy_sites,cloudflare_dns_record_id,' . $this->route('proxySite')->id,
-            'proxy_enabled' => 'boolean|default:true',
-            'ssl_auto_renewal' => 'boolean',
+            'ssl_auto_renewal' => 'nullable|boolean',
             'ssl_next_renewal' => 'nullable|date|required_if:ssl_auto_renewal,1',
-            'affected_by_laliga' => 'boolean',
+            'affected_by_laliga' => 'nullable|boolean',
         ];
     }
 }
