@@ -1,11 +1,71 @@
 @extends('layouts.app')
 
 @section('page-title', 'Dashboard')
-@section('page-sub', 'Estado en tiempo real de todos tus dominios gestionados con Cloudflare')
+@section('page-sub', 'Estado en tiempo real de todos tus dominios')
 
 @section('topbar-actions')
-    {{-- <a href="{{ route('sites.create') }}" class="btn btn-primary">+ Añadir sitio</a> --}}
+
+        <button type="submit" class="btn btn-warning btn-sm">⚽ Desactivar LaLiga</button>
+   
+        <button type="submit" class="btn btn-ghost btn-sm">↑ Reactivar LaLiga</button>
+
 @endsection
 
 @section('content')
 
+{{-- STATS --}}
+<div class="grid-4 mb-4">
+    <div class="card">
+        <div class="stat-val text-green"></div>
+        <div class="stat-lbl">Con proxy activo</div>
+    </div>
+    <div class="card">
+        <div class="stat-val text-orange"></div>
+        <div class="stat-lbl">Afectadas por LaLiga</div>
+    </div>
+    <div class="card">
+        <div class="stat-val text-cyan"></div>
+        <div class="stat-lbl">SSL auto-renovación</div>
+    </div>
+    <div class="card">
+        <div class="stat-val text-yellow"></div>
+        <div class="stat-lbl">Schedules pendientes</div>
+    </div>
+</div>
+
+{{-- SITIOS + SCHEDULES --}}
+<div class="grid-2 mt-6">
+
+    {{-- Sitios --}}
+    <div class="card">
+        <div class="flex items-center justify-between mb-4">
+            <div class="card-title">Sitios</div>
+            <a href="{{ route('sites.index') }}" class="btn btn-ghost btn-sm">Ver todos</a>
+        </div>
+
+        @foreach($sites as $site)
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(26,42,58,0.5)">
+            <div style="flex:1">
+                <div style="font-size:13px;color:var(--white)">{{ $site->name }}</div>
+                <div style="font-size:11px;color:var(--cyan)">{{ $site->domain }}</div>
+            </div>
+            @if($site->affected_by_laliga)
+                <span class="badge badge-laliga">⚽</span>
+            @endif
+            @if($site->ssl_auto_renewal)
+                <span class="badge badge-ssl">🔒 SSL</span>
+            @endif
+            <button
+                class="toggle {{ $site->proxy_enabled ? 'toggle-on' : 'toggle-off' }}"
+                data-site-id="{{ $site->id }}"
+                title="{{ $site->proxy_enabled ? 'Proxy ON — clic para desactivar' : 'Proxy OFF — clic para activar' }}"
+            >
+                <div class="toggle-knob"></div>
+            </button>
+        </div>
+        @endforeach
+    </div>
+
+</div>
+
+@endsection

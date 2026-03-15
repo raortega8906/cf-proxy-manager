@@ -12,7 +12,6 @@ Route::get('/', function () {
 Route::middleware('auth', 'verified')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
-    Route::get('/test', [DashboardController::class, 'test'])->name('dashboard.test');
 
     // Rutas Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
