@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\ProxySite;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -27,33 +28,10 @@ class CloudflareService
      * Obtiene el estado actual de un DNS record en Cloudflare.
      */
 
-    // public function getDnsRecord(string $zone_id, string $record_id): ?array
-    // {
-    //     $response = Http::withHeaders($this->headers)
-    //         ->get("{$this->api_url}/zones/{$zone_id}/dns_records/{$record_id}");
-
-    //     if($response->successful()) {
-
-    //         return $response->json('result');
-
-    //     } else {
-
-    //         // Loguear error para debugging
-    //         Log::error('[Cloudflare] getDnsRecord failed', [
-    //             'zone_id' => $zone_id,
-    //             'record_id' => $record_id,
-    //             'response' => $response->json(),
-    //         ]);
-
-    //         return null;
-
-    //     }
-    // }
-
-    public function getDnsRecord(string $zone_id): ?array
+    public function getDnsRecord(string $zone_id, string $record_id): ?array
     {
         $response = Http::withHeaders($this->headers)
-            ->get("{$this->api_url}/zones/{$zone_id}/dns_records/");
+            ->get("{$this->api_url}/zones/{$zone_id}/dns_records/{$record_id}");
 
         if($response->successful()) {
 
@@ -70,6 +48,46 @@ class CloudflareService
 
             return null;
 
+        }
+    }
+
+    public function getDnsRecordAll(string $zone_id): ?array
+    {
+        $response = Http::withHeaders($this->headers)
+            ->get("{$this->api_url}/zones/{$zone_id}/dns_records/");
+
+        if($response->successful()) {
+
+            return $response->json('result');
+
+        } else {
+
+            // Loguear error para debugging
+            Log::error('[Cloudflare] getDnsRecord failed', [
+                'zone_id' => $zone_id,
+                'response' => $response->json(),
+            ]);
+
+            return null;
+
+        }
+    }
+
+    /**
+     * Obtener el dato de proxied en todos los DNS records.
+     */
+
+    public function syncSiteStatus(ProxySite $site): void
+    {
+        $record_id = $site->cloudflare_dns_record_id;
+        $zone_id = $site->cloudflare_zone_id;
+
+        $record = $this->getDnsRecord($zone_id, $record_id);
+
+        if ($record) {
+            $site->proxy_enabled = $record['proxied'];
+        } else {
+            Log::error("[Cloudflare] syncSiteStatus failed for site ID {$site->id}: No se pudo obtener el DNS record.");
         }
     }
 

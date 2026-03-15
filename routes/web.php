@@ -23,16 +23,14 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/sites', [ProxySiteController::class, 'index'])->name('sites.index');
     Route::get('/sites/create', [ProxySiteController::class, 'create'])->name('sites.create');
     Route::post('/sites', [ProxySiteController::class, 'store'])->name('sites.store');
-    Route::get('/sites/{site}', [ProxySiteController::class, 'show'])->name('sites.show');
-    Route::get('/sites/{site}/edit', [ProxySiteController::class, 'edit'])->name('sites.edit');
-    Route::put('/sites/{site}', [ProxySiteController::class, 'update'])->name('sites.update');
-    Route::delete('/sites/{site}', [ProxySiteController::class, 'destroy'])->name('sites.destroy');
+    Route::get('/sites/{proxySite}/edit', [ProxySiteController::class, 'edit'])->name('sites.edit');
+    Route::put('/sites/{proxySite}', [ProxySiteController::class, 'update'])->name('sites.update');
+    Route::delete('/sites/{proxySite}', [ProxySiteController::class, 'destroy'])->name('sites.destroy');
 
     // Rutas de schedules (CRUD)
     // Route::get('/schedules', [ProxyScheduleController::class, 'index'])->name('schedules.index');
     // Route::get('/schedules/create', [ProxyScheduleController ::class, 'create'])->name('schedules.create');
     // Route::post('/schedules', [ProxyScheduleController ::class, 'store'])->name('schedules.store');
-    // Route::get('/schedules/{schedule}', [ProxyScheduleController ::class, 'show'])->name('schedules.show');
     // Route::get('/schedules/{schedule}/edit', [ProxyScheduleController ::class, 'edit'])->name('schedules.edit');
     // Route::put('/schedules/{schedule}', [ProxyScheduleController ::class, 'update'])->name('schedules.update');
     // Route::delete('/schedules/{schedule}', [ProxyScheduleController ::class, 'destroy'])->name('schedules.destroy');

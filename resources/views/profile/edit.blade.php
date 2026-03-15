@@ -3,6 +3,8 @@
 @section('page-title', 'Perfil')
 @section('page-sub', 'Gestiona la información de tu cuenta')
 
+@section('topbar-actions')
+
 @section('content')
 
 <div class="space-y-6">

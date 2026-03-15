@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('domain');
             $table->string('cloudflare_zone_id');
-            $table->string('cloudflare_dns_record_id');
+            $table->string('cloudflare_dns_record_id')->nullable();
             $table->boolean('proxy_enabled');
             $table->boolean('ssl_auto_renewal')->default(false);
             $table->date('ssl_next_renewal')->nullable();

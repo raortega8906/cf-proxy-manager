@@ -18,8 +18,7 @@
                 <th>Nombre / Dominio</th>
                 <th>Características</th>
                 <th>SSL próximo</th>
-                <th>Estado</th>
-                <th>Proxy</th>
+                <th>Estado Proxy</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -42,6 +41,9 @@
                         @if($site->ssl_auto_renewal)
                             <span class="badge badge-ssl">🔒 SSL auto</span>
                         @endif
+                        @if (!$site->ssl_auto_renewal && !$site->affected_by_liga)
+                            <span class="badge badge-manual">⚠️ Sin opciones marcadas</span>
+                        @endif
                     </td>
                     <td>
                         @if($site->ssl_next_renewal)
@@ -57,25 +59,20 @@
                     </td>
                     <td>
                         @if($site->proxy_enabled)
-                            <span class="badge badge-success">Proxy ON</span>
+                            <span class="badge badge-ok">Proxy ON</span>
                         @else
-                            <span class="badge badge-danger">Proxy OFF</span>
+                            <span class="badge badge-off">Proxy OFF</span>
                         @endif
                     </td>
                     <td>
-                        {{-- <button class="toggle {{ $site->proxy_enabled ? 'toggle-on' : 'toggle-off' }}" data-site-id="{{ $site->id }}" data-url="{{ route('sites.toggleProxy', $site) }}">
-                            <span class="toggle-thumb"></span>
-                        </button> --}}
-                    </td>
-                    <td>
-                        {{-- <div class="flex gap-2">
+                        <div class="flex gap-2">
                             <a href="{{ route('sites.edit', $site) }}" class="btn btn-ghost btn-sm">Editar</a>
                             <form action="{{ route('sites.destroy', $site) }}" method="POST"
                                 onsubmit="return confirm('¿Eliminar {{ $site->name }}?')">
                                 @csrf @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                             </form>
-                        </div> --}}
+                        </div>
                     </td>
                 </tr>
                 @endforeach
@@ -85,24 +82,3 @@
 </div>
 
 @endsection
-
-@push('scripts')
-<script>
-// document.querySelectorAll('.toggle[data-site-id]').forEach(btn => {
-//     btn.addEventListener('click', async () => {
-//         btn.style.opacity = '0.5'; btn.disabled = true;
-//         try {
-//             const res  = await fetch(btn.dataset.url, {
-//                 method: 'POST',
-//                 headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content, 'Accept': 'application/json' },
-//             });
-//             const data = await res.json();
-//             if (data.success) {
-//                 btn.classList.toggle('toggle-on', data.proxy_enabled);
-//                 btn.classList.toggle('toggle-off', !data.proxy_enabled);
-//             }
-//         } finally { btn.style.opacity = '1'; btn.disabled = false; }
-//     });
-// });
-</script>
-@endpush
