@@ -59,9 +59,11 @@ class ProxySiteController extends Controller
         foreach ($response as $res) {
 
             if ($res['name'] === $domain) {
+
                 $proxy_enabled = $res['proxied'];
                 $record_id = $res['id'];
                 break;
+                
             } else {
                 return redirect()->back()->withErrors(['domain' => 'No se encontró un DNS record para este dominio en la zona especificada.']);
             }

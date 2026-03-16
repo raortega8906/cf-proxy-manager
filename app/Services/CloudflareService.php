@@ -34,9 +34,7 @@ class CloudflareService
             ->get("{$this->api_url}/zones/{$zone_id}/dns_records/{$record_id}");
 
         if($response->successful()) {
-
             return $response->json('result');
-
         } else {
 
             // Loguear error para debugging
@@ -57,9 +55,7 @@ class CloudflareService
             ->get("{$this->api_url}/zones/{$zone_id}/dns_records/");
 
         if($response->successful()) {
-
             return $response->json('result');
-
         } else {
 
             // Loguear error para debugging
@@ -85,8 +81,10 @@ class CloudflareService
         $record = $this->getDnsRecord($zone_id, $record_id);
 
         if ($record) {
+
             $site->proxy_enabled = $record['proxied'];
             $site->save();
+            
         } else {
             Log::error("[Cloudflare] syncSiteStatus failed for site ID {$site->id}: No se pudo obtener el DNS record.");
         }
