@@ -12,6 +12,8 @@ Route::get('/', function () {
 Route::middleware('auth', 'verified')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::patch('/dashboard/deactivate-all', [DashboardController::class, 'deactivateProxyAll'])->name('dashboard.deactivateProxyAll');
+    Route::patch('/dashboard/activate-all', [DashboardController::class, 'activateProxyAll'])->name('dashboard.activateProxyAll');
     Route::patch('/dashboard/{site}', [DashboardController::class, 'activateOrDeactivateProxy'])->name('dashboard.activateOrDeactivateProxy');
 
     // Rutas Profile

@@ -143,7 +143,39 @@ class CloudflareService
      * el resto de campos del registro (name, content, ttl…).
      */
 
-    public function activateProxyStatus(ProxySite $sites): bool{
+    public function activateProxyStatusAll(): bool
+    {
+        $sites = ProxySite::all();
+
+        foreach ($sites as $site) {
+
+            $record_id = $site->cloudflare_dns_record_id;
+            $zone_id = $site->cloudflare_zone_id;
+            $proxy_enabled = $site->proxy_enabled;
+
+            if ($proxy_enabled) {
+                continue; // Si ya está activo, saltar al siguiente
+            }
+
+            $response = Http::withHeaders($this->headers)
+            ->patch("{$this->api_url}/zones/{$zone_id}/dns_records/{$record_id}", [
+                'proxied' => true
+            ]);
+
+            if ($response->successful()) {
+
+                $site->proxy_enabled = true;
+                $site->save();
+
+            } else {
+
+                Log::error("[Cloudflare] activateProxyStatusAll failed for site ID {$site->id}: No se pudo actualizar el DNS record.");
+
+                return false;
+
+            }
+
+        }
         return true;
     }
 
@@ -154,7 +186,38 @@ class CloudflareService
      * el resto de campos del registro (name, content, ttl…).
      */
 
-    public function deactivateProxyStatus(ProxySite $sites): bool{
+    public function deactivateProxyStatusAll(): bool
+    {
+        $sites = ProxySite::all();
+
+        foreach ($sites as $site) {
+            $record_id = $site->cloudflare_dns_record_id;
+            $zone_id = $site->cloudflare_zone_id;
+            $proxy_enabled = $site->proxy_enabled;
+
+            if (!$proxy_enabled) {
+                continue; // Si ya está desactivado, saltar al siguiente
+            }
+
+            $response = Http::withHeaders($this->headers)
+            ->patch("{$this->api_url}/zones/{$zone_id}/dns_records/{$record_id}", [
+                'proxied' => false
+            ]);
+
+            if ($response->successful()) {
+
+                $site->proxy_enabled = false;
+                $site->save();
+
+            } else {
+
+                Log::error("[Cloudflare] deactivateProxyStatusAll failed for site ID {$site->id}: No se pudo actualizar el DNS record.");
+
+                return false;
+
+            }
+
+        }
         return true;
     }
 

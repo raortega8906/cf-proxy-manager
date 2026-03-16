@@ -43,5 +43,27 @@ class DashboardController extends Controller
 
         return redirect()->back()->withErrors(['error' => 'No se pudo cambiar el estado del proxy en Cloudflare.']);
     }
+
+    public function activateProxyAll(): RedirectResponse
+    {
+        $response = $this->cloudflare->activateProxyStatusAll();
+
+        if ($response) {
+            return redirect()->back()->with('success', 'Todos los proxies han sido activados correctamente en Cloudflare.');
+        }
+
+        return redirect()->back()->withErrors(['error' => 'No se pudieron activar todos los proxies en Cloudflare.']);
+    }
+
+    public function deactivateProxyAll(): RedirectResponse
+    {
+        $response = $this->cloudflare->deactivateProxyStatusAll();
+
+        if ($response) {
+            return redirect()->back()->with('success', 'Todos los proxies han sido desactivados correctamente en Cloudflare.');
+        }
+
+        return redirect()->back()->withErrors(['error' => 'No se pudieron desactivar todos los proxies en Cloudflare.']);
+    }
 }
  

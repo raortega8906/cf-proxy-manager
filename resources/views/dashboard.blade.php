@@ -5,9 +5,16 @@
 
 @section('topbar-actions')
 
-        <button type="submit" class="btn btn-warning btn-sm">⚽ Desactivar todos los sitios</button>
-   
-        <button type="submit" class="btn btn-ghost btn-sm">↑ Reactivar todos los sitios</button>
+    <form action="{{ route('dashboard.deactivateProxyAll') }}" method="POST" style="display:inline" >
+        @csrf
+        @method('PATCH')
+        <button style="padding: 8px 16px;" type="submit" class="btn btn-warning btn-sm">⚽ Desactivar todos los sitios</button>
+    </form>
+    <form action="{{ route('dashboard.activateProxyAll') }}" method="POST" style="display:inline" >
+        @csrf
+        @method('PATCH')
+        <button style="padding: 8px 16px;" type="submit" class="btn btn-ghost btn-sm">↑ Reactivar todos los sitios</button>
+    </form>
 
 @endsection
 
