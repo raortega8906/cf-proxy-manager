@@ -26,7 +26,10 @@ class ProxySchedule extends Model
      * Devuelve los sitios asociados a este schedule.
      * (No es una relación Eloquent estándar porque site_ids es JSON)
      */
-    public function sites(): Collection
+    /**
+     * Accessor: $schedule->sites
+     */
+    public function getSitesAttribute(): Collection
     {
         return ProxySite::whereIn('id', $this->site_ids ?? [])->get();
     }

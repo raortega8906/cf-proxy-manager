@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProxyScheduleRequest;
 use App\Http\Requests\UpdateProxyScheduleRequest;
 use App\Models\ProxySchedule;
-use Illuminate\Http\Request;
+use App\Models\ProxySite;
 use Illuminate\Contracts\View\View;
+use Carbon\Carbon;
 
 class ProxyScheduleController extends Controller
 {
@@ -15,9 +16,9 @@ class ProxyScheduleController extends Controller
      */
     public function index(): View
     {
-        $shedules = ProxySchedule::all();
+        $schedules = ProxySchedule::all();
 
-        return view('schedules.index', compact('shedules'));
+        return view('schedules.index', compact('schedules'));
     }
 
     /**
@@ -33,7 +34,35 @@ class ProxyScheduleController extends Controller
      */
     public function store(StoreProxyScheduleRequest $request)
     {
-        
+        $validated = $request->validated();
+        $validated['status']     = 'pending';
+        $validated['disable_at'] = Carbon::parse($validated['disable_at']);
+        $validated['enable_at']  = Carbon::parse($validated['enable_at']);
+
+        if ($validated['type'] === 'laliga_match') {
+
+            $site_ids = ProxySite::where('affected_by_laliga', true)->pluck('id')->toArray();
+
+            if (empty($site_ids)) {
+                return redirect()->back()->with('error', 'No hay dominios con LaLiga activado.');
+            }
+
+            $validated['site_ids'] = $site_ids;
+
+        } elseif ($validated['type'] === 'ssl_renewal') {
+
+            $site_ids = ProxySite::where('ssl_auto_renewal', true)->pluck('id')->toArray();
+
+            if (empty($site_ids)) {
+                return redirect()->back()->with('error', 'No hay dominios con renovación SSL automática activada.');
+            }
+            
+            $validated['site_ids'] = $site_ids;
+        }
+
+        ProxySchedule::create($validated);
+
+        return redirect()->route('schedules.index')->with('success', 'Schedule creado correctamente.');
     }
 
     /**
