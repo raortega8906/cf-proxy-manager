@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('page-title', 'Nuevo sitio')
-@section('page-sub', 'Añade un dominio gestionado con Cloudflare')
+@section('page-title', 'Nuevo schedule')
+@section('page-sub', 'Añade un schedule')
 
 @section('content')
 

@@ -41,8 +41,7 @@ Route::middleware('auth', 'verified')->group(function () {
     // Route::delete('/schedules/{schedule}', [ProxyScheduleController ::class, 'destroy'])->name('schedules.destroy');
 
     // Rutas de logs (CRUD)
-    // Route::get('/logs', [ProxyLogController::class, 'index'])->name('logs.index');
-    // Route::get('/logs/{log}', [ProxyLogController::class, 'show'])->name('logs.show');
+    Route::get('/logs', [ProxyLogController::class, 'index'])->name('logs.index');
 });
 
 require __DIR__.'/auth.php';
