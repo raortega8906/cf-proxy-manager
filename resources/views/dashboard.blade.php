@@ -5,9 +5,9 @@
 
 @section('topbar-actions')
 
-        <button type="submit" class="btn btn-warning btn-sm">⚽ Desactivar LaLiga</button>
+        <button type="submit" class="btn btn-warning btn-sm">⚽ Desactivar todos los sitios</button>
    
-        <button type="submit" class="btn btn-ghost btn-sm">↑ Reactivar LaLiga</button>
+        <button type="submit" class="btn btn-ghost btn-sm">↑ Reactivar todos los sitios</button>
 
 @endsection
 
