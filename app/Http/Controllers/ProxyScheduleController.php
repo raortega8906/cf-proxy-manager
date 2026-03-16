@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProxyScheduleRequest;
+use App\Http\Requests\UpdateProxyScheduleRequest;
 use App\Models\ProxySchedule;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
@@ -29,17 +31,9 @@ class ProxyScheduleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreProxyScheduleRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(ProxySchedule $proxySchedule)
-    {
-        //
+        
     }
 
     /**
@@ -47,13 +41,13 @@ class ProxyScheduleController extends Controller
      */
     public function edit(ProxySchedule $proxySchedule)
     {
-        //
+        return view('schedules.edit', compact('proxySchedule'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ProxySchedule $proxySchedule)
+    public function update(UpdateProxyScheduleRequest $request, ProxySchedule $proxySchedule)
     {
         //
     }

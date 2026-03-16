@@ -36,7 +36,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/schedules', [ProxyScheduleController::class, 'index'])->name('schedules.index');
     Route::get('/schedules/create', [ProxyScheduleController ::class, 'create'])->name('schedules.create');
     // Route::post('/schedules', [ProxyScheduleController ::class, 'store'])->name('schedules.store');
-    // Route::get('/schedules/{schedule}/edit', [ProxyScheduleController ::class, 'edit'])->name('schedules.edit');
+    Route::get('/schedules/{proxySchedule}/edit', [ProxyScheduleController ::class, 'edit'])->name('schedules.edit');
     // Route::put('/schedules/{schedule}', [ProxyScheduleController ::class, 'update'])->name('schedules.update');
     // Route::delete('/schedules/{schedule}', [ProxyScheduleController ::class, 'destroy'])->name('schedules.destroy');
 
