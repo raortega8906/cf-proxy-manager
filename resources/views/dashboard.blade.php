@@ -55,13 +55,17 @@
             @if($site->ssl_auto_renewal)
                 <span class="badge badge-ssl">🔒 SSL</span>
             @endif
-            <button
-                class="toggle {{ $site->proxy_enabled ? 'toggle-on' : 'toggle-off' }}"
-                data-site-id="{{ $site->id }}"
-                title="{{ $site->proxy_enabled ? 'Proxy ON — clic para desactivar' : 'Proxy OFF — clic para activar' }}"
-            >
-                <div class="toggle-knob"></div>
-            </button>
+            <form action="{{ route('dashboard.activateOrDesactivateProxy', $site) }}" method="POST">
+                @csrf
+                @method('PATCH')
+                <button
+                    type="submit"
+                    class="toggle {{ $site->proxy_enabled ? 'toggle-on' : 'toggle-off' }}"
+                    title="{{ $site->proxy_enabled ? 'Proxy ON — clic para desactivar' : 'Proxy OFF — clic para activar' }}"
+                >
+                    <div class="toggle-knob"></div>
+                </button>
+            </form>
         </div>
         @endforeach
     </div>

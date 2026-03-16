@@ -12,6 +12,7 @@ Route::get('/', function () {
 Route::middleware('auth', 'verified')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::patch('/dashboard/{site}', [DashboardController::class, 'activateOrDesactivateProxy'])->name('dashboard.activateOrDesactivateProxy');
 
     // Rutas Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
