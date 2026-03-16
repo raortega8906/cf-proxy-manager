@@ -16,19 +16,19 @@
 {{-- STATS --}}
 <div class="grid-4 mb-4">
     <div class="card">
-        <div class="stat-val text-green"></div>
+        <div class="stat-val text-green">{{ $countEnabled }}/{{ $sites->count() }}</div>
         <div class="stat-lbl">Con proxy activo</div>
     </div>
     <div class="card">
-        <div class="stat-val text-orange"></div>
+        <div class="stat-val text-orange">{{ $countLaLiga }}/{{ $sites->count() }}</div>
         <div class="stat-lbl">Afectadas por LaLiga</div>
     </div>
     <div class="card">
-        <div class="stat-val text-cyan"></div>
+        <div class="stat-val text-cyan">{{ $countSsl }}/{{ $sites->count() }}</div>
         <div class="stat-lbl">SSL auto-renovación</div>
     </div>
     <div class="card">
-        <div class="stat-val text-yellow"></div>
+        <div class="stat-val text-yellow">0</div>
         <div class="stat-lbl">Schedules pendientes</div>
     </div>
 </div>

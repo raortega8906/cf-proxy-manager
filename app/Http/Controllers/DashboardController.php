@@ -20,11 +20,15 @@ class DashboardController extends Controller
     {
         $sites = ProxySite::all();
 
+        $countEnabled = $sites->where('proxy_enabled', true)->count();
+        $countLaLiga = $sites->where('affected_by_laliga', true)->count();
+        $countSsl = $sites->where('ssl_auto_renewal', true)->count();
+
         foreach ($sites as $site) {
             $this->cloudflare->syncSiteStatus($site);
         }
 
-        return view('dashboard', compact('sites'));
+        return view('dashboard', compact('sites', 'countEnabled', 'countLaLiga', 'countSsl'));
     }
 
     public function activateOrDesactivateProxy(ProxySite $site): RedirectResponse
