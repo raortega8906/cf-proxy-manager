@@ -12,7 +12,9 @@ class ProxyScheduleController extends Controller
      */
     public function index()
     {
-        //
+        $shedules = ProxySchedule::all();
+
+        return view('schedules.index', compact('shedules'));
     }
 
     /**
@@ -20,7 +22,7 @@ class ProxyScheduleController extends Controller
      */
     public function create()
     {
-        //
+        return view('schedules.create');
     }
 
     /**

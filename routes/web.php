@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProxyLogController;
+use App\Http\Controllers\ProxyScheduleController;
 use App\Http\Controllers\ProxySiteController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,8 +33,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::patch('/sites/{site}', [ProxySiteController::class, 'activateOrDeactivateProxy'])->name('sites.activateOrDeactivateProxy');
 
     // Rutas de schedules (CRUD)
-    // Route::get('/schedules', [ProxyScheduleController::class, 'index'])->name('schedules.index');
-    // Route::get('/schedules/create', [ProxyScheduleController ::class, 'create'])->name('schedules.create');
+    Route::get('/schedules', [ProxyScheduleController::class, 'index'])->name('schedules.index');
+    Route::get('/schedules/create', [ProxyScheduleController ::class, 'create'])->name('schedules.create');
     // Route::post('/schedules', [ProxyScheduleController ::class, 'store'])->name('schedules.store');
     // Route::get('/schedules/{schedule}/edit', [ProxyScheduleController ::class, 'edit'])->name('schedules.edit');
     // Route::put('/schedules/{schedule}', [ProxyScheduleController ::class, 'update'])->name('schedules.update');
