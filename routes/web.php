@@ -21,7 +21,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Ruras de sitios (CRUD)
+    // Rutas de sitios (CRUD)
     Route::get('/sites', [ProxySiteController::class, 'index'])->name('sites.index');
     Route::get('/sites/create', [ProxySiteController::class, 'create'])->name('sites.create');
     Route::post('/sites', [ProxySiteController::class, 'store'])->name('sites.store');
