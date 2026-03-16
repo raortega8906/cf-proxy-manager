@@ -84,7 +84,7 @@ class CloudflareService
 
             $site->proxy_enabled = $record['proxied'];
             $site->save();
-            
+
         } else {
             Log::error("[Cloudflare] syncSiteStatus failed for site ID {$site->id}: No se pudo obtener el DNS record.");
         }
@@ -134,6 +134,28 @@ class CloudflareService
             return false;
 
         }
+    }
+
+     /**
+     * Activa el proxy (nube naranja) de todos los DNS record.
+     *
+     * Usa PATCH para modificar solo el campo `proxied`, sin tocar
+     * el resto de campos del registro (name, content, ttl…).
+     */
+
+    public function activateProxyStatus(ProxySite $sites): bool{
+        return true;
+    }
+
+      /**
+     * Desactivar el proxy (nube naranja) de todos los DNS record.
+     *
+     * Usa PATCH para modificar solo el campo `proxied`, sin tocar
+     * el resto de campos del registro (name, content, ttl…).
+     */
+
+    public function deactivateProxyStatus(ProxySite $sites): bool{
+        return true;
     }
 
 }

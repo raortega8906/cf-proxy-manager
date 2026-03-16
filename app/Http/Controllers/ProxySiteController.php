@@ -63,7 +63,7 @@ class ProxySiteController extends Controller
                 $proxy_enabled = $res['proxied'];
                 $record_id = $res['id'];
                 break;
-                
+
             } else {
                 return redirect()->back()->withErrors(['domain' => 'No se encontró un DNS record para este dominio en la zona especificada.']);
             }
@@ -120,7 +120,7 @@ class ProxySiteController extends Controller
         return redirect()->route('sites.index')->with('success', 'Sitio eliminado correctamente.');
     }
 
-    public function activateOrDesactivateProxy(ProxySite $site): RedirectResponse
+    public function activateOrDeactivateProxy(ProxySite $site): RedirectResponse
     {
         $enabled = true;
         

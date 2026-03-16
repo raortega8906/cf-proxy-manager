@@ -12,7 +12,7 @@ Route::get('/', function () {
 Route::middleware('auth', 'verified')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
-    Route::patch('/dashboard/{site}', [DashboardController::class, 'activateOrDesactivateProxy'])->name('dashboard.activateOrDesactivateProxy');
+    Route::patch('/dashboard/{site}', [DashboardController::class, 'activateOrDeactivateProxy'])->name('dashboard.activateOrDeactivateProxy');
 
     // Rutas Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -26,7 +26,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/sites/{proxySite}/edit', [ProxySiteController::class, 'edit'])->name('sites.edit');
     Route::put('/sites/{proxySite}', [ProxySiteController::class, 'update'])->name('sites.update');
     Route::delete('/sites/{proxySite}', [ProxySiteController::class, 'destroy'])->name('sites.destroy');
-    Route::patch('/sites/{site}', [ProxySiteController::class, 'activateOrDesactivateProxy'])->name('sites.activateOrDesactivateProxy');
+    Route::patch('/sites/{site}', [ProxySiteController::class, 'activateOrDeactivateProxy'])->name('sites.activateOrDeactivateProxy');
 
     // Rutas de schedules (CRUD)
     // Route::get('/schedules', [ProxyScheduleController::class, 'index'])->name('schedules.index');

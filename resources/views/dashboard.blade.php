@@ -55,7 +55,7 @@
             @if($site->ssl_auto_renewal)
                 <span class="badge badge-ssl">🔒 SSL</span>
             @endif
-            <form action="{{ route('dashboard.activateOrDesactivateProxy', $site) }}" method="POST">
+            <form action="{{ route('dashboard.activateOrDeactivateProxy', $site) }}" method="POST">
                 @csrf
                 @method('PATCH')
                 <button

@@ -31,7 +31,7 @@ class DashboardController extends Controller
         return view('dashboard', compact('sites', 'countEnabled', 'countLaLiga', 'countSsl'));
     }
 
-    public function activateOrDesactivateProxy(ProxySite $site): RedirectResponse
+    public function activateOrDeactivateProxy(ProxySite $site): RedirectResponse
     {
         $enabled = true;
         

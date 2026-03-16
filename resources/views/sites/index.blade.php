@@ -66,7 +66,7 @@
                         @endif
                     </td>
                     <td>
-                        <form action="{{ route('sites.activateOrDesactivateProxy', $site) }}" method="POST">
+                        <form action="{{ route('sites.activateOrDeactivateProxy', $site) }}" method="POST">
                             @csrf
                             @method('PATCH')
                             <button
