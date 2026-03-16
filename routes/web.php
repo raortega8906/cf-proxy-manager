@@ -26,6 +26,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/sites/{proxySite}/edit', [ProxySiteController::class, 'edit'])->name('sites.edit');
     Route::put('/sites/{proxySite}', [ProxySiteController::class, 'update'])->name('sites.update');
     Route::delete('/sites/{proxySite}', [ProxySiteController::class, 'destroy'])->name('sites.destroy');
+    Route::patch('/sites/{site}', [ProxySiteController::class, 'activateOrDesactivateProxy'])->name('sites.activateOrDesactivateProxy');
 
     // Rutas de schedules (CRUD)
     // Route::get('/schedules', [ProxyScheduleController::class, 'index'])->name('schedules.index');

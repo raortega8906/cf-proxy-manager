@@ -19,6 +19,7 @@
                 <th>Características</th>
                 <th>SSL próximo</th>
                 <th>Estado Proxy</th>
+                <th>Cambiar Estado</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -64,6 +65,18 @@
                             <span class="badge badge-off">Proxy OFF</span>
                         @endif
                     </td>
+                    <td>
+                        <form action="{{ route('sites.activateOrDesactivateProxy', $site) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <button
+                                type="submit"
+                                class="toggle {{ $site->proxy_enabled ? 'toggle-on' : 'toggle-off' }}"
+                                title="{{ $site->proxy_enabled ? 'Proxy ON — clic para desactivar' : 'Proxy OFF — clic para activar' }}"
+                            >
+                                <div class="toggle-knob"></div>
+                            </button>
+                        </form>
                     <td>
                         <div class="flex gap-2">
                             <a href="{{ route('sites.edit', $site) }}" class="btn btn-ghost btn-sm">Editar</a>

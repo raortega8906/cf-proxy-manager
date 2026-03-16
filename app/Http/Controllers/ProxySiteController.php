@@ -51,7 +51,7 @@ class ProxySiteController extends Controller
         $domain = $data['domain'];
         $zone_id = $data['cloudflare_zone_id'];
         $response = $this->cloudflare->getDnsRecordAll($zone_id);
-        
+
         if (!$response) {
             return redirect()->back()->withErrors(['cloudflare_zone_id' => 'No se pudo obtener los DNS records de Cloudflare. Verifica la zona y tu conexión con la API.']);
         }
@@ -76,7 +76,7 @@ class ProxySiteController extends Controller
 
         ProxySite::create($data);
         
-        return redirect()->route('sites.index')->with('success', 'Proxy site created successfully.');
+        return redirect()->route('sites.index')->with('success', 'Sitio creado correctamente.');
     }
 
     /**
@@ -105,7 +105,7 @@ class ProxySiteController extends Controller
 
         $proxySite->update($data);
 
-        return redirect()->route('sites.index')->with('success', 'Proxy site updated successfully.');
+        return redirect()->route('sites.index')->with('success', 'Sitio actualizado correctamente.');
     }
 
     /**
@@ -115,6 +115,19 @@ class ProxySiteController extends Controller
     {
         $proxySite->delete();
 
-        return redirect()->route('sites.index')->with('success', 'Proxy site deleted successfully.');
+        return redirect()->route('sites.index')->with('success', 'Sitio eliminado correctamente.');
+    }
+
+    public function activateOrDesactivateProxy(ProxySite $site): RedirectResponse
+    {
+        $enabled = true;
+        
+        $response = $this->cloudflare->setProxyStatus($site, $enabled);
+
+        if ($response) {
+            return redirect()->back()->with('success', 'Proxy cambiado correctamente en Cloudflare.');
+        }
+
+        return redirect()->back()->withErrors(['error' => 'No se pudo cambiar el estado del proxy en Cloudflare.']);
     }
 }
