@@ -42,8 +42,6 @@ class ProcessProxySchedulesCommand extends Command
 
         }
 
-        $count = 1;
-
         foreach($schedules as $schedule) {
 
             if ($schedule->type === 'ssl_renewal' || $schedule->type === 'manual') {
@@ -92,7 +90,6 @@ class ProcessProxySchedulesCommand extends Command
                 $this->line(" · Esperando: {$schedule->description} (disable_at: {$schedule->disable_at})");
             }
 
-            $count++;
         }
 
         $this->info('Listo.');
