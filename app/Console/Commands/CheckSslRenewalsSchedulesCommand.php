@@ -92,8 +92,6 @@ class CheckSslRenewalsSchedulesCommand extends Command
 
                 $schedule->update([
                     'status'     => 'completed',
-                    // 'disable_at' => now()->addMonths(3)->format('Y-m-d') . ' 00:00:00',
-                    // 'enable_at'  => now()->addMonths(3)->format('Y-m-d') . ' 09:00:00'
                 ]);
 
                 ProxySchedule::create([
@@ -114,8 +112,5 @@ class CheckSslRenewalsSchedulesCommand extends Command
         $this->info('Listo.');
 
         return self::SUCCESS;
-
-        // $this->info('[' . now() . '] ✅ CheckSslRenewals ejecutado');
-        // Log::info('CheckSslRenewals ejecutado', ['time' => now()]);
     }
 }

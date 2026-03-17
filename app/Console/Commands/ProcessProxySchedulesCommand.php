@@ -95,8 +95,5 @@ class ProcessProxySchedulesCommand extends Command
         $this->info('Listo.');
 
         return self::SUCCESS;
-
-        // $this->info('[' . now() . '] ✅ ProcessProxy ejecutado');
-        // Log::info('ProcessProxy ejecutado', ['time' => now()]);
     }
 }
