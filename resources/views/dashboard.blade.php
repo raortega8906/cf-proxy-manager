@@ -35,7 +35,7 @@
         <div class="stat-lbl">SSL auto-renovación</div>
     </div>
     <div class="card">
-        <div class="stat-val text-yellow">0</div>
+        <div class="stat-val text-yellow">{{ $countSchedulePending }}/{{ $schedules->count() }}</div>
         <div class="stat-lbl">Schedules pendientes</div>
     </div>
 </div>
@@ -75,6 +75,44 @@
             </form>
         </div>
         @endforeach
+    </div>
+
+    {{-- Próximos schedules --}}
+    <div class="card">
+        <div class="flex items-center justify-between mb-4">
+            <div class="card-title">Próximos schedules</div>
+            <a href="{{ route('schedules.create') }}" class="btn btn-primary btn-sm">+ Nuevo</a>
+        </div>
+
+        @forelse($schedulePendingActive as $schedule)
+        <div style="padding:12px 0;border-bottom:1px solid rgba(26,42,58,0.5)">
+            <div class="flex items-center gap-2" style="margin-bottom:5px">
+                @if ($schedule->type === 'ssl_renewal')
+                    <span class="badge badge-ssl">🔒 SSL</span>
+                @else
+                    <span class="badge badge-laliga">⚽</span>
+                @endif
+
+                @if ($schedule->status === 'pending')
+                    <span class="badge badge-pending">{{ $schedule->status }}</span>
+                @endif
+                @if ($schedule->status === 'active')
+                    <span class="badge badge-active">{{ $schedule->status }}</span>
+                @endif
+
+                <span style="font-size:12px;color:var(--white)">{{ $schedule->description }}</span>
+            </div>
+            <div style="font-size:10px;color:var(--muted)">
+                ↓ {{ $schedule->disable_at->format('d/m H:i') }}
+                &nbsp;·&nbsp;
+                ↑ {{ $schedule->enable_at->format('d/m H:i') }}
+                &nbsp;·&nbsp;
+                {{ count($schedule->site_ids) }} sitios
+            </div>
+        </div>
+        @empty
+        <p class="text-muted" style="font-size:12px">Sin schedules pendientes.</p>
+        @endforelse
     </div>
 
 </div>
