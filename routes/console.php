@@ -11,7 +11,7 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 // Schedule LaLiga:
-// Schedule::command('app:process-proxy-schedules-command')->everyMinute();
+Schedule::command('app:process-proxy-schedules-command')->everyMinute();
 
 // Schedule SSL:
 Schedule::command('app:check-ssl-renewals-schedules-command')->everyMinute();

@@ -96,6 +96,15 @@ class CheckSslRenewalsSchedulesCommand extends Command
                     // 'enable_at'  => now()->addMonths(3)->format('Y-m-d') . ' 09:00:00'
                 ]);
 
+                ProxySchedule::create([
+                    'type'        => 'ssl_renewal',
+                    'description' => 'Automático',
+                    'disable_at'  => now()->addMonths(3)->format('Y-m-d') . ' 00:00:00',
+                    'enable_at'   => now()->addMonths(3)->format('Y-m-d') . ' 09:00:00',
+                    'status'      => 'pending',
+                    'site_ids'    => $schedule->site_ids,
+                ]);
+
             } else {
                 $this->line(" · Esperando: {$schedule->description} (disable_at: {$schedule->disable_at})");
             }
