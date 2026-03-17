@@ -56,18 +56,22 @@ class ProxySiteController extends Controller
             return redirect()->back()->withErrors(['cloudflare_zone_id' => 'No se pudo obtener los DNS records de Cloudflare. Verifica la zona y tu conexión con la API.']);
         }
 
+        $flag = false;
         foreach ($response as $res) {
 
             if ($res['name'] === $domain) {
 
                 $proxy_enabled = $res['proxied'];
                 $record_id = $res['id'];
+                $flag = true;
                 break;
 
-            } else {
-                return redirect()->back()->withErrors(['domain' => 'No se encontró un DNS record para este dominio en la zona especificada.']);
-            }
+            } 
 
+        }
+
+        if (!$flag) {
+            return redirect()->back()->withErrors(['domain' => 'No se encontró un DNS record para este dominio en la zona especificada.']);
         }
 
         $data['cloudflare_dns_record_id'] = $record_id;
