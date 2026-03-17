@@ -117,7 +117,7 @@ class ProxySiteController extends Controller
     {
         $proxySite->delete();
 
-        return redirect()->route('sites.index')->with('success', 'Sitio eliminado correctamente.');
+        return redirect()->back()->with('success', 'Sitio eliminado correctamente.');
     }
 
     public function activateOrDeactivateProxy(ProxySite $site): RedirectResponse
@@ -130,6 +130,6 @@ class ProxySiteController extends Controller
             return redirect()->back()->with('success', 'Proxy cambiado correctamente en Cloudflare.');
         }
 
-        return redirect()->back()->withErrors(['error' => 'No se pudo cambiar el estado del proxy en Cloudflare.']);
+        return redirect()->back()->with(['error' => 'No se pudo cambiar el estado del proxy en Cloudflare.']);
     }
 }

@@ -56,7 +56,7 @@ class ProxyScheduleController extends Controller
             if (empty($site_ids)) {
                 return redirect()->back()->with('error', 'No hay dominios con renovación SSL automática activada.');
             }
-            
+
             $validated['site_ids'] = $site_ids;
         }
 
@@ -78,7 +78,38 @@ class ProxyScheduleController extends Controller
      */
     public function update(UpdateProxyScheduleRequest $request, ProxySchedule $proxySchedule)
     {
-        //
+        $validated = $request->validated();
+
+        $validated['disable_at'] = Carbon::parse($validated['disable_at']);
+        $validated['enable_at']  = Carbon::parse($validated['enable_at']);
+
+        // Si cambia el tipo, recalculamos los site_ids
+        if ($validated['type'] === 'laliga_match') {
+
+            $site_ids = ProxySite::where('affected_by_laliga', true)->pluck('id')->toArray();
+
+            if (empty($site_ids)) {
+                return redirect()->back()->with('error', 'No hay dominios con LaLiga activado.');
+            }
+
+            $validated['site_ids'] = $site_ids;
+
+        } elseif ($validated['type'] === 'ssl_renewal') {
+            
+            $site_ids = ProxySite::where('ssl_auto_renewal', true)->pluck('id')->toArray();
+
+            if (empty($site_ids)) {
+                return redirect()->back()->with('error', 'No hay dominios con renovación SSL automática activada.');
+            }
+
+            $validated['site_ids'] = $site_ids;
+        }
+
+        // dd($validated);
+
+        $proxySchedule->update($validated);
+
+        return redirect()->route('schedules.index')->with('success', 'Schedule actualizado correctamente.');
     }
 
     /**
@@ -86,6 +117,8 @@ class ProxyScheduleController extends Controller
      */
     public function destroy(ProxySchedule $proxySchedule)
     {
-        //
+        $proxySchedule->delete();
+
+        return redirect()->back()->with('schedules.index')->with('success', 'Schedule eliminado correctamente.');
     }
 }

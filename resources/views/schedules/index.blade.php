@@ -76,11 +76,11 @@
                     <td>
                         <div class="flex gap-2">
                             <a href="{{ route('schedules.edit', $schedule) }}" class="btn btn-ghost btn-sm">Editar</a>
-                            {{-- <form action="{{ route('schedules.destroy', $schedule) }}" method="POST"
+                            <form action="{{ route('schedules.destroy', $schedule) }}" method="POST"
                                 onsubmit="return confirm('¿Eliminar este schedule?')">
                                 @csrf @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                            </form> --}}
+                            </form>
                         </div>
                     </td>
                 </tr>

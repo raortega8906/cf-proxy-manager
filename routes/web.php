@@ -37,8 +37,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/schedules/create', [ProxyScheduleController ::class, 'create'])->name('schedules.create');
     Route::post('/schedules', [ProxyScheduleController ::class, 'store'])->name('schedules.store');
     Route::get('/schedules/{proxySchedule}/edit', [ProxyScheduleController ::class, 'edit'])->name('schedules.edit');
-    // Route::put('/schedules/{schedule}', [ProxyScheduleController ::class, 'update'])->name('schedules.update');
-    // Route::delete('/schedules/{schedule}', [ProxyScheduleController ::class, 'destroy'])->name('schedules.destroy');
+    Route::put('/schedules/{proxySchedule}', [ProxyScheduleController ::class, 'update'])->name('schedules.update');
+    Route::delete('/schedules/{proxySchedule}', [ProxyScheduleController ::class, 'destroy'])->name('schedules.destroy');
 
     // Rutas de logs (CRUD)
     Route::get('/logs', [ProxyLogController::class, 'index'])->name('logs.index');
