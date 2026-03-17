@@ -14,4 +14,4 @@ Artisan::command('inspire', function () {
 Schedule::command('app:process-proxy-schedules-command')->everyFifteenSeconds();
 
 // Schedule SSL:
-Schedule::command('app:check-ssl-renewals-schedules-command')->everyMinute();
+// Schedule::command('app:check-ssl-renewals-schedules-command')->everyMinute();
