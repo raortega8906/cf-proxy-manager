@@ -79,9 +79,9 @@ class CheckSslRenewalsSchedulesCommand extends Command
 
                 foreach ($sites as $site) {
                     if (!$site->proxy_enabled) {
-                        $date_ssl_next_renewal = Carbon::parse($site->ssl_next_renewal)->addMonths(3);
+                        $date_ssl_next_renewal = now()->addMonths(3)->format('Y-m-d');
                         
-                        $site->update(['ssl_next_renewal' => $date_ssl_next_renewal->format('Y-m-d')]);
+                        $site->update(['ssl_next_renewal' => $date_ssl_next_renewal]);
                         
                         $ok = $cloudflare->setProxyStatus($site, true);
                         $this->line("    · {$site->domain} → " . ($ok ? 'OK' : 'ERROR'));
