@@ -2,7 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Models\ProxySchedule;
+use App\Models\ProxySite;
+use App\Services\CloudflareService;
 use Illuminate\Console\Command;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class CheckSslRenewalsSchedulesCommand extends Command
@@ -24,9 +28,85 @@ class CheckSslRenewalsSchedulesCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(CloudflareService $cloudflare)
     {
-        $this->info('[' . now() . '] ✅ CheckSslRenewals ejecutado');
-        Log::info('CheckSslRenewals ejecutado', ['time' => now()]);
+        $this->info('[' . now()->format('Y-m-d H:i:s') . '] Procesando schedules...');
+        
+        $schedules = ProxySchedule::all();
+
+        if ($schedules->isEmpty()) {
+
+            $this->line('  → Sin schedules para desactivar.');
+
+            return;
+
+        }
+
+        foreach($schedules as $schedule) {
+
+            if ($schedule->type === 'laliga_match' || $schedule->type === 'manual') {
+                continue;
+            }
+
+            if ($schedule->status === 'failed' || $schedule->status === 'completed') {
+                continue;
+            }
+
+            $sites = ProxySite::whereIn('id', $schedule->site_ids)->get();
+
+            // Ha llegado la hora de DESactivar el proxy
+            if ($schedule->status === 'pending' && $schedule->disable_at <= now()) {
+
+                $this->line(" ↓ Desactivando proxy: {$schedule->description}");
+
+                foreach ($sites as $site) {
+                    if ($site->proxy_enabled) {
+                        $ok = $cloudflare->setProxyStatus($site, true);
+                        $this->line("    · {$site->domain} → " . ($ok ? 'OK' : 'ERROR'));
+                    } else {
+                        continue;
+                    }
+                }
+
+                $schedule->update(['status' => 'active']);
+
+            // Ha llegado la hora de REactivar el proxy
+            } elseif ($schedule->status === 'active' && $schedule->enable_at <= now()) {
+
+                $this->line(" ↑ Reactivando proxy: {$schedule->description}");
+
+                $date_ssl_next_renewal = null;
+
+                foreach ($sites as $site) {
+                    if (!$site->proxy_enabled) {
+                        $date_ssl_next_renewal = Carbon::parse($site->ssl_next_renewal)->addMonths(3);
+                        
+                        $site->update(['ssl_next_renewal' => $date_ssl_next_renewal->format('Y-m-d')]);
+                        
+                        $ok = $cloudflare->setProxyStatus($site, true);
+                        $this->line("    · {$site->domain} → " . ($ok ? 'OK' : 'ERROR'));
+                    } else {
+                        continue;
+                    }
+                }
+
+                $schedule->update([
+                    'status'     => 'completed',
+                    // 'disable_at' => now()->addMonths(3)->format('Y-m-d') . ' 00:00:00',
+                    // 'enable_at'  => now()->addMonths(3)->format('Y-m-d') . ' 09:00:00'
+                ]);
+
+            } else {
+                $this->line(" · Esperando: {$schedule->description} (disable_at: {$schedule->disable_at})");
+            }
+
+        }
+
+        $this->info('Listo.');
+
+        return self::SUCCESS;
+
+        // $this->info('[' . now() . '] ✅ CheckSslRenewals ejecutado');
+        // Log::info('CheckSslRenewals ejecutado', ['time' => now()]);
     }
 }
