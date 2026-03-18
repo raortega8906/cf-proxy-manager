@@ -6,7 +6,6 @@ use App\Models\ProxyLog;
 use App\Models\ProxySchedule;
 use App\Models\ProxySite;
 use App\Services\CloudflareService;
-use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
