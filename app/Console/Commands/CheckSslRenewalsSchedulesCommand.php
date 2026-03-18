@@ -69,7 +69,7 @@ class CheckSslRenewalsSchedulesCommand extends Command
                             'action' => 'proxy_disabled',
                             'reason' => 'ssl_renewal',
                             'status' => 'success',
-                            'message' => 'Desactivación por schedule La liga', 
+                            'message' => 'Desactivación por schedule SSL', 
                             'site_id' => $site->id
                         ]);
 
@@ -101,7 +101,7 @@ class CheckSslRenewalsSchedulesCommand extends Command
                             'action' => 'proxy_enabled',
                             'reason' => 'ssl_renewal',
                             'status' => 'success',
-                            'message' => 'Activación por schedule La liga', 
+                            'message' => 'Activación por schedule SSL', 
                             'site_id' => $site->id
                         ]);
 
