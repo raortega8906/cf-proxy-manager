@@ -6,6 +6,7 @@ use App\Models\ProxyLog;
 use App\Models\ProxySchedule;
 use App\Models\ProxySite;
 use App\Services\CloudflareService;
+use App\Services\ProxyLogService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -28,7 +29,8 @@ class ProcessProxySchedulesCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(CloudflareService $cloudflare)
+
+    public function handle(CloudflareService $cloudflare, ProxyLogService $proxyLog)
     {
 
         $this->info('[' . now()->format('Y-m-d H:i:s') . '] Procesando schedules...');
@@ -55,24 +57,20 @@ class ProcessProxySchedulesCommand extends Command
 
             $sites = ProxySite::whereIn('id', $schedule->site_ids)->get();
 
-            // Ha llegado la hora de DESactivar el proxy
+            // Dactivar el proxy
             if ($schedule->status === 'pending' && $schedule->disable_at <= now()) {
 
                 $this->line(" ↓ Desactivando proxy: {$schedule->description}");
 
                 foreach ($sites as $site) {
                     if ($site->proxy_enabled) {
+
                         $ok = $cloudflare->setProxyStatus($site, true);
 
-                        ProxyLog::create([
-                            'action' => 'proxy_disabled',
-                            'reason' => 'laliga',
-                            'status' => 'success',
-                            'message' => 'Desactivación por schedule La liga', 
-                            'site_id' => $site->id
-                        ]);
+                        $proxyLog->writeLogs($site, 'proxy_disabled', 'laliga', 'success', 'Desactivación por schedule La liga');
 
                         $this->line("    · {$site->domain} → " . ($ok ? 'OK' : 'ERROR'));
+
                     } else {
                         continue;
                     }
@@ -80,7 +78,7 @@ class ProcessProxySchedulesCommand extends Command
 
                 $schedule->update(['status' => 'active']);
 
-            // Ha llegado la hora de REactivar el proxy
+            // Reactivar el proxy
             } elseif ($schedule->status === 'active' && $schedule->enable_at <= now()) {
 
                 $this->line(" ↑ Reactivando proxy: {$schedule->description}");
@@ -90,14 +88,8 @@ class ProcessProxySchedulesCommand extends Command
 
                         $ok = $cloudflare->setProxyStatus($site, true);
 
-                        ProxyLog::create([
-                            'action' => 'proxy_enabled',
-                            'reason' => 'laliga',
-                            'status' => 'success',
-                            'message' => 'Activación por schedule La liga', 
-                            'site_id' => $site->id
-                        ]);
-
+                        $proxyLog->writeLogs($site, 'proxy_enabled', 'laliga', 'success', 'Activación por schedule La liga');
+                        
                         $this->line("    · {$site->domain} → " . ($ok ? 'OK' : 'ERROR'));
 
                     } else {

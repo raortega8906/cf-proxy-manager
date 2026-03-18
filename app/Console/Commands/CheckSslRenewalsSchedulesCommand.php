@@ -2,12 +2,12 @@
 
 namespace App\Console\Commands;
 
-use App\Models\ProxyLog;
 use App\Models\ProxySchedule;
 use App\Models\ProxySite;
 use App\Services\CloudflareService;
+use App\Services\ProxyLogService;
+use App\Services\ProxyScheduleService;
 use Illuminate\Console\Command;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class CheckSslRenewalsSchedulesCommand extends Command
@@ -29,7 +29,7 @@ class CheckSslRenewalsSchedulesCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(CloudflareService $cloudflare)
+    public function handle(CloudflareService $cloudflare, ProxyLogService $proxyLog, ProxyScheduleService $proxySchedule)
     {
         $this->info('[' . now()->format('Y-m-d H:i:s') . '] Procesando schedules...');
         
@@ -55,7 +55,7 @@ class CheckSslRenewalsSchedulesCommand extends Command
 
             $sites = ProxySite::whereIn('id', $schedule->site_ids)->get();
 
-            // Ha llegado la hora de DESactivar el proxy
+            // Desactivar el proxy
             if ($schedule->status === 'pending' && $schedule->disable_at <= now()) {
 
                 $this->line(" ↓ Desactivando proxy: {$schedule->description}");
@@ -65,13 +65,7 @@ class CheckSslRenewalsSchedulesCommand extends Command
 
                         $ok = $cloudflare->setProxyStatus($site, true);
 
-                        ProxyLog::create([
-                            'action' => 'proxy_disabled',
-                            'reason' => 'ssl_renewal',
-                            'status' => 'success',
-                            'message' => 'Desactivación por schedule SSL', 
-                            'site_id' => $site->id
-                        ]);
+                        $proxyLog->writeLogs($site, 'proxy_disabled', 'ssl_renewal', 'success', 'Desactivación por schedule SSL');
 
                         $this->line("    · {$site->domain} → " . ($ok ? 'OK' : 'ERROR'));
 
@@ -82,7 +76,7 @@ class CheckSslRenewalsSchedulesCommand extends Command
 
                 $schedule->update(['status' => 'active']);
 
-            // Ha llegado la hora de REactivar el proxy
+            // Reactivar el proxy
             } elseif ($schedule->status === 'active' && $schedule->enable_at <= now()) {
 
                 $this->line(" ↑ Reactivando proxy: {$schedule->description}");
@@ -91,19 +85,14 @@ class CheckSslRenewalsSchedulesCommand extends Command
 
                 foreach ($sites as $site) {
                     if (!$site->proxy_enabled) {
+
                         $date_ssl_next_renewal = now()->addMonths(3)->format('Y-m-d');
-                        
+
                         $site->update(['ssl_next_renewal' => $date_ssl_next_renewal]);
-                        
+
                         $ok = $cloudflare->setProxyStatus($site, true);
 
-                        ProxyLog::create([
-                            'action' => 'proxy_enabled',
-                            'reason' => 'ssl_renewal',
-                            'status' => 'success',
-                            'message' => 'Activación por schedule SSL', 
-                            'site_id' => $site->id
-                        ]);
+                        $proxyLog->writeLogs($site, 'proxy_enabled', 'ssl_renewal', 'success', 'Activación por schedule SSL');
 
                         $this->line("    · {$site->domain} → " . ($ok ? 'OK' : 'ERROR'));
                     } else {
@@ -115,14 +104,15 @@ class CheckSslRenewalsSchedulesCommand extends Command
                     'status'     => 'completed',
                 ]);
 
-                ProxySchedule::create([
-                    'type'        => 'ssl_renewal',
-                    'description' => 'Automático',
-                    'disable_at'  => now()->addMonths(3)->format('Y-m-d') . ' 00:00:00',
-                    'enable_at'   => now()->addMonths(3)->format('Y-m-d') . ' 09:00:00',
-                    'status'      => 'pending',
-                    'site_ids'    => $schedule->site_ids,
-                ]);
+                $baseDate = now()->addMonths(3);
+                $proxySchedule->writeAutomaticSchedule(
+                    'ssl_renewal', 
+                    'Automático', 
+                    $baseDate->copy()->startOfDay(),
+                    $baseDate->copy()->setTime(9, 0),
+                    'pending',
+                    $schedule->site_ids
+                );
 
             } else {
                 $this->line(" · Esperando: {$schedule->description} (disable_at: {$schedule->disable_at})");

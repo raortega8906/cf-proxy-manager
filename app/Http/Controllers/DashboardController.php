@@ -6,16 +6,18 @@ use App\Models\ProxyLog;
 use App\Models\ProxySchedule;
 use App\Models\ProxySite;
 use App\Services\CloudflareService;
+use App\Services\ProxyLogService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
 class DashboardController extends Controller
 {
     private CloudflareService $cloudflare;
+    private ProxyLogService $proxyLog;
 
-    public function __construct(CloudflareService $cloudflare)
-    {
+    public function __construct( CloudflareService $cloudflare, ProxyLogService $proxyLog ) {
         $this->cloudflare = $cloudflare;
+        $this->proxyLog = $proxyLog;
     }
 
     public function dashboard(): View
@@ -55,25 +57,13 @@ class DashboardController extends Controller
 
         if ($response) {
 
-            ProxyLog::create([
-                'action' => $action,
-                'reason' => 'manual',
-                'status' => 'success',
-                'message' => $message, 
-                'site_id' => $site->id
-            ]);
+            $this->proxyLog->writeLogs($site, $action, 'manual', 'success', $message);
 
             return redirect()->back()->with('success', 'Proxy cambiado correctamente en Cloudflare.');
 
         }
 
-        ProxyLog::create([
-            'action' => $action,
-            'reason' => 'manual',
-            'status' => 'error',
-            'message' => $message, 
-            'site_id' => $site->id
-        ]);
+        $this->proxyLog->writeLogs($site, $action, 'manual', 'error', $message);
 
         return redirect()->back()->withErrors(['error' => 'No se pudo cambiar el estado del proxy en Cloudflare.']);
     }
@@ -84,24 +74,12 @@ class DashboardController extends Controller
 
         if ($response) {
 
-            ProxyLog::create([
-                'action' => 'proxy_enabled',
-                'reason' => 'manual',
-                'status' => 'success',
-                'message' => 'Activación masiva', 
-                'site_id' => '12'
-            ]);
+            // $this->proxyLog->writeLogs($site, 'proxy_enabled', 'manual', 'success', 'Activación masiva');
 
             return redirect()->back()->with('success', 'Todos los proxies han sido activados correctamente en Cloudflare.');
         }
 
-        ProxyLog::create([
-            'action' => 'proxy_enabled',
-            'reason' => 'manual',
-            'status' => 'error',
-            'message' => 'Activación masiva', 
-            'site_id' => '12'
-        ]);
+        // $this->proxyLog->writeLogs($site, 'proxy_enabled', 'manual', 'error', 'Activación masiva');
 
         return redirect()->back()->withErrors(['error' => 'No se pudieron activar todos los proxies en Cloudflare.']);
     }
@@ -112,24 +90,12 @@ class DashboardController extends Controller
 
         if ($response) {
 
-            ProxyLog::create([
-                'action' => 'proxy_disabled',
-                'reason' => 'manual',
-                'status' => 'success',
-                'message' => 'Desactivación masiva', 
-                'site_id' => '12'
-            ]);
+            // $this->proxyLog->writeLogs($site, 'proxy_disabled', 'manual', 'success', 'Desactivación masiva');
 
             return redirect()->back()->with('success', 'Todos los proxies han sido desactivados correctamente en Cloudflare.');
         }
 
-        ProxyLog::create([
-            'action' => 'proxy_disabled',
-            'reason' => 'manual',
-            'status' => 'error',
-            'message' => 'Desactivación masiva', 
-            'site_id' => '12'
-        ]);
+        // $this->proxyLog->writeLogs($site, 'proxy_disabled', 'manual', 'error', 'Desactivación masiva');
 
         return redirect()->back()->withErrors(['error' => 'No se pudieron desactivar todos los proxies en Cloudflare.']);
     }
