@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProxyLog;
 use App\Models\ProxySchedule;
 use App\Models\ProxySite;
 use App\Services\CloudflareService;
@@ -40,12 +41,40 @@ class DashboardController extends Controller
     public function activateOrDeactivateProxy(ProxySite $site): RedirectResponse
     {
         $enabled = true;
+        $action = '';
+        $message = '';
         
         $response = $this->cloudflare->setProxyStatus($site, $enabled);
 
-        if ($response) {
-            return redirect()->back()->with('success', 'Proxy cambiado correctamente en Cloudflare.');
+        if ( $site->proxy_enabled ) {
+            $action = 'proxy_enabled';
+            $message = 'Activación manual del proxy';
+        } else {
+            $action = 'proxy_disabled';
+            $message = 'Desactivación manual del proxy';
         }
+
+        if ($response) {
+
+            ProxyLog::create([
+                'action' => $action,    // proxy_enabled | proxy_disabled
+                'reason' => 'manual',    // laliga | ssl_renewal | manual
+                'status' => 'success',    // success | error
+                'message' => $message, 
+                'site_id' => $site->id
+            ]);
+
+            return redirect()->back()->with('success', 'Proxy cambiado correctamente en Cloudflare.');
+
+        }
+
+        ProxyLog::create([
+            'action' => $action,    // proxy_enabled | proxy_disabled
+            'reason' => 'manual',    // laliga | ssl_renewal | manual
+            'status' => 'error',    // success | error
+            'message' => $message, 
+            'site_id' => $site->id
+        ]);
 
         return redirect()->back()->withErrors(['error' => 'No se pudo cambiar el estado del proxy en Cloudflare.']);
     }
@@ -55,8 +84,25 @@ class DashboardController extends Controller
         $response = $this->cloudflare->activateProxyStatusAll();
 
         if ($response) {
+
+            ProxyLog::create([
+                'action' => 'proxy_enabled',    // proxy_enabled | proxy_disabled
+                'reason' => 'manual',    // laliga | ssl_renewal | manual
+                'status' => 'success',    // success | error
+                'message' => 'Activación masiva', 
+                'site_id' => '12'
+            ]);
+
             return redirect()->back()->with('success', 'Todos los proxies han sido activados correctamente en Cloudflare.');
         }
+
+        ProxyLog::create([
+            'action' => 'proxy_enabled',    // proxy_enabled | proxy_disabled
+            'reason' => 'manual',    // laliga | ssl_renewal | manual
+            'status' => 'error',    // success | error
+            'message' => 'Activación masiva', 
+            'site_id' => '12'
+        ]);
 
         return redirect()->back()->withErrors(['error' => 'No se pudieron activar todos los proxies en Cloudflare.']);
     }
@@ -66,8 +112,25 @@ class DashboardController extends Controller
         $response = $this->cloudflare->deactivateProxyStatusAll();
 
         if ($response) {
+
+            ProxyLog::create([
+                'action' => 'proxy_disabled',    // proxy_enabled | proxy_disabled
+                'reason' => 'manual',    // laliga | ssl_renewal | manual
+                'status' => 'success',    // success | error
+                'message' => 'Desactivación masiva', 
+                'site_id' => '12'
+            ]);
+
             return redirect()->back()->with('success', 'Todos los proxies han sido desactivados correctamente en Cloudflare.');
         }
+
+        ProxyLog::create([
+            'action' => 'proxy_disabled',    // proxy_enabled | proxy_disabled
+            'reason' => 'manual',    // laliga | ssl_renewal | manual
+            'status' => 'error',    // success | error
+            'message' => 'Desactivación masiva', 
+            'site_id' => '12'
+        ]);
 
         return redirect()->back()->withErrors(['error' => 'No se pudieron desactivar todos los proxies en Cloudflare.']);
     }

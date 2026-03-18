@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\ProxyLog;
 use App\Models\ProxySchedule;
 use App\Models\ProxySite;
 use App\Services\CloudflareService;
@@ -62,6 +63,15 @@ class ProcessProxySchedulesCommand extends Command
                 foreach ($sites as $site) {
                     if ($site->proxy_enabled) {
                         $ok = $cloudflare->setProxyStatus($site, true);
+
+                        ProxyLog::create([
+                            'action' => 'proxy_disabled',    // proxy_enabled | proxy_disabled
+                            'reason' => 'laliga',    // laliga | ssl_renewal | manual
+                            'status' => 'success',    // success | error
+                            'message' => 'Desactivación por schedule La liga', 
+                            'site_id' => $site->id
+                        ]);
+
                         $this->line("    · {$site->domain} → " . ($ok ? 'OK' : 'ERROR'));
                     } else {
                         continue;
@@ -77,8 +87,19 @@ class ProcessProxySchedulesCommand extends Command
 
                 foreach ($sites as $site) {
                     if (!$site->proxy_enabled) {
+
                         $ok = $cloudflare->setProxyStatus($site, true);
+
+                        ProxyLog::create([
+                            'action' => 'proxy_enabled',    // proxy_enabled | proxy_disabled
+                            'reason' => 'laliga',    // laliga | ssl_renewal | manual
+                            'status' => 'success',    // success | error
+                            'message' => 'Activación por schedule La liga', 
+                            'site_id' => $site->id
+                        ]);
+
                         $this->line("    · {$site->domain} → " . ($ok ? 'OK' : 'ERROR'));
+
                     } else {
                         continue;
                     }

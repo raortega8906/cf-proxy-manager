@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\ProxyLog;
 use App\Models\ProxySchedule;
 use App\Models\ProxySite;
 use App\Services\CloudflareService;
@@ -61,8 +62,19 @@ class CheckSslRenewalsSchedulesCommand extends Command
 
                 foreach ($sites as $site) {
                     if ($site->proxy_enabled) {
+
                         $ok = $cloudflare->setProxyStatus($site, true);
+
+                        ProxyLog::create([
+                            'action' => 'proxy_disabled',    // proxy_enabled | proxy_disabled
+                            'reason' => 'ssl_renewal',    // laliga | ssl_renewal | manual
+                            'status' => 'success',    // success | error
+                            'message' => 'Desactivación por schedule La liga', 
+                            'site_id' => $site->id
+                        ]);
+
                         $this->line("    · {$site->domain} → " . ($ok ? 'OK' : 'ERROR'));
+
                     } else {
                         continue;
                     }
@@ -84,6 +96,15 @@ class CheckSslRenewalsSchedulesCommand extends Command
                         $site->update(['ssl_next_renewal' => $date_ssl_next_renewal]);
                         
                         $ok = $cloudflare->setProxyStatus($site, true);
+
+                        ProxyLog::create([
+                            'action' => 'proxy_enabled',    // proxy_enabled | proxy_disabled
+                            'reason' => 'ssl_renewal',    // laliga | ssl_renewal | manual
+                            'status' => 'success',    // success | error
+                            'message' => 'Activación por schedule La liga', 
+                            'site_id' => $site->id
+                        ]);
+
                         $this->line("    · {$site->domain} → " . ($ok ? 'OK' : 'ERROR'));
                     } else {
                         continue;

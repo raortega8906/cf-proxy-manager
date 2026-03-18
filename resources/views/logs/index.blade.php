@@ -22,7 +22,27 @@
         <tbody>
             @forelse($logs as $log)
             <tr>
-
+                <td class="text-cyan">{{ $log->site->domain ?? '—' }}</td>
+                <td style="color:{{ $log->action === 'proxy_enabled' ? 'var(--cyan)' : 'var(--orange)' }}">
+                    @if ($log->action === 'proxy_enabled')
+                        ↑ Proxy activado
+                    @else
+                        ↓ Proxy desactivado
+                    @endif
+                </td>
+                </td>
+                <td>{{ $log->reason_label }}</td>
+                <td>
+                    <span class="badge {{ $log->status === 'success' ? 'badge-ok' : 'badge-failed' }}">
+                        {{ $log->status }}
+                    </span>
+                </td>
+                <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                    {{ $log->message ?? '—' }}
+                </td>
+                <td title="{{ $log->created_at->format('d/m/Y H:i:s') }}">
+                    {{ $log->created_at->diffForHumans() }}
+                </td>
             </tr>
             @empty
             <tr>

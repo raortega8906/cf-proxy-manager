@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProxySiteRequest;
 use App\Http\Requests\UpdateProxySiteRequest;
+use App\Models\ProxyLog;
 use App\Models\ProxySite;
 use App\Services\CloudflareService;
 use Illuminate\Contracts\View\View;
@@ -127,12 +128,40 @@ class ProxySiteController extends Controller
     public function activateOrDeactivateProxy(ProxySite $site): RedirectResponse
     {
         $enabled = true;
+
+        $action = '';
+        $message = '';
         
         $response = $this->cloudflare->setProxyStatus($site, $enabled);
 
-        if ($response) {
-            return redirect()->back()->with('success', 'Proxy cambiado correctamente en Cloudflare.');
+        if ( $site->proxy_enabled ) {
+            $action = 'proxy_enabled';
+            $message = 'Activación manual del proxy';
+        } else {
+            $action = 'proxy_disabled';
+            $message = 'Desactivación manual del proxy';
         }
+
+        if ($response) {
+
+            ProxyLog::create([
+                'action' => $action,    // proxy_enabled | proxy_disabled
+                'reason' => 'manual',    // laliga | ssl_renewal | manual
+                'status' => 'success',    // success | error
+                'message' => $message, 
+                'site_id' => $site->id
+            ]);
+
+            return redirect()->back()->with('success', 'Proxy activado o desactivado correctamente en Cloudflare.');
+        }
+
+        ProxyLog::create([
+            'action' => $action,    // proxy_enabled | proxy_disabled
+            'reason' => 'manual',    // laliga | ssl_renewal | manual
+            'status' => 'error',    // success | error
+            'message' => $message, 
+            'site_id' => $site->id
+        ]);
 
         return redirect()->back()->with(['error' => 'No se pudo cambiar el estado del proxy en Cloudflare.']);
     }

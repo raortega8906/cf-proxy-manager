@@ -19,4 +19,13 @@ class ProxyLog extends Model
     {
         return $this->belongsTo(ProxySite::class, 'site_id');
     }
+
+    public function getReasonLabelAttribute(): string
+    {
+        return match($this->reason) {
+            'laliga'      => '⚽ LaLiga',
+            'ssl_renewal' => '🔒 SSL',
+            default       => '✋ Manual',
+        };
+    }
 }
