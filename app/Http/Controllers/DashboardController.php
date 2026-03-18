@@ -6,6 +6,7 @@ use App\Models\ProxyLog;
 use App\Models\ProxySchedule;
 use App\Models\ProxySite;
 use App\Services\CloudflareService;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
@@ -22,6 +23,7 @@ class DashboardController extends Controller
     {
         $sites = ProxySite::all();
         $schedules = ProxySchedule::all();
+        $logs = ProxyLog::paginate(10);
 
         $countEnabled = $sites->where('proxy_enabled', true)->count();
         $countLaLiga = $sites->where('affected_by_laliga', true)->count();
@@ -35,7 +37,7 @@ class DashboardController extends Controller
             $this->cloudflare->syncSiteStatus($site);
         }
 
-        return view('dashboard', compact('sites', 'schedulePendingActive', 'schedules', 'countEnabled', 'countLaLiga', 'countSsl', 'countSchedulePending'));
+        return view('dashboard', compact('sites', 'logs', 'schedulePendingActive', 'schedules', 'countEnabled', 'countLaLiga', 'countSsl', 'countSchedulePending'));
     }
 
     public function activateOrDeactivateProxy(ProxySite $site): RedirectResponse

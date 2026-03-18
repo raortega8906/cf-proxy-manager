@@ -184,6 +184,13 @@
         }
         .pagination .active span { background: var(--cyan); color: #060910; border-color: var(--cyan); }
 
+        /* LISTS */
+        ul, ol {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
         /* UTILS */
         .text-cyan   { color: var(--cyan); }
         .text-green  { color: var(--green); }
