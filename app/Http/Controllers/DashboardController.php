@@ -30,8 +30,6 @@ class DashboardController extends Controller
         $countSchedulePending =  $schedules->where('status', 'pending')->count();
         $schedulePendingActive = ProxySchedule::whereIn('status', ['pending', 'active'])->get();
 
-        // dd($schedulePendingActive);
-
         foreach ($sites as $site) {
             $this->cloudflare->syncSiteStatus($site);
         }
@@ -58,9 +56,9 @@ class DashboardController extends Controller
         if ($response) {
 
             ProxyLog::create([
-                'action' => $action,    // proxy_enabled | proxy_disabled
-                'reason' => 'manual',    // laliga | ssl_renewal | manual
-                'status' => 'success',    // success | error
+                'action' => $action,
+                'reason' => 'manual',
+                'status' => 'success',
                 'message' => $message, 
                 'site_id' => $site->id
             ]);
@@ -70,9 +68,9 @@ class DashboardController extends Controller
         }
 
         ProxyLog::create([
-            'action' => $action,    // proxy_enabled | proxy_disabled
-            'reason' => 'manual',    // laliga | ssl_renewal | manual
-            'status' => 'error',    // success | error
+            'action' => $action,
+            'reason' => 'manual',
+            'status' => 'error',
             'message' => $message, 
             'site_id' => $site->id
         ]);
@@ -87,9 +85,9 @@ class DashboardController extends Controller
         if ($response) {
 
             ProxyLog::create([
-                'action' => 'proxy_enabled',    // proxy_enabled | proxy_disabled
-                'reason' => 'manual',    // laliga | ssl_renewal | manual
-                'status' => 'success',    // success | error
+                'action' => 'proxy_enabled',
+                'reason' => 'manual',
+                'status' => 'success',
                 'message' => 'Activación masiva', 
                 'site_id' => '12'
             ]);
@@ -98,9 +96,9 @@ class DashboardController extends Controller
         }
 
         ProxyLog::create([
-            'action' => 'proxy_enabled',    // proxy_enabled | proxy_disabled
-            'reason' => 'manual',    // laliga | ssl_renewal | manual
-            'status' => 'error',    // success | error
+            'action' => 'proxy_enabled',
+            'reason' => 'manual',
+            'status' => 'error',
             'message' => 'Activación masiva', 
             'site_id' => '12'
         ]);
@@ -115,9 +113,9 @@ class DashboardController extends Controller
         if ($response) {
 
             ProxyLog::create([
-                'action' => 'proxy_disabled',    // proxy_enabled | proxy_disabled
-                'reason' => 'manual',    // laliga | ssl_renewal | manual
-                'status' => 'success',    // success | error
+                'action' => 'proxy_disabled',
+                'reason' => 'manual',
+                'status' => 'success',
                 'message' => 'Desactivación masiva', 
                 'site_id' => '12'
             ]);
@@ -126,9 +124,9 @@ class DashboardController extends Controller
         }
 
         ProxyLog::create([
-            'action' => 'proxy_disabled',    // proxy_enabled | proxy_disabled
-            'reason' => 'manual',    // laliga | ssl_renewal | manual
-            'status' => 'error',    // success | error
+            'action' => 'proxy_disabled',
+            'reason' => 'manual',
+            'status' => 'error',
             'message' => 'Desactivación masiva', 
             'site_id' => '12'
         ]);

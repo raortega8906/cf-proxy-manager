@@ -78,9 +78,6 @@ class ProxySiteController extends Controller
         $data['cloudflare_dns_record_id'] = $record_id;
         $data['proxy_enabled'] = $proxy_enabled;
 
-        // Testing data before saving
-        // dd($data);
-
         ProxySite::create($data);
         
         return redirect()->route('sites.index')->with('success', 'Sitio creado correctamente.');
@@ -145,9 +142,9 @@ class ProxySiteController extends Controller
         if ($response) {
 
             ProxyLog::create([
-                'action' => $action,    // proxy_enabled | proxy_disabled
-                'reason' => 'manual',    // laliga | ssl_renewal | manual
-                'status' => 'success',    // success | error
+                'action' => $action,
+                'reason' => 'manual',
+                'status' => 'success',
                 'message' => $message, 
                 'site_id' => $site->id
             ]);
@@ -156,9 +153,9 @@ class ProxySiteController extends Controller
         }
 
         ProxyLog::create([
-            'action' => $action,    // proxy_enabled | proxy_disabled
-            'reason' => 'manual',    // laliga | ssl_renewal | manual
-            'status' => 'error',    // success | error
+            'action' => $action,
+            'reason' => 'manual',
+            'status' => 'error',
             'message' => $message, 
             'site_id' => $site->id
         ]);

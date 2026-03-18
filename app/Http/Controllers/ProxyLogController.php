@@ -16,7 +16,6 @@ class ProxyLogController extends Controller
     {
         $query = ProxyLog::with('site')->latest();
 
-        // Filtros opcionales
         if ($request->filled('site_id')) {
             $query->where('site_id', $request->site_id);
         }

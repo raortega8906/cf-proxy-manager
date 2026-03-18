@@ -66,9 +66,9 @@ class CheckSslRenewalsSchedulesCommand extends Command
                         $ok = $cloudflare->setProxyStatus($site, true);
 
                         ProxyLog::create([
-                            'action' => 'proxy_disabled',    // proxy_enabled | proxy_disabled
-                            'reason' => 'ssl_renewal',    // laliga | ssl_renewal | manual
-                            'status' => 'success',    // success | error
+                            'action' => 'proxy_disabled',
+                            'reason' => 'ssl_renewal',
+                            'status' => 'success',
                             'message' => 'Desactivación por schedule La liga', 
                             'site_id' => $site->id
                         ]);
@@ -98,9 +98,9 @@ class CheckSslRenewalsSchedulesCommand extends Command
                         $ok = $cloudflare->setProxyStatus($site, true);
 
                         ProxyLog::create([
-                            'action' => 'proxy_enabled',    // proxy_enabled | proxy_disabled
-                            'reason' => 'ssl_renewal',    // laliga | ssl_renewal | manual
-                            'status' => 'success',    // success | error
+                            'action' => 'proxy_enabled',
+                            'reason' => 'ssl_renewal',
+                            'status' => 'success',
                             'message' => 'Activación por schedule La liga', 
                             'site_id' => $site->id
                         ]);

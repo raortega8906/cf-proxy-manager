@@ -154,7 +154,7 @@ class CloudflareService
             $proxy_enabled = $site->proxy_enabled;
 
             if ($proxy_enabled) {
-                continue; // Si ya está activo, saltar al siguiente
+                continue;
             }
 
             $response = Http::withHeaders($this->headers)
@@ -196,7 +196,7 @@ class CloudflareService
             $proxy_enabled = $site->proxy_enabled;
 
             if (!$proxy_enabled) {
-                continue; // Si ya está desactivado, saltar al siguiente
+                continue;
             }
 
             $response = Http::withHeaders($this->headers)
