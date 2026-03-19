@@ -28,12 +28,13 @@ class LaligaService {
         $response = Http::withHeaders($this->headers)->get($this->laliga_api_url . $day);
 
         if ($response->successful()) {
-            return $response->json();
+            return $response->json('matches');
         }
 
         Log::error('Matches failed', [
 
             'day_enter' => $day,
+            'error' => 'No conection',
             'response' => $response->json()
 
         ]);

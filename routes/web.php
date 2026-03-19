@@ -42,6 +42,9 @@ Route::middleware('auth', 'verified')->group(function () {
 
     // Rutas de logs (CRUD)
     Route::get('/logs', [ProxyLogController::class, 'index'])->name('logs.index');
+
+    // Ruta test:
+    Route::get('/test', [DashboardController::class, 'test']);
 });
 
 require __DIR__.'/auth.php';
