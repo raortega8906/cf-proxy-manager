@@ -10,8 +10,11 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-// Schedule LaLiga:
+// Schedule Manual LaLiga:
 Schedule::command('app:process-proxy-schedules-command')->everyMinute();
 
 // Schedule SSL:
 Schedule::command('app:check-ssl-renewals-schedules-command')->everyMinute();
+
+// Schedule Automático Match:
+Schedule::command('app:add-automatic-schedule-match-command')->everyMinute();
