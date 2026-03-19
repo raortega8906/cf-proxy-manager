@@ -6,18 +6,43 @@ use App\Models\ProxyLog;
 use App\Models\ProxySchedule;
 use App\Models\ProxySite;
 use App\Services\CloudflareService;
+use App\Services\LaligaService;
 use App\Services\ProxyLogService;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+
+use function PHPUnit\Framework\isEmpty;
 
 class DashboardController extends Controller
 {
     private CloudflareService $cloudflare;
     private ProxyLogService $proxyLog;
+    private LaligaService $laLiga;
 
-    public function __construct( CloudflareService $cloudflare, ProxyLogService $proxyLog ) {
+    public function __construct( CloudflareService $cloudflare, ProxyLogService $proxyLog, LaligaService $laLiga ) {
         $this->cloudflare = $cloudflare;
         $this->proxyLog = $proxyLog;
+        $this->laLiga = $laLiga;
+    }
+
+    public function test(){
+
+        // $dateFrom = Carbon::today();
+        // $dateTo = Carbon::today();
+
+        $dateFrom = Carbon::parse('2026-03-21');
+        $dateTo = Carbon::parse('2026-03-21');
+
+        dd($this->laLiga->getMatches($dateFrom, $dateTo));
+
+        if ($this->laLiga->getMatches($dateFrom, $dateTo)){
+            dd('hay elementos');
+        } else {
+            dd('vacio');
+        }
+
+        
     }
 
     public function dashboard(): View
