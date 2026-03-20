@@ -7,6 +7,11 @@
 
 @section('content')
 
+<div class="flex mb-4">
+    <a href="{{ route('logs.export') }}" class="btn btn-primary">
+        ↓ Exportar XLSX
+    </a>
+</div>
 {{-- Filtros --}}
 <div class="card mb-4">
     <form method="GET" action="{{ route('logs.index') }}" class="flex gap-2 items-center" style="flex-wrap:wrap">

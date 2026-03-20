@@ -6,6 +6,9 @@ use App\Models\ProxyLog;
 use App\Models\ProxySite;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use App\Exports\ProxyLogsExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ProxyLogController extends Controller
 {
@@ -32,5 +35,12 @@ class ProxyLogController extends Controller
         $sites = ProxySite::all();
 
         return view('logs.index', compact('logs', 'sites'));
+    }
+
+    public function export(): BinaryFileResponse
+    {
+        $filename = now()->format('Ymd') . '-logs-cfpm.xlsx';
+
+        return Excel::download(new ProxyLogsExport(), $filename);
     }
 }

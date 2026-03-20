@@ -41,6 +41,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::delete('/schedules/{proxySchedule}', [ProxyScheduleController ::class, 'destroy'])->name('schedules.destroy');
 
     // Rutas de logs (CRUD)
+    Route::get('/logs/export', [ProxyLogController::class, 'export'])->name('logs.export');
     Route::get('/logs', [ProxyLogController::class, 'index'])->name('logs.index');
 
     // Ruta test - Eliminar cuando se terminen las pruebas:
