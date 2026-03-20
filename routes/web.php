@@ -44,7 +44,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/logs', [ProxyLogController::class, 'index'])->name('logs.index');
 
     // Ruta test - Eliminar cuando se terminen las pruebas:
-    Route::get('/test', [DashboardController::class, 'test']);
+    // Route::get('/test', [DashboardController::class, 'test']);
 });
 
 require __DIR__.'/auth.php';
