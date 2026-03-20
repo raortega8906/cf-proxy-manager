@@ -8,7 +8,8 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-// Ajustar los tiempos de ejecucion cuando se suba a prod
+// Ajustar tiempos de ejecución en las pruebas
+
 // Schedule Manual LaLiga:
 Schedule::command('app:process-proxy-schedules-command')->everyMinute();
 
@@ -16,4 +17,7 @@ Schedule::command('app:process-proxy-schedules-command')->everyMinute();
 Schedule::command('app:check-ssl-renewals-schedules-command')->everyMinute();
 
 // Schedule Automático Match:
-Schedule::command('app:add-automatic-schedule-match-command')->everyMinute();
+Schedule::command('app:add-automatic-schedule-match-command')->dailyAt('01:25');
+
+// Descomentar y eliminar el de arriba cuando se hagan las pruebas
+// Schedule::command('app:add-automatic-schedule-match-command')->daily();

@@ -7,6 +7,7 @@ use App\Services\LaligaService;
 use App\Services\ProxyScheduleService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class AddAutomaticScheduleMatchCommand extends Command
 {
@@ -32,17 +33,14 @@ class AddAutomaticScheduleMatchCommand extends Command
         $this->info('[' . now()->format('Y-m-d H:i:s') . '] Procesando schedules...');
 
         $schedule_ids = ProxySite::where('affected_by_laliga', true)->pluck('id')->toArray();
-
-        // $dateFrom = Carbon::today();
-        // $dateTo = Carbon::today();
-
-        $dateFrom = Carbon::parse('2026-03-21');
-        $dateTo = Carbon::parse('2026-03-21');
+        $dateFrom = Carbon::today();
+        $dateTo = Carbon::today();
 
         $matches = $laLiga->getMatches($dateFrom, $dateTo);
 
         if (empty($matches)) {
             $this->line('  → Sin schedule automatico para crear de partidos.');
+            Log::error('  → Sin schedule automatico para crear de partidos.');
 
             return;
         }
