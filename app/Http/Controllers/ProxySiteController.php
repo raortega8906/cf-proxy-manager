@@ -24,7 +24,7 @@ class ProxySiteController extends Controller
      */
     public function index(): View
     {
-        $sites = ProxySite::all();
+        $sites = ProxySite::latest()->paginate(10);
 
         foreach ($sites as $site) {
             $this->cloudflare->syncSiteStatus($site);

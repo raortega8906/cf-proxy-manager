@@ -6,9 +6,7 @@ use App\Models\ProxyLog;
 use App\Models\ProxySchedule;
 use App\Models\ProxySite;
 use App\Services\CloudflareService;
-use App\Services\LaligaService;
 use App\Services\ProxyLogService;
-use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
@@ -26,9 +24,9 @@ class DashboardController extends Controller
 
     public function dashboard(): View
     {
-        $sites = ProxySite::all();
-        $schedules = ProxySchedule::all();
-        $logs = ProxyLog::paginate(10);
+        $sites = ProxySite::latest()->get();
+        $schedules = ProxySchedule::latest()->get();
+        $logs = ProxyLog::latest()->paginate(10);
 
         $countEnabled = $sites->where('proxy_enabled', true)->count();
         $countLaLiga = $sites->where('affected_by_laliga', true)->count();
@@ -77,13 +75,8 @@ class DashboardController extends Controller
         $response = $this->cloudflare->activateProxyStatusAll();
 
         if ($response) {
-
-            // $this->proxyLog->writeLogs($site, 'proxy_enabled', 'manual', 'success', 'Activación masiva');
-
             return redirect()->back()->with('success', 'Todos los proxies han sido activados correctamente en Cloudflare.');
         }
-
-        // $this->proxyLog->writeLogs($site, 'proxy_enabled', 'manual', 'error', 'Activación masiva');
 
         return redirect()->back()->withErrors(['error' => 'No se pudieron activar todos los proxies en Cloudflare.']);
     }
@@ -93,13 +86,8 @@ class DashboardController extends Controller
         $response = $this->cloudflare->deactivateProxyStatusAll();
 
         if ($response) {
-
-            // $this->proxyLog->writeLogs($site, 'proxy_disabled', 'manual', 'success', 'Desactivación masiva');
-
             return redirect()->back()->with('success', 'Todos los proxies han sido desactivados correctamente en Cloudflare.');
         }
-
-        // $this->proxyLog->writeLogs($site, 'proxy_disabled', 'manual', 'error', 'Desactivación masiva');
 
         return redirect()->back()->withErrors(['error' => 'No se pudieron desactivar todos los proxies en Cloudflare.']);
     }

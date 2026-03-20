@@ -92,6 +92,10 @@
             @endif
         </tbody>
     </table>
+
+    <div class="pagination">
+        {{ $sites->links() }}
+    </div>
 </div>
 
 @endsection

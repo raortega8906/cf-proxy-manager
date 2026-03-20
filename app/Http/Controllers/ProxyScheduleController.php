@@ -16,7 +16,7 @@ class ProxyScheduleController extends Controller
      */
     public function index(): View
     {
-        $schedules = ProxySchedule::all();
+        $schedules = ProxySchedule::latest()->paginate(10);
 
         return view('schedules.index', compact('schedules'));
     }

@@ -88,6 +88,10 @@
             @endif
         </tbody>
     </table>
+
+    <div class="pagination">
+        {{ $schedules->links() }}
+    </div>
 </div>
 
 @endsection
