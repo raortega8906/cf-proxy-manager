@@ -19,4 +19,4 @@ Schedule::command('app:check-ssl-renewals-schedules-command')->everyMinute();
 // Schedule Automático Match:
 // Descomentar y eliminar el de abajo cuando se terminen las pruebas
 // schedule::command('app:add-automatic-schedule-match-command')->daily();
-Schedule::command('app:add-automatic-schedule-match-command')->dailyAt('03:02');
+Schedule::command('app:add-automatic-schedule-match-command')->dailyAt('22:03');
