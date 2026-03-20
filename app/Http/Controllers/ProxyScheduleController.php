@@ -105,8 +105,6 @@ class ProxyScheduleController extends Controller
             $validated['site_ids'] = $site_ids;
         }
 
-        // dd($validated);
-
         $proxySchedule->update($validated);
 
         return redirect()->route('schedules.index')->with('success', 'Schedule actualizado correctamente.');
@@ -119,6 +117,6 @@ class ProxyScheduleController extends Controller
     {
         $proxySchedule->delete();
 
-        return redirect()->back()->with('schedules.index')->with('success', 'Schedule eliminado correctamente.');
+        return redirect()->route('schedules.index')->with('success', 'Schedule eliminado correctamente.');
     }
 }

@@ -7,16 +7,19 @@ use App\Http\Requests\UpdateProxySiteRequest;
 use App\Models\ProxyLog;
 use App\Models\ProxySite;
 use App\Services\CloudflareService;
+use App\Services\ProxyLogService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
 class ProxySiteController extends Controller
 {
     private CloudflareService $cloudflare;
+    private ProxyLogService $proxyLog;
 
-    public function __construct(CloudflareService $cloudflare)
+    public function __construct(CloudflareService $cloudflare, ProxyLogService $proxyLog)
     {
         $this->cloudflare = $cloudflare;
+        $this->proxyLog = $proxyLog;
     }
 
     /**
@@ -119,7 +122,7 @@ class ProxySiteController extends Controller
     {
         $proxySite->delete();
 
-        return redirect()->back()->with('success', 'Sitio eliminado correctamente.');
+        return redirect()->route('schedules.index')->with('success', 'Sitio eliminado correctamente.');
     }
 
     public function activateOrDeactivateProxy(ProxySite $site): RedirectResponse
@@ -141,6 +144,8 @@ class ProxySiteController extends Controller
 
         if ($response) {
 
+            $this->proxyLog->writeLogs($site, $action, 'manual', 'success', $message);
+
             ProxyLog::create([
                 'action' => $action,
                 'reason' => 'manual',
@@ -152,13 +157,7 @@ class ProxySiteController extends Controller
             return redirect()->back()->with('success', 'Proxy activado o desactivado correctamente en Cloudflare.');
         }
 
-        ProxyLog::create([
-            'action' => $action,
-            'reason' => 'manual',
-            'status' => 'error',
-            'message' => $message, 
-            'site_id' => $site->id
-        ]);
+        $this->proxyLog->writeLogs($site, $action, 'manual', 'error', $message);
 
         return redirect()->back()->with(['error' => 'No se pudo cambiar el estado del proxy en Cloudflare.']);
     }
