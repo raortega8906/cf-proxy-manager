@@ -26,43 +26,47 @@ class DashboardController extends Controller
         $this->laLiga = $laLiga;
     }
 
-    public function test(){
+    // Eliminar cuando se hagan las pruebas
+    // public function test(){
 
-        // $dateFrom = Carbon::today();
-        // $dateTo = Carbon::today();
+    //     // $dateFrom = Carbon::today();
+    //     // $dateTo = Carbon::today();
+    //     // $schedule_ids = ProxySite::where('affected_by_laliga', true)->pluck('id')->toArray();
 
-        $dateFrom = Carbon::parse('2026-03-21');
-        $dateTo = Carbon::parse('2026-03-21');
+    //     // dd($schedule_ids);
 
-        $matches = $this->laLiga->getMatches($dateFrom, $dateTo);
+    //     $dateFrom = Carbon::parse('2026-03-21');
+    //     $dateTo = Carbon::parse('2026-03-21');
 
-        if (empty($matches)) {
-            dd('No hay elementos'); 
-        }
+    //     $matches = $this->laLiga->getMatches($dateFrom, $dateTo);
 
-        $matchesFormatted = collect($matches)->map(function ($match) {
-            return [
-                'home'     => $match['homeTeam']['name'],
-                'away'     => $match['awayTeam']['name'],
-                'datetime' => Carbon::parse($match['utcDate'])
-                                ->timezone('Europe/Madrid')
-                                ->format('Y-m-d H:i'),
-            ];
-        })->toArray();
+    //     if (empty($matches)) {
+    //         dd('No hay elementos'); 
+    //     }
 
-        $firstMatch = Carbon::parse($matchesFormatted[0]['datetime'], 'Europe/Madrid');
-        $lastMatch  = Carbon::parse(end($matchesFormatted)['datetime'], 'Europe/Madrid');
-        $date       = $firstMatch->format('d/m/Y');
+    //     $matchesFormatted = collect($matches)->map(function ($match) {
+    //         return [
+    //             'home'     => $match['homeTeam']['name'],
+    //             'away'     => $match['awayTeam']['name'],
+    //             'datetime' => Carbon::parse($match['utcDate'])
+    //                             ->timezone('Europe/Madrid')
+    //                             ->format('Y-m-d H:i'),
+    //         ];
+    //     })->toArray();
 
-        $schedule = [
-            'description' => "Schedule automático por partidos de liga el día {$date}",
-            'disable_at'  => $firstMatch->clone()->subHour()->format('Y-m-d H:i'),
-            'enable_at'   => $lastMatch->clone()->addHours(3)->format('Y-m-d H:i'),
-        ];
+    //     $firstMatch = Carbon::parse($matchesFormatted[0]['datetime'], 'Europe/Madrid');
+    //     $lastMatch  = Carbon::parse(end($matchesFormatted)['datetime'], 'Europe/Madrid');
+    //     $date       = $firstMatch->format('d/m/Y');
 
-        dd($schedule);
+    //     $schedule = [
+    //         'description' => "Schedule automático por partidos de liga el día {$date}",
+    //         'disable_at'  => $firstMatch->clone()->subHour()->format('Y-m-d H:i'),
+    //         'enable_at'   => $lastMatch->clone()->addHours(3)->format('Y-m-d H:i'),
+    //     ];
 
-    }
+    //     dd($schedule);
+
+    // }
 
     public function dashboard(): View
     {

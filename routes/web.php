@@ -43,7 +43,7 @@ Route::middleware('auth', 'verified')->group(function () {
     // Rutas de logs (CRUD)
     Route::get('/logs', [ProxyLogController::class, 'index'])->name('logs.index');
 
-    // Ruta test:
+    // Ruta test - Eliminar cuando se terminen las pruebas:
     Route::get('/test', [DashboardController::class, 'test']);
 });
 
