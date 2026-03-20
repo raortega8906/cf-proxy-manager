@@ -43,11 +43,10 @@ class DashboardController extends Controller
 
     public function activateOrDeactivateProxy(ProxySite $site): RedirectResponse
     {
-        $enabled = true;
         $action = '';
         $message = '';
         
-        $response = $this->cloudflare->setProxyStatus($site, $enabled);
+        $response = $this->cloudflare->setProxyStatus($site);
 
         if ( $site->proxy_enabled ) {
             $action = 'proxy_enabled';

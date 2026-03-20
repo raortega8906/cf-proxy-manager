@@ -97,8 +97,9 @@ class CloudflareService
      * el resto de campos del registro (name, content, ttl…).
      */
 
-    public function setProxyStatus(ProxySite $site, bool $enabled): bool
+    public function setProxyStatus(ProxySite $site): bool
     {
+        $enabled = true;
         $record_id = $site->cloudflare_dns_record_id;
         $zone_id = $site->cloudflare_zone_id;
         $proxy_enabled = $site->proxy_enabled;

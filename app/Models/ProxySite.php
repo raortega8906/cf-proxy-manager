@@ -23,7 +23,7 @@ class ProxySite extends Model
         'cloudflare_zone_id'        => 'encrypted',
         'cloudflare_dns_record_id'  => 'encrypted',
         'ssl_auto_renewal'         => 'boolean',
-        'affected_by_liga'         => 'boolean',
+        'affected_by_laliga'       => 'boolean',
         'ssl_next_renewal'         => 'date',
     ];
 

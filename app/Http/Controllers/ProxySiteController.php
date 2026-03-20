@@ -122,17 +122,15 @@ class ProxySiteController extends Controller
     {
         $proxySite->delete();
 
-        return redirect()->route('schedules.index')->with('success', 'Sitio eliminado correctamente.');
+        return redirect()->route('sites.index')->with('success', 'Sitio eliminado correctamente.');
     }
 
     public function activateOrDeactivateProxy(ProxySite $site): RedirectResponse
     {
-        $enabled = true;
-
         $action = '';
         $message = '';
         
-        $response = $this->cloudflare->setProxyStatus($site, $enabled);
+        $response = $this->cloudflare->setProxyStatus($site);
 
         if ( $site->proxy_enabled ) {
             $action = 'proxy_enabled';

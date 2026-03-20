@@ -2,13 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Models\ProxyLog;
 use App\Models\ProxySchedule;
-use App\Models\ProxySite;
 use App\Services\CloudflareService;
 use App\Services\ProxyLogService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 
 class ProcessProxySchedulesCommand extends Command
 {
@@ -55,7 +52,7 @@ class ProcessProxySchedulesCommand extends Command
                 continue;
             }
 
-            $sites = ProxySite::whereIn('id', $schedule->site_ids)->get();
+            $sites = $schedule->sites;
 
             // Dactivar el proxy
             if ($schedule->status === 'pending' && $schedule->disable_at <= now()) {
@@ -65,13 +62,11 @@ class ProcessProxySchedulesCommand extends Command
                 foreach ($sites as $site) {
                     if ($site->proxy_enabled) {
 
-                        $ok = $cloudflare->setProxyStatus($site, true);
+                        $ok = $cloudflare->setProxyStatus($site);
                         $proxyLog->writeLogs($site, 'proxy_disabled', 'laliga', $ok, 'Desactivación por schedule La liga');
 
                         $this->line("    · {$site->domain} → " . ($ok ? 'SUCCESS' : 'ERROR'));
 
-                    } else {
-                        continue;
                     }
                 }
 
@@ -85,13 +80,11 @@ class ProcessProxySchedulesCommand extends Command
                 foreach ($sites as $site) {
                     if (!$site->proxy_enabled) {
 
-                        $ok = $cloudflare->setProxyStatus($site, true);
+                        $ok = $cloudflare->setProxyStatus($site);
                         $proxyLog->writeLogs($site, 'proxy_enabled', 'laliga', $ok, 'Activación por schedule La liga');
                         
                         $this->line("    · {$site->domain} → " . ($ok ? 'SUCCESS' : 'ERROR'));
 
-                    } else {
-                        continue;
                     }
                 }
 

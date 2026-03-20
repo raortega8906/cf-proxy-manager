@@ -3,12 +3,10 @@
 namespace App\Console\Commands;
 
 use App\Models\ProxySchedule;
-use App\Models\ProxySite;
 use App\Services\CloudflareService;
 use App\Services\ProxyLogService;
 use App\Services\ProxyScheduleService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 
 class CheckSslRenewalsSchedulesCommand extends Command
 {
@@ -53,7 +51,7 @@ class CheckSslRenewalsSchedulesCommand extends Command
                 continue;
             }
 
-            $sites = ProxySite::whereIn('id', $schedule->site_ids)->get();
+            $sites = $schedule->sites;
 
             // Desactivar el proxy
             if ($schedule->status === 'pending' && $schedule->disable_at <= now()) {
@@ -63,13 +61,10 @@ class CheckSslRenewalsSchedulesCommand extends Command
                 foreach ($sites as $site) {
                     if ($site->proxy_enabled) {
 
-                        $ok = $cloudflare->setProxyStatus($site, true);
+                        $ok = $cloudflare->setProxyStatus($site);
                         $proxyLog->writeLogs($site, 'proxy_disabled', 'ssl_renewal', $ok, 'Desactivación por schedule SSL');
 
                         $this->line("    · {$site->domain} → " . ($ok ? 'SUCCESS' : 'ERROR'));
-
-                    } else {
-                        continue;
                     }
                 }
 
@@ -89,12 +84,10 @@ class CheckSslRenewalsSchedulesCommand extends Command
 
                         $site->update(['ssl_next_renewal' => $date_ssl_next_renewal]);
 
-                        $ok = $cloudflare->setProxyStatus($site, true);
+                        $ok = $cloudflare->setProxyStatus($site);
                         $proxyLog->writeLogs($site, 'proxy_enabled', 'ssl_renewal', $ok, 'Activación por schedule SSL');
 
                         $this->line("    · {$site->domain} → " . ($ok ? 'SUCCESS' : 'ERROR'));
-                    } else {
-                        continue;
                     }
                 }
 
