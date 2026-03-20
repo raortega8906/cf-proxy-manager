@@ -19,10 +19,12 @@ class ProxySite extends Model
     ];
 
     protected $casts = [
-        'proxy_enabled'    => 'boolean',
-        'ssl_auto_renewal' => 'boolean',
-        'affected_by_liga' => 'boolean',
-        'ssl_next_renewal' => 'date',
+        'proxy_enabled'            => 'boolean',
+        'cloudflare_zone_id'        => 'encrypted',
+        'cloudflare_dns_record_id'  => 'encrypted',
+        'ssl_auto_renewal'         => 'boolean',
+        'affected_by_liga'         => 'boolean',
+        'ssl_next_renewal'         => 'date',
     ];
 
     public function logs(): HasMany
