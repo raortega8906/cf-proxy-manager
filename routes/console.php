@@ -17,7 +17,6 @@ Schedule::command('app:process-proxy-schedules-command')->everyMinute();
 Schedule::command('app:check-ssl-renewals-schedules-command')->everyMinute();
 
 // Schedule Automático Match:
-Schedule::command('app:add-automatic-schedule-match-command')->dailyAt('01:25');
-
-// Descomentar y eliminar el de arriba cuando se hagan las pruebas
-// Schedule::command('app:add-automatic-schedule-match-command')->daily();
+// Descomentar y eliminar el de abajo cuando se terminen las pruebas
+// schedule::command('app:add-automatic-schedule-match-command')->daily();
+Schedule::command('app:add-automatic-schedule-match-command')->dailyAt('03:02');
