@@ -66,10 +66,9 @@ class ProcessProxySchedulesCommand extends Command
                     if ($site->proxy_enabled) {
 
                         $ok = $cloudflare->setProxyStatus($site, true);
+                        $proxyLog->writeLogs($site, 'proxy_disabled', 'laliga', $ok, 'Desactivación por schedule La liga');
 
-                        $proxyLog->writeLogs($site, 'proxy_disabled', 'laliga', 'success', 'Desactivación por schedule La liga');
-
-                        $this->line("    · {$site->domain} → " . ($ok ? 'OK' : 'ERROR'));
+                        $this->line("    · {$site->domain} → " . ($ok ? 'SUCCESS' : 'ERROR'));
 
                     } else {
                         continue;
@@ -87,10 +86,9 @@ class ProcessProxySchedulesCommand extends Command
                     if (!$site->proxy_enabled) {
 
                         $ok = $cloudflare->setProxyStatus($site, true);
-
-                        $proxyLog->writeLogs($site, 'proxy_enabled', 'laliga', 'success', 'Activación por schedule La liga');
+                        $proxyLog->writeLogs($site, 'proxy_enabled', 'laliga', $ok, 'Activación por schedule La liga');
                         
-                        $this->line("    · {$site->domain} → " . ($ok ? 'OK' : 'ERROR'));
+                        $this->line("    · {$site->domain} → " . ($ok ? 'SUCCESS' : 'ERROR'));
 
                     } else {
                         continue;

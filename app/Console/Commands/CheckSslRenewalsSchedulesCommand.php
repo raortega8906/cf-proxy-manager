@@ -64,10 +64,9 @@ class CheckSslRenewalsSchedulesCommand extends Command
                     if ($site->proxy_enabled) {
 
                         $ok = $cloudflare->setProxyStatus($site, true);
+                        $proxyLog->writeLogs($site, 'proxy_disabled', 'ssl_renewal', $ok, 'Desactivación por schedule SSL');
 
-                        $proxyLog->writeLogs($site, 'proxy_disabled', 'ssl_renewal', 'success', 'Desactivación por schedule SSL');
-
-                        $this->line("    · {$site->domain} → " . ($ok ? 'OK' : 'ERROR'));
+                        $this->line("    · {$site->domain} → " . ($ok ? 'SUCCESS' : 'ERROR'));
 
                     } else {
                         continue;
@@ -91,10 +90,9 @@ class CheckSslRenewalsSchedulesCommand extends Command
                         $site->update(['ssl_next_renewal' => $date_ssl_next_renewal]);
 
                         $ok = $cloudflare->setProxyStatus($site, true);
+                        $proxyLog->writeLogs($site, 'proxy_enabled', 'ssl_renewal', $ok, 'Activación por schedule SSL');
 
-                        $proxyLog->writeLogs($site, 'proxy_enabled', 'ssl_renewal', 'success', 'Activación por schedule SSL');
-
-                        $this->line("    · {$site->domain} → " . ($ok ? 'OK' : 'ERROR'));
+                        $this->line("    · {$site->domain} → " . ($ok ? 'SUCCESS' : 'ERROR'));
                     } else {
                         continue;
                     }

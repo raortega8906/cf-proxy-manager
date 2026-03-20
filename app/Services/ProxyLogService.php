@@ -7,12 +7,12 @@ use App\Models\ProxySite;
 
 class ProxyLogService {
 
-    public function writeLogs(ProxySite $site, string $action, string $reason, string $status, string $message): void
+    public function writeLogs(ProxySite $site, string $action, string $reason, bool $success, string $message): void
     {
         ProxyLog::create([
             'action' => $action,
             'reason' => $reason,
-            'status' => $status,
+            'status' => $success ? 'success' : 'error',
             'message' => $message, 
             'site_id' => $site->id
         ]);
