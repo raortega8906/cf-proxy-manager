@@ -242,7 +242,7 @@ Crea tu token en: **Cloudflare → My Profile → API Tokens → Create Token**
 
 ---
 
-## 📦 Dependencias principales
+## 📦 Dependencias instaladas
 
 | Paquete | Propósito |
 |---|---|
