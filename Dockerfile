@@ -2,6 +2,8 @@ FROM serversideup/php:8.3-fpm-nginx
 
 USER root
 
+RUN install-php-extensions gd
+
 COPY --chown=www-data:www-data . /var/www/html
 
 RUN composer install --no-dev --optimize-autoloader
