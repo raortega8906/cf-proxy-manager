@@ -33,6 +33,8 @@ Cuando un dominio queda atrapado en un bloqueo, los visitantes ven esto:
 
 CF Proxy Manager convierte ese problema en algo que se gestiona solo.
 
+Espero que les sea de ayuda.
+
 ---
 
 ## ✨ Funcionalidades
@@ -186,13 +188,7 @@ DB_PASSWORD=tu_password_db
 
 # Cloudflare
 CLOUDFLARE_API_TOKEN=             # Tu token de API de Cloudflare
-CLOUDFLARE_EMAIL=                 # Tu email de cuenta de Cloudflare
 CLOUDFLARE_API=https://api.cloudflare.com/client/v4
-
-# Márgenes de tiempo de Cloudflare
-CF_SSL_DOWNTIME_MINUTES=30        # Tiempo que se desactiva el proxy para la renovación SSL
-CF_MATCH_PRE_MINUTES=15           # Minutos antes del primer partido para desactivar el proxy
-CF_MATCH_POST_MINUTES=180         # Minutos tras el último partido para reactivar el proxy
 
 # API de LaLiga (football-data.org)
 LALIGA_API_TOKEN=                 # Tu clave de API de football-data.org
