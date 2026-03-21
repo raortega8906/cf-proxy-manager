@@ -136,7 +136,7 @@ Cada min  →  CheckSslRenewalsSchedulesCommand se ejecuta
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/tuusuario/cf-proxy-manager.git
+git clone https://github.com/raortega8906/cf-proxy-manager.git
 cd cf-proxy-manager
 
 # Instalar dependencias
@@ -157,8 +157,14 @@ php artisan serve
 
 ### Scheduler
 
-Añade esto al crontab del servidor para que los schedules automáticos funcionen:
+### Scheduler
 
+**Desarrollo local** — ejecuta este comando en la terminal para simular el cron:
+```bash
+php artisan schedule:work
+```
+
+**Producción** — añade esta única entrada al crontab del servidor. Laravel se encarga de gestionar internamente el resto de comandos programados:
 ```bash
 * * * * * cd /ruta-del-proyecto && php artisan schedule:run >> /dev/null 2>&1
 ```
