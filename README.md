@@ -1,59 +1,258 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="320" alt="Laravel">
+</p>
 
-# Cloudflare Proxy Manager
+<h1 align="center">☁ CF Proxy Manager</h1>
 
-## Project structure
+<p align="center">
+  Gestión automatizada del proxy de Cloudflare para dominios afectados por los bloqueos de IP de LaLiga en España.
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Laravel-12-FF2D20?style=flat-square&logo=laravel&logoColor=white" />
+  <img src="https://img.shields.io/badge/PHP-8.3-777BB4?style=flat-square&logo=php&logoColor=white" />
+  <img src="https://img.shields.io/badge/Cloudflare-API-F38020?style=flat-square&logo=cloudflare&logoColor=white" />
+  <img src="https://img.shields.io/badge/Licencia-MIT-green?style=flat-square" />
+</p>
+
+---
+
+## 📖 ¿Qué es esto?
+
+Hay que reconocerle una cosa a **Javier Tebas**, presidente de LaLiga: cuando se le ocurre una idea, la ejecuta con una convicción admirable. Desde febrero de 2025, y amparado en una sentencia del Juzgado de lo Mercantil nº 6 de Barcelona, Tebas decidió que la mejor manera de combatir la piratería era ordenar a los operadores españoles bloquear rangos enteros de IPs de Cloudflare durante los días de partido. Una solución tan elegante como tumbar todo un edificio para matar una cucaracha en el quinto piso.
+
+El resultado es predecible: webs que no tienen absolutamente nada que ver con el fútbol pirata — desde la RAE hasta startups, medios locales, herramientas educativas y proyectos personales — caen bloqueadas cada fin de semana porque comparten rango de IP con algún dominio en la lista de Tebas. Cuando la RAE denunció públicamente que su web había caído por los bloqueos, Tebas no se disculpó, sino que alegó que eso solo afectaba "a la poca gente que mira la RAE un sábado". Brillante.
+
+La ironía que corona todo esto: LaLiga echa la culpa de los daños colaterales a Cloudflare, acusándola de ser cómplice de la piratería. La misma Cloudflare que, por cierto, usa la propia web de LaLiga para funcionar. No, no es broma.
+
+El propio Tebas reconoció que decidió "tirar Cloudflare, con el riesgo teórico de tirar IPs que tenía contenido normal". Al menos hay honestidad en eso.
+
+**CF Proxy Manager** nació de esa realidad. Desactiva automáticamente el proxy de Cloudflare (la nube naranja) en los dominios afectados antes de que empiecen los partidos, y lo reactiva cuando terminan. Al exponer temporalmente la IP real del servidor, el dominio escapa del bloqueo por rango sin necesidad de intervención manual cada fin de semana. También gestiona las renovaciones de certificados SSL que requieren desactivar el proxy de forma puntual.
+
+### El problema en una captura
+
+Cuando un dominio queda atrapado en un bloqueo, los visitantes en España ven esto:
+
+> *"El acceso a la presente dirección IP ha sido bloqueado en cumplimiento de lo dispuesto en la Sentencia de 18 de diciembre de 2024, dictada por el Juzgado de lo Mercantil nº 6 de Barcelona en el marco del procedimiento ordinario instado por la Liga Nacional de Fútbol Profesional..."*
+
+CF Proxy Manager convierte ese problema en algo que se gestiona solo.
+
+---
+
+## ✨ Funcionalidades
+
+- **Dashboard** — estado en tiempo real de todos los dominios gestionados, sincronizado directamente desde la API de Cloudflare
+- **Gestión de sitios** — añade dominios por Zone ID de Cloudflare; la app descubre automáticamente el registro DNS
+- **Schedules de proxy** — crea ventanas de tiempo para desactivar/reactivar el proxy, de forma manual o automática
+- **Automatización LaLiga** — un cron diario consulta los partidos de La Liga en football-data.org y crea los schedules automáticamente
+- **Automatización SSL** — desactiva el proxy para la ventana del reto HTTP-01 de ACME, lo reactiva y programa la siguiente renovación
+- **Logs de proxy** — registro completo de cada cambio de proxy con razón, estado y timestamp
+- **Exportación de logs** — descarga los logs como archivo `.xlsx` con formato `YYYYMMDD-logs-cfpm.xlsx`
+- **Controles masivos** — activa o desactiva todos los proxies a la vez desde el dashboard
+- **Almacenamiento cifrado** — los Zone IDs y DNS Record IDs de Cloudflare se cifran en reposo con AES-256-CBC
+
+---
+
+## 🏗 Estructura del proyecto
 
 ```
 app/
-├── Console/
-│   ├── Commands/
-│   │   ├── 
-│   │   └── 
+├── Console/Commands/
+│   ├── AddAutomaticScheduleMatchCommand.php   # Consulta los partidos de LaLiga del día y crea schedules
+│   ├── ProcessProxySchedulesCommand.php       # Procesa los schedules de partidos (cada minuto)
+│   └── CheckSslRenewalsSchedulesCommand.php   # Procesa los schedules de renovación SSL (cada minuto)
+├── Exports/
+│   └── ProxyLogsExport.php                    # Exportación Excel de los logs
 ├── Http/Controllers/
 │   ├── DashboardController.php
 │   ├── ProxySiteController.php
-│   └── ProxyScheduleController.php
+│   ├── ProxyScheduleController.php
+│   └── ProxyLogController.php
+├── Http/Requests/                             # Validación de formularios (Store/Update para Sites y Schedules)
 ├── Models/
 │   ├── ProxySite.php
 │   ├── ProxySchedule.php
 │   └── ProxyLog.php
-├── Services/
-│   └── 
+└── Services/
+    ├── CloudflareService.php                  # Integración con la API de Cloudflare
+    ├── LaligaService.php                      # Integración con la API de football-data.org
+    ├── ProxyLogService.php                    # Escritura centralizada de logs
+    └── ProxyScheduleService.php               # Creación automática de schedules
 config/
-└── cloudflare.php
+├── cloudflare.php
+└── laliga.php
 database/migrations/
-resources/views/
 routes/
-└── web.php
+├── web.php
+└── console.php                               # Comandos programados
 ```
 
 ---
 
-## Configuration `.env`
+## ⚙️ Cómo funciona
+
+### Flujo en día de partido de LaLiga
+
+```
+00:00 AM  →  AddAutomaticScheduleMatchCommand se ejecuta
+             Consulta football-data.org con los partidos de La Liga del día
+             Crea un ProxySchedule: disable_at = primerPartido - 1h, enable_at = últimoPartido + 3h
+
+Cada min  →  ProcessProxySchedulesCommand se ejecuta
+             Encuentra schedules pendientes donde disable_at <= ahora
+             Llama a la API de Cloudflare para desactivar el proxy en los dominios afectados
+             Actualiza el estado del schedule a 'active'
+
+             Más tarde: encuentra schedules activos donde enable_at <= ahora
+             Reactiva el proxy en todos los dominios afectados
+             Actualiza el estado del schedule a 'completed'
+```
+
+### Flujo de renovación SSL
+
+```
+Manual    →  Crea un schedule ssl_renewal con la ventana deseada
+
+Cada min  →  CheckSslRenewalsSchedulesCommand se ejecuta
+             Desactiva el proxy → el reto HTTP-01 de ACME puede llegar al servidor
+             Reactiva el proxy tras la ventana
+             Actualiza ssl_next_renewal (+3 meses)
+             Crea automáticamente el siguiente schedule ssl_renewal
+```
+
+---
+
+## 🚀 Instalación
+
+### Requisitos
+
+- PHP 8.2+
+- Composer
+- MySQL 8.0+ o compatible
+- Cuenta de Cloudflare con token de API
+- Clave de API de football-data.org (plan gratuito: 100 req/día)
+
+### Puesta en marcha
+
+```bash
+# Clonar el repositorio
+git clone https://github.com/tuusuario/cf-proxy-manager.git
+cd cf-proxy-manager
+
+# Instalar dependencias
+composer install
+
+# Copiar el archivo de entorno
+cp .env.example .env
+
+# Generar la clave de aplicación
+php artisan key:generate
+
+# Ejecutar las migraciones
+php artisan migrate
+
+# Arrancar el servidor de desarrollo
+php artisan serve
+```
+
+### Scheduler
+
+Añade esto al crontab del servidor para que los schedules automáticos funcionen:
+
+```bash
+* * * * * cd /ruta-del-proyecto && php artisan schedule:run >> /dev/null 2>&1
+```
+
+---
+
+## 🔧 Configuración
+
+### Variables de entorno
 
 ```env
-CLOUDFLARE_API_TOKEN=tu_api_token_aqui
-CLOUDFLARE_EMAIL=tu@email.com
+# Aplicación
+APP_KEY=                          # Generada por php artisan key:generate
+APP_URL=https://tu-dominio.com
+
+# Base de datos
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=cf_proxy_manager
+DB_USERNAME=tu_usuario_db
+DB_PASSWORD=tu_password_db
+
+# Cloudflare
+CLOUDFLARE_API_TOKEN=             # Tu token de API de Cloudflare
+CLOUDFLARE_EMAIL=                 # Tu email de cuenta de Cloudflare
 CLOUDFLARE_API=https://api.cloudflare.com/client/v4
-CF_SSL_DOWNTIME_MINUTES=5
-CF_MATCH_PRE_MINUTES=15
-CF_MATCH_POST_MINUTES=30
+
+# Márgenes de tiempo de Cloudflare
+CF_SSL_DOWNTIME_MINUTES=30        # Tiempo que se desactiva el proxy para la renovación SSL
+CF_MATCH_PRE_MINUTES=15           # Minutos antes del primer partido para desactivar el proxy
+CF_MATCH_POST_MINUTES=180         # Minutos tras el último partido para reactivar el proxy
+
+# API de LaLiga (football-data.org)
+LALIGA_API_TOKEN=                 # Tu clave de API de football-data.org
+LALIGA_API=https://api.football-data.org/v4/competitions/PD/matches
 ```
 
----
+### Permisos del token de API de Cloudflare
 
-## Cloudflare API Token Permissions
+Crea tu token en: **Cloudflare → My Profile → API Tokens → Create Token**
 
-When creating the token in Cloudflare → My Profile → API Tokens → Create Token:
-
-| Permit | Type |
+| Permiso | Requerido |
 |---|---|
-| Zone → DNS → Edit | ✅ Necessary |
-| Zone → Zone → Read | ✅ Necessary |
+| Zone → DNS → Edit | ✅ |
+| Zone → Zone → Read | ✅ |
 
 ---
 
-## License
+## 🗄 Esquema de base de datos
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Tabla | Propósito |
+|---|---|
+| `proxy_sites` | Dominios gestionados con Zone ID y Record ID de Cloudflare (cifrados) |
+| `proxy_schedules` | Ventanas de tiempo para las operaciones de desactivar/reactivar proxy |
+| `proxy_logs` | Registro de auditoría de cada cambio de proxy |
+
+### Tipos de schedule
+
+| Tipo | Creado por |
+|---|---|
+| `laliga_match` | Automáticamente por `AddAutomaticScheduleMatchCommand` o de forma manual |
+| `ssl_renewal` | Manualmente, luego renovado automáticamente por `CheckSslRenewalsSchedulesCommand` |
+| `manual` | Creado manualmente para operaciones puntuales |
+
+### Estados de schedule
+
+| Estado | Significado |
+|---|---|
+| `pending` | Esperando a que llegue `disable_at` |
+| `active` | El proxy está desactivado, esperando a `enable_at` |
+| `completed` | El proxy ha sido reactivado |
+| `failed` | Se produjo un error |
+
+---
+
+## 🔒 Seguridad
+
+- Todas las rutas requieren autenticación (Laravel Breeze)
+- Los Zone IDs y DNS Record IDs de Cloudflare se cifran en reposo con AES-256-CBC nativo de Laravel (vinculado a `APP_KEY`)
+- Los tokens de API se almacenan exclusivamente en `.env`, nunca en la base de datos
+- Protección CSRF en todos los formularios
+
+---
+
+## 📦 Dependencias principales
+
+| Paquete | Propósito |
+|---|---|
+| `laravel/breeze` | Scaffolding de autenticación |
+| `maatwebsite/excel` | Exportación de logs a XLSX |
+
+---
+
+## 📄 Licencia
+
+Este proyecto es software de código abierto licenciado bajo la [licencia MIT](https://opensource.org/licenses/MIT).
