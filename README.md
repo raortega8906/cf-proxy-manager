@@ -19,19 +19,15 @@
 
 ## 📖 ¿Qué es esto?
 
-Hay que reconocerle una cosa a **Javier Tebas**, presidente de LaLiga: cuando se le ocurre una idea, la ejecuta con una convicción admirable. Desde febrero de 2025, y amparado en una sentencia del Juzgado de lo Mercantil nº 6 de Barcelona, Tebas decidió que la mejor manera de combatir la piratería era ordenar a los operadores españoles bloquear rangos enteros de IPs de Cloudflare durante los días de partido. Una solución tan elegante como tumbar todo un edificio para matar una cucaracha en el quinto piso.
+**Javier Tebas**, presidente de LaLiga, desde febrero de 2025, y amparado en una sentencia del Juzgado de lo Mercantil nº 6 de Barcelona, decidió que la mejor manera de combatir la piratería era ordenar a los operadores españoles bloquear rangos enteros de IPs de Cloudflare durante los días de partido. Una solución tan elegante como tumbar todo un edificio para matar una cucaracha en el quinto piso.
 
-El resultado es predecible: webs que no tienen absolutamente nada que ver con el fútbol pirata — desde la RAE hasta startups, medios locales, herramientas educativas y proyectos personales — caen bloqueadas cada fin de semana porque comparten rango de IP con algún dominio en la lista de Tebas. Cuando la RAE denunció públicamente que su web había caído por los bloqueos, Tebas no se disculpó, sino que alegó que eso solo afectaba "a la poca gente que mira la RAE un sábado". Brillante.
-
-La ironía que corona todo esto: LaLiga echa la culpa de los daños colaterales a Cloudflare, acusándola de ser cómplice de la piratería. La misma Cloudflare que, por cierto, usa la propia web de LaLiga para funcionar. No, no es broma.
-
-El propio Tebas reconoció que decidió "tirar Cloudflare, con el riesgo teórico de tirar IPs que tenía contenido normal". Al menos hay honestidad en eso.
+El resultado es predecible: webs que no tienen absolutamente nada que ver con el fútbol pirata — desde la RAE hasta startups, medios locales, herramientas educativas y proyectos personales — caen bloqueadas cada fin de semana porque comparten rango de IP con algún dominio en la lista de Tebas. "Brillante".
 
 **CF Proxy Manager** nació de esa realidad. Desactiva automáticamente el proxy de Cloudflare (la nube naranja) en los dominios afectados antes de que empiecen los partidos, y lo reactiva cuando terminan. Al exponer temporalmente la IP real del servidor, el dominio escapa del bloqueo por rango sin necesidad de intervención manual cada fin de semana. También gestiona las renovaciones de certificados SSL que requieren desactivar el proxy de forma puntual.
 
 ### El problema en una captura
 
-Cuando un dominio queda atrapado en un bloqueo, los visitantes en España ven esto:
+Cuando un dominio queda atrapado en un bloqueo, los visitantes ven esto:
 
 > *"El acceso a la presente dirección IP ha sido bloqueado en cumplimiento de lo dispuesto en la Sentencia de 18 de diciembre de 2024, dictada por el Juzgado de lo Mercantil nº 6 de Barcelona en el marco del procedimiento ordinario instado por la Liga Nacional de Fútbol Profesional..."*
 
