@@ -8,7 +8,7 @@ use App\Http\Controllers\ProxySiteController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect('/login');
+    return view('landing');
 });
 
 Route::middleware('auth', 'verified')->group(function () {

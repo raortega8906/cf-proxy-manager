@@ -214,7 +214,9 @@
 {{-- SIDEBAR --}}
 <aside class="sidebar">
     <div class="sidebar-logo">
-        <div class="logo-icon">☁</div>
+        <a href="/" style="text-decoration:none;">
+            <div class="logo-icon">☁</div>
+        </a>
         <div>
             <div class="logo-text">CF Proxy</div>
             <div class="logo-sub">MANAGER</div>
