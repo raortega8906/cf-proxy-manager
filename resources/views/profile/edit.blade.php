@@ -25,7 +25,7 @@
         </div>
     </div>
 
-    <div class="card mt-4">
+    <div class="card mt-4" style="display:none;">
         <h2 class="logo-text text-lg mb-4 text-red-500">Eliminar cuenta</h2>
 
         <div class="max-w-xl">
