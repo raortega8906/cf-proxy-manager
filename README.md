@@ -157,6 +157,20 @@ php artisan migrate
 php artisan serve
 ```
 
+### Usuario de acceso
+
+El proyecto incluye un seeder con un usuario administrador por defecto. Ejecútalo después de las migraciones:
+```bash
+php artisan db:seed
+```
+
+Credenciales de acceso:
+
+| Campo      | Valor                |
+|---|--------|----------------------|
+| Email      | `manager@cfproxy.es` |
+| Contraseña | `laravel2026`        |
+
 ### Scheduler
 
 **Desarrollo local** — ejecuta este comando en la terminal para simular el cron:
