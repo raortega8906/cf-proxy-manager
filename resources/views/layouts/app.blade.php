@@ -144,7 +144,7 @@
         .badge-off     { background: rgba(255,107,53,0.1); color: var(--orange); }
         .badge-warning { background: rgba(255,214,10,0.1); color: var(--yellow); }
         .badge-pending   { background: rgba(255,214,10,0.1); color: var(--yellow); }
-        .badge-active    { background: rgba(255,107,53,0.1); color: var(--orange); }
+        .badge-active    { background: rgba(0,212,255,0.1); color: var(--cyan); }
         .badge-completed { background: rgba(0,255,136,0.1); color: var(--green); }
         .badge-failed    { background: rgba(255,68,68,0.1); color: var(--red); }
         .badge-laliga  { background: rgba(255,107,53,0.1); color: var(--orange); }
