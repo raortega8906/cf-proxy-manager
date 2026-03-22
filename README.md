@@ -166,10 +166,10 @@ php artisan db:seed
 
 Credenciales de acceso:
 
-| Campo      | Valor                |
-|---|--------|----------------------|
-| Email      | `manager@cfproxy.es` |
-| Contraseña | `laravel2026`        |
+| Campo | Valor |
+|---|---|
+| Email | `manager@cfproxy.es` |
+| Contraseña | `laravel2026` |
 
 ### Scheduler
 
