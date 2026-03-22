@@ -2,12 +2,14 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\ScheduleAutomaticLaLiga;
 use App\Models\ProxySite;
 use App\Services\LaligaService;
 use App\Services\ProxyScheduleService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class AddAutomaticScheduleMatchCommand extends Command
 {
@@ -77,6 +79,11 @@ class AddAutomaticScheduleMatchCommand extends Command
             'pending',
             $schedule_ids
         );
+
+        $email = config('mail.email');
+        $domains = ProxySite::where('affected_by_laliga', true)->pluck('domain')->toArray();
+
+        Mail::to($email)->send(new ScheduleAutomaticLaLiga($email, $domains, $matchesFormatted));
 
         $this->info('Listo.');
 
