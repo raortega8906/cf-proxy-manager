@@ -49,6 +49,10 @@ class CloudflareService
         }
     }
 
+    /**
+     * Obtiene el estado actual de todos los DNS record en Cloudflare.
+     */
+
     public function getDnsRecordAll(string $zone_id): ?array
     {
         $response = Http::withHeaders($this->headers)
@@ -87,6 +91,29 @@ class CloudflareService
 
         } else {
             Log::error("[Cloudflare] syncSiteStatus failed for site ID {$site->id}: No se pudo obtener el DNS record.");
+        }
+    }
+
+    /**
+     * Comprueba si un dominio está afectado por el bloqueo de LaLiga.
+     * Devuelve true si está bloqueado, false si responde con normalidad.
+     */
+
+    public function isBlockedByLaliga(ProxySite $site): bool
+    {
+        try {
+            $response = Http::timeout(10)
+                ->withoutVerifying()
+                ->get('http://' . $site->domain);
+
+            return str_contains(
+                $response->body(),
+                'Liga Nacional de Fútbol Profesional'
+            );
+
+        } catch (\Exception $e) {
+            Log::warning("[Cloudflare] isBlockedByLaliga check failed for {$site->domain}: {$e->getMessage()}");
+            return false;
         }
     }
 
