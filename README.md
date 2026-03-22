@@ -19,7 +19,7 @@
 
 ## 📖 ¿Qué es esto?
 
-**Javier Tebas**, presidente de LaLiga, desde febrero de 2025, y amparado en una sentencia del Juzgado de lo Mercantil nº 6 de Barcelona, decidió que la mejor manera de combatir la piratería era ordenar a los operadores españoles bloquear rangos enteros de IPs de Cloudflare durante los días de partido. Una solución tan elegante como tumbar todo un edificio para matar una cucaracha en el quinto piso.
+**Javier Tebas**, presidente de LaLiga, y amparado en una sentencia del Juzgado de lo Mercantil nº 6 de Barcelona, decidió que la mejor manera de combatir la piratería era ordenar a los operadores españoles bloquear rangos enteros de IPs de Cloudflare durante los días de partido. Una solución tan elegante como tumbar todo un edificio para matar una cucaracha en el quinto piso.
 
 El resultado es predecible: webs que no tienen absolutamente nada que ver con el fútbol pirata — desde la RAE hasta startups, medios locales, herramientas educativas y proyectos personales — caen bloqueadas cada fin de semana porque comparten rango de IP con algún dominio en la lista de Tebas. "Brillante".
 
@@ -33,6 +33,8 @@ Cuando un dominio queda atrapado en un bloqueo, los visitantes ven esto:
 
 CF Proxy Manager convierte ese problema en algo que se gestiona solo.
 
+Dejando solo claro, que no estoy de acuerdo con los sitios inapropiados pero tampoco con esta solución que da Javier Tebas. Por eso, decidí implementar esta idea.
+
 Espero que les sea de ayuda.
 
 ---
@@ -43,7 +45,7 @@ Espero que les sea de ayuda.
 - **Gestión de sitios** — añade dominios por Zone ID de Cloudflare; la app descubre automáticamente el registro DNS
 - **Schedules de proxy** — crea ventanas de tiempo para desactivar/reactivar el proxy, de forma manual o automática
 - **Automatización LaLiga** — un cron diario consulta los partidos de La Liga en football-data.org y crea los schedules automáticamente
-- **Automatización SSL** — desactiva el proxy para la ventana del reto HTTP-01 de ACME, lo reactiva y programa la siguiente renovación
+- **Automatización SSL** — desactiva el proxy para la ventana del reto HTTP-01, lo reactiva y programa la siguiente renovación
 - **Logs de proxy** — registro completo de cada cambio de proxy con razón, estado y timestamp
 - **Exportación de logs** — descarga los logs como archivo `.xlsx` con formato `YYYYMMDD-logs-cfpm.xlsx`
 - **Controles masivos** — activa o desactiva todos los proxies a la vez desde el dashboard
@@ -72,7 +74,7 @@ app/
 │   ├── ProxySchedule.php
 │   └── ProxyLog.php
 └── Services/
-    ├── CloudflareService.php                  # Integración con la API de Cloudflare
+    ├── CloudflareService.php                   # Integración con la API de Cloudflare
     ├── LaligaService.php                      # Integración con la API de football-data.org
     ├── ProxyLogService.php                    # Escritura centralizada de logs
     └── ProxyScheduleService.php               # Creación automática de schedules
@@ -82,7 +84,7 @@ config/
 database/migrations/
 routes/
 ├── web.php
-└── console.php                               # Comandos programados
+└── console.php                                # Comandos programados
 ```
 
 ---
@@ -112,7 +114,7 @@ Cada min  →  ProcessProxySchedulesCommand se ejecuta
 Manual    →  Crea un schedule ssl_renewal con la ventana deseada
 
 Cada min  →  CheckSslRenewalsSchedulesCommand se ejecuta
-             Desactiva el proxy → el reto HTTP-01 de ACME puede llegar al servidor
+             Desactiva el proxy → el reto HTTP-01 puede llegar al servidor
              Reactiva el proxy tras la ventana
              Actualiza ssl_next_renewal (+3 meses)
              Crea automáticamente el siguiente schedule ssl_renewal
@@ -152,8 +154,6 @@ php artisan migrate
 # Arrancar el servidor de desarrollo
 php artisan serve
 ```
-
-### Scheduler
 
 ### Scheduler
 
@@ -204,6 +204,8 @@ Crea tu token en: **Cloudflare → My Profile → API Tokens → Create Token**
 | Zone → DNS → Edit | ✅ |
 | Zone → Zone → Read | ✅ |
 
+Importante: También en la configuración del token se puede restringir para una única IP.
+
 ---
 
 ## 🗄 Esquema de base de datos
@@ -239,6 +241,7 @@ Crea tu token en: **Cloudflare → My Profile → API Tokens → Create Token**
 - Los Zone IDs y DNS Record IDs de Cloudflare se cifran en reposo con AES-256-CBC nativo de Laravel (vinculado a `APP_KEY`)
 - Los tokens de API se almacenan exclusivamente en `.env`, nunca en la base de datos
 - Protección CSRF en todos los formularios
+- En la configuración del token de Cloudflare se puede restringir para una única IP.
 
 ---
 
