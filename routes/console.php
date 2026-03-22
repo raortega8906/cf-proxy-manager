@@ -18,4 +18,4 @@ Schedule::command('app:check-ssl-renewals-schedules-command')->everyMinute();
 
 // Schedule Automático Match:
 // schedule::command('app:add-automatic-schedule-match-command')->daily();
-schedule::command('app:add-automatic-schedule-match-command')->dailyAt('22:00');
+schedule::command('app:add-automatic-schedule-match-command')->dailyAt('22:10');
