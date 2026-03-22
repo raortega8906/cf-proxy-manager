@@ -69,6 +69,8 @@ app/
 │   ├── ProxyScheduleController.php
 │   └── ProxyLogController.php
 ├── Http/Requests/                             # Validación de formularios (Store/Update para Sites y Schedules)
+├── Mail/
+│   ├── ScheduleAutomaticLaLiga.php            # Notificaciones por email con los partidos de ligas si hay
 ├── Models/
 │   ├── ProxySite.php
 │   ├── ProxySchedule.php
@@ -169,6 +171,12 @@ php artisan schedule:work
 
 ---
 
+## 📬 Notificaciones por email
+
+CF Proxy Manager envía un email automático cada vez que se crea un schedule automático de LaLiga obtenidos de la API. El email incluye la ventana de desactivación programada, los partidos del día con sus horarios y los dominios que se verán afectados.
+
+---
+
 ## 🔧 Configuración
 
 ### Variables de entorno
@@ -185,6 +193,16 @@ DB_PORT=3306
 DB_DATABASE=cf_proxy_manager
 DB_USERNAME=tu_usuario_db
 DB_PASSWORD=tu_password_db
+
+# Email
+MAIL_MAILER=smtp
+MAIL_HOST=tu_smtp_host
+MAIL_PORT=587
+MAIL_USERNAME=tu@email.com
+MAIL_PASSWORD=tu_password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=tu@email.com
+MAIL_FROM_NAME="${APP_NAME}"
 
 # Cloudflare
 CLOUDFLARE_API_TOKEN=             # Tu token de API de Cloudflare
