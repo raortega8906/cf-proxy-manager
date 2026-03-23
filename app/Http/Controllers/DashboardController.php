@@ -10,8 +10,6 @@ use App\Services\ProxyLogService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
-use function PHPUnit\Framework\isEmpty;
-
 class DashboardController extends Controller
 {
     private CloudflareService $cloudflare;
