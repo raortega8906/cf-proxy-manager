@@ -31,4 +31,12 @@ class StoreProxyScheduleRequest extends FormRequest
             'site_ids.*' => 'integer|exists:proxy_sites,id',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'type.required' => 'El tipo de programación es obligatorio.',
+            'enable_at.after'    => 'La fecha de activación debe ser posterior a la fecha de desactivación.',
+        ];
+    }
 }

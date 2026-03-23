@@ -33,4 +33,16 @@ class StoreProxySiteRequest extends FormRequest
             'affected_by_laliga' => 'boolean',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'El nombre es obligatorio.',
+            'domain.required' => 'El dominio es obligatorio.',
+            'domain.unique'   => 'Este dominio ya está registrado.',
+            'cloudflare_zone_id.required' => 'El Cloudflare Zone ID es obligatorio.',
+            'cloudflare_dns_record_id.unique' => 'Este Cloudflare DNS Record ID ya está registrado.',
+            'ssl_next_renewal.required_if' => 'La fecha de próxima renovación SSL es obligatoria cuando la renovación automática está activa.',
+        ];
+    }
 }
