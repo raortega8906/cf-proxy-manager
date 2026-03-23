@@ -12,9 +12,6 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ProxyLogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request): View
     {
         $query = ProxyLog::with('site')->latest();
