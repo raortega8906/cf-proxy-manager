@@ -124,8 +124,6 @@ Cada min  →  CheckSslRenewalsSchedulesCommand se ejecuta
 
 ---
 
----
-
 ## 📬 Notificaciones por email
 
 CF Proxy Manager envía un email automático cada vez que se crea un schedule automático de LaLiga obtenidos de la API. El email incluye la ventana de desactivación programada, los partidos del día con sus horarios y los dominios que se verán afectados.
@@ -294,7 +292,6 @@ CF Proxy Manager está desplegado en producción sobre infraestructura de **Cube
 | Proveedor | CubePath |
 | Servidor | `starlight-dragon-407` — Barcelona, Spain |
 | Especificaciones | 1 vCPU · 2 GB RAM · 40 GB SSD |
-| IP pública | `45.90.237.49` |
 | Coste estimado | ~$0.17 / día |
 | URL producción | [https://cfproxy.caelix.es](https://cfproxy.caelix.es) |
 
