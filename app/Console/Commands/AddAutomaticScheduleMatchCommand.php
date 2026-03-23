@@ -36,13 +36,13 @@ class AddAutomaticScheduleMatchCommand extends Command
         $this->info('[' . now()->format('Y-m-d H:i:s') . '] Procesando schedules...');
 
         $schedule_ids = ProxySite::where('affected_by_laliga', true)->pluck('id')->toArray();
-        $dateFrom = Carbon::today();
-        $dateTo = Carbon::today();
+        // $dateFrom = Carbon::today();
+        // $dateTo = Carbon::today();
 
 
         // Pruebas:
-        // $dateFrom = Carbon::parse('2026-03-21');
-        // $dateTo = Carbon::parse('2026-03-21');
+        $dateFrom = Carbon::parse('2026-03-21');
+        $dateTo = Carbon::parse('2026-03-21');
 
         $matches = $laLiga->getMatches($dateFrom, $dateTo);
 
