@@ -35,8 +35,10 @@ class StoreProxyScheduleRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'type.required' => 'El tipo de programación es obligatorio.',
+            'type.required' => 'El tipo de schedule es obligatorio.',
             'enable_at.after'    => 'La fecha de activación debe ser posterior a la fecha de desactivación.',
+            'disable_at.required' => 'La fecha de desactivación es obligatoria.',
+            'enable_at.required' => 'La fecha de activación es obligatoria.',
         ];
     }
 }
