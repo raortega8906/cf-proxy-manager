@@ -62,6 +62,19 @@ class ProcessProxySchedulesCommand extends Command
                 foreach ($sites as $site) {
                     if ($site->proxy_enabled) {
 
+                        /**
+                         * Descomentar la condición de estar afectado cuando pasen las pruebas de la Hackaton.
+                         * No procede en pruebas si no hay partidos reales ni dominios afectados realmente por la liga.
+                         */
+
+                        // $isBlocked = $cloudflare->isBlockedByLaliga($site);
+
+                        // if (!$isBlocked) {
+                        //     $this->line("    · {$site->domain} → NO AFECTADO, se omite");
+                        //     $proxyLog->writeLogs($site, 'proxy_disabled', 'laliga', true, 'Dominio no afectado por bloqueo, se omite desactivación');
+                        //     continue;
+                        // }
+
                         $ok = $cloudflare->setProxyStatus($site);
                         $proxyLog->writeLogs($site, 'proxy_disabled', 'laliga', $ok, 'Desactivación por schedule La liga');
 
