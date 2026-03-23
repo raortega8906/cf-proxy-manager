@@ -22,6 +22,10 @@ class LaligaService {
         ];
     }
 
+    /**
+     * Obtiene el array de partidos del día (a las 00:00).
+     */
+
     public function getMatches(Carbon $dateFrom, Carbon $dateTo): ?array
     {
         $day = '?dateFrom=' . $dateFrom->toDateString() . '&dateTo=' . $dateTo->toDateString();

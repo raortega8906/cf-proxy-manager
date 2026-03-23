@@ -6,11 +6,11 @@ use App\Models\ProxySite;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class CloudflareService
-{
-    // Este servicio se encarga de interactuar con la API de Cloudflare
-    // para gestionar los DNS records y su estado de proxy (nube naranja).
-    // También se encarga de registrar en ProxyLog cada cambio realizado.
+// Este servicio se encarga de interactuar con la API de Cloudflare
+// para gestionar los DNS records y su estado de proxy (nube naranja).
+// También se encarga de registrar en ProxyLog cada cambio realizado.
+
+class CloudflareService {
 
     private string $api_url;
     private array $headers;
