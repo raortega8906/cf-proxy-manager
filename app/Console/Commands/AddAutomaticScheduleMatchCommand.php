@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Mail\ScheduleAutomaticLaLiga;
+use App\Models\ProxySchedule;
 use App\Models\ProxySite;
 use App\Services\LaligaService;
 use App\Services\ProxyScheduleService;
@@ -38,6 +39,7 @@ class AddAutomaticScheduleMatchCommand extends Command
         $dateFrom = Carbon::today();
         $dateTo = Carbon::today();
 
+
         // Pruebas:
         // $dateFrom = Carbon::parse('2026-03-21');
         // $dateTo = Carbon::parse('2026-03-21');
@@ -70,6 +72,15 @@ class AddAutomaticScheduleMatchCommand extends Command
             'disable_at'  => $firstMatch->clone()->subHour(),
             'enable_at'   => $lastMatch->clone()->addHours(3),
         ];
+
+        // Verificar si ya existe un schedule con esa descripción
+        $exists = ProxySchedule::where('description', $dataSchedule['description'])->exists();
+
+        if ($exists) {
+            $this->line('  → Ya existe un schedule para hoy, se omite la creación.');
+            Log::info('  → Ya existe un schedule para hoy, se omite la creación.');
+            return self::SUCCESS;
+        }
 
         $proxySchedule->writeAutomaticSchedule(
             'laliga_match', 
