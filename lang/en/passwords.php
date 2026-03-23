@@ -4,12 +4,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Password Reset Language Lines
+    | Líneas de idioma para restablecimiento de contraseña
     |--------------------------------------------------------------------------
     |
-    | The following language lines are the default lines which match reasons
-    | that are given by the password broker for a password update attempt
-    | outcome such as failure due to an invalid password / reset token.
+    | Las siguientes líneas son los mensajes predeterminados que corresponden
+    | a las razones proporcionadas por el broker de contraseñas durante un
+    | intento de actualización, como fallos por token o contraseña inválida.
     |
     */
 
