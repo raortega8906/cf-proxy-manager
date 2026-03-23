@@ -78,7 +78,7 @@ class AddAutomaticScheduleMatchCommand extends Command
 
         if ($exists) {
             $this->line('  → Ya existe un schedule para hoy, se omite la creación.');
-            Log::info('  → Ya existe un schedule para hoy, se omite la creación.');
+            Log::error('  → Ya existe un schedule para hoy, se omite la creación.');
             return self::SUCCESS;
         }
 
