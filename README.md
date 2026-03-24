@@ -241,7 +241,7 @@ Importante: También en la configuración del token se puede restringir para una
 
 ## 🔒 Seguridad
 
-- Todas las rutas requieren autenticación (Laravel Breeze)
+- Todas las rutas privadas requieren autenticación (Laravel Breeze)
 - Los Zone IDs y DNS Record IDs de Cloudflare se cifran en reposo con AES-256-CBC nativo de Laravel (vinculado a `APP_KEY`)
 - Los tokens de API se almacenan exclusivamente en `.env`, nunca en la base de datos
 - Protección CSRF en todos los formularios
