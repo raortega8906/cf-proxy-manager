@@ -52,9 +52,11 @@ Espero que les sea de ayuda.
 ```
 app/
 ├── Console/Commands/
-│   ├── AddAutomaticScheduleMatchCommand.php   # Consulta los partidos de LaLiga del día y crea schedules
-│   ├── ProcessProxySchedulesCommand.php       # Procesa los schedules de partidos (cada minuto)
-│   └── CheckSslRenewalsSchedulesCommand.php   # Procesa los schedules de renovación SSL (cada minuto)
+│   ├── AddAutomaticScheduleMatchCommand.php   # Consulta los partidos de LaLiga del día y crea schedules (cada día a las 00:00)
+│   ├── CheckSiteSslCommand.php                # Crea los schedules con el ssl_next_renewal del sitio (cada día a las 00:05)
+│   │── CheckSslRenewalsSchedulesCommand.php   # Procesa los schedules SSL (cada minuto)
+│   │── ProcessProxySchedulesCommand.php       # Procesa los schedules de LaLiga (cada minuto)
+│   └── SyncProxyStatusCommand.php             # Evita el N+1 actualizando el estado del proxy de los sitios (cada dos 5 minutos)
 ├── Exports/
 │   └── ProxyLogsExport.php                    # Exportación Excel de los logs
 ├── Http/Controllers/
