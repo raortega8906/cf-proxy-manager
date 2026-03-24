@@ -29,8 +29,6 @@ Cuando un dominio queda atrapado en un bloqueo, los visitantes ven esto:
 
 CF Proxy Manager convierte ese problema en algo que se gestiona solo.
 
-Dejando claro, que no estoy de acuerdo con estos sitios inapropiados por lo cual realmente bloquean las ips, pero tampoco, con esta solución que da Javier Tebas. Por eso, decidí implementar esta idea.
-
 Espero que les sea de ayuda.
 
 ---
