@@ -90,33 +90,70 @@ routes/
 ## ⚙️ Cómo funciona
 
 ### Flujo en día de partido de LaLiga
-
 ```
-00:00 AM  →  AddAutomaticScheduleMatchCommand se ejecuta
-             Consulta football-data.org con los partidos de La Liga del día
-             Crea un ProxySchedule: disable_at = primerPartido - 1h, enable_at = últimoPartido + 3h
+00:00     →  AddAutomaticScheduleMatchCommand se ejecuta
+              Consulta football-data.org con los partidos de LaLiga del día
+              
+              Si hay un solo partido:
+              Crea un ProxySchedule: disable_at = partido - 1h, enable_at = partido + 3h
+              
+              Si hay varios partidos:
+              Crea un ProxySchedule por partido con ventanas individuales
+              El último partido tiene enable_at = partido + 3h, los anteriores + 2h
+              
+              En ambos casos verifica que no exista ya un schedule para ese partido
+              Envía email de notificación con los partidos y dominios afectados
 
 Cada min  →  ProcessProxySchedulesCommand se ejecuta
-             Encuentra schedules pendientes donde disable_at <= ahora
-             Llama a la API de Cloudflare para desactivar el proxy en los dominios afectados
-             Actualiza el estado del schedule a 'active'
-
-             Más tarde: encuentra schedules activos donde enable_at <= ahora
-             Reactiva el proxy en todos los dominios afectados
-             Actualiza el estado del schedule a 'completed'
+              Filtra schedules de tipo laliga_match en estado pending o active
+              
+              Si disable_at <= ahora y estado pending:
+              Llama a la API de Cloudflare para desactivar el proxy en los dominios afectados
+              Actualiza el estado del schedule a active
+              
+              Si enable_at <= ahora y estado active:
+              Reactiva el proxy en todos los dominios afectados
+              Actualiza el estado del schedule a completed
 ```
 
 ### Flujo de renovación SSL
-
 ```
-Manual    →  Crea un schedule ssl_renewal con la ventana deseada
+00:05     →  CheckSiteSslCommand se ejecuta
+              Busca sitios con ssl_auto_renewal = true y ssl_next_renewal = hoy
+              Agrupa todos los sitios que renuevan hoy en un único schedule
+              Actualiza ssl_next_renewal +3 meses en cada sitio afectado
+              Verifica que no exista ya un schedule SSL para hoy antes de crear
+              Crea un ProxySchedule: disable_at = 02:00, enable_at = 08:00
 
 Cada min  →  CheckSslRenewalsSchedulesCommand se ejecuta
-             Desactiva el proxy → el reto HTTP-01 puede llegar al servidor
-             Reactiva el proxy tras la ventana
-             Actualiza ssl_next_renewal (+3 meses)
-             Crea automáticamente el siguiente schedule ssl_renewal
+              Filtra schedules de tipo ssl_renewal en estado pending o active
+              
+              Si disable_at <= ahora y estado pending:
+              Desactiva el proxy → el reto HTTP-01 de ACME puede llegar al servidor
+              Actualiza el estado del schedule a active
+              
+              Si enable_at <= ahora y estado active:
+              Reactiva el proxy en todos los dominios afectados
+              Actualiza el estado del schedule a completed
 ```
+
+### Sincronización de estado
+```
+Cada 2 min →  SyncProxyStatusCommand se ejecuta
+               Consulta la API de Cloudflare para cada dominio registrado
+               Actualiza proxy_enabled en base de datos con el estado real
+               Mantiene el dashboard coherente sin bloquear al usuario
+```
+
+### Resumen de comandos programados
+
+| Comando | Frecuencia | Propósito |
+|---|---|---|
+| `app:add-automatic-schedule-match-command` | Diario 00:00 | Consulta partidos y crea schedules LaLiga |
+| `app:check-site-ssl-command` | Diario 00:05 | Detecta renovaciones SSL del día y crea schedules |
+| `app:process-proxy-schedules-command` | Cada minuto | Ejecuta desactivaciones y reactivaciones LaLiga |
+| `app:check-ssl-renewals-schedules-command` | Cada minuto | Ejecuta desactivaciones y reactivaciones SSL |
+| `app:sync-proxy-status-command` | Cada 2 minutos | Sincroniza estado real de Cloudflare con la BD |
 
 ---
 
