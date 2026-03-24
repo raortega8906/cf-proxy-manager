@@ -30,7 +30,7 @@ class DashboardController extends Controller
         $countLaLiga = $sites->where('affected_by_laliga', true)->count();
         $countSsl = $sites->where('ssl_auto_renewal', true)->count();
         $countSchedulePending =  $schedules->where('status', 'pending')->count();
-        $schedulePendingActive = ProxySchedule::whereIn('status', ['pending', 'active'])->get();
+        $schedulePendingActive = ProxySchedule::whereIn('status', ['pending', 'active'])->paginate(5);
 
         return view('dashboard', compact('sites', 'logs', 'schedulePendingActive', 'schedules', 'countEnabled', 'countLaLiga', 'countSsl', 'countSchedulePending'));
     }

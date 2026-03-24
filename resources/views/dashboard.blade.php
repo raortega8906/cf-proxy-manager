@@ -168,10 +168,6 @@
             @endforelse
         </tbody>
     </table>
-
-    <div class="pagination">
-        {{ $logs->links() }}
-    </div>
 </div>
 
 @endsection
