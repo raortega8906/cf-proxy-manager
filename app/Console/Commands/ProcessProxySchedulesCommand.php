@@ -29,32 +29,22 @@ class ProcessProxySchedulesCommand extends Command
 
     public function handle(CloudflareService $cloudflare, ProxyLogService $proxyLog)
     {
-
         $this->info('[' . now()->format('Y-m-d H:i:s') . '] Procesando schedules de proxies...');
-        
-        $schedules = ProxySchedule::all();
+
+        $schedules = ProxySchedule::where('type', 'laliga_match')
+            ->whereIn('status', ['pending', 'active'])
+            ->get();
 
         if ($schedules->isEmpty()) {
-
-            $this->line('  → Sin schedules para desactivar.');
-
-            return;
-
+            $this->line('  → Sin schedules para procesar.');
+            return self::SUCCESS;
         }
 
-        foreach($schedules as $schedule) {
-
-            if ($schedule->type === 'ssl_renewal' || $schedule->type === 'manual') {
-                continue;
-            }
-
-            if ($schedule->status === 'failed' || $schedule->status === 'completed') {
-                continue;
-            }
+        foreach ($schedules as $schedule) {
 
             $sites = $schedule->sites;
 
-            // Dactivar el proxy
+            // Desactivar el proxy
             if ($schedule->status === 'pending' && $schedule->disable_at <= now()) {
 
                 $this->line(" ↓ Desactivando proxy: {$schedule->description}");
@@ -76,10 +66,9 @@ class ProcessProxySchedulesCommand extends Command
                         // }
 
                         $ok = $cloudflare->setProxyStatus($site);
-                        $proxyLog->writeLogs($site, 'proxy_disabled', 'laliga', $ok, 'Desactivación por schedule La liga');
+                        $proxyLog->writeLogs($site, 'proxy_disabled', 'laliga', $ok, 'Desactivación por schedule LaLiga');
 
                         $this->line("    · {$site->domain} → " . ($ok ? 'SUCCESS' : 'ERROR'));
-
                     }
                 }
 
@@ -94,10 +83,9 @@ class ProcessProxySchedulesCommand extends Command
                     if (!$site->proxy_enabled) {
 
                         $ok = $cloudflare->setProxyStatus($site);
-                        $proxyLog->writeLogs($site, 'proxy_enabled', 'laliga', $ok, 'Activación por schedule La liga');
-                        
-                        $this->line("    · {$site->domain} → " . ($ok ? 'SUCCESS' : 'ERROR'));
+                        $proxyLog->writeLogs($site, 'proxy_enabled', 'laliga', $ok, 'Activación por schedule LaLiga');
 
+                        $this->line("    · {$site->domain} → " . ($ok ? 'SUCCESS' : 'ERROR'));
                     }
                 }
 
@@ -106,7 +94,6 @@ class ProcessProxySchedulesCommand extends Command
             } else {
                 $this->line(" · Esperando: {$schedule->description} (disable_at: {$schedule->disable_at})");
             }
-
         }
 
         $this->info('Listo.');
