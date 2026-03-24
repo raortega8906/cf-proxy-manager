@@ -29,7 +29,7 @@ class CheckSslRenewalsSchedulesCommand extends Command
      */
     public function handle(CloudflareService $cloudflare, ProxyLogService $proxyLog, ProxyScheduleService $proxySchedule)
     {
-        $this->info('[' . now()->format('Y-m-d H:i:s') . '] Procesando schedules...');
+        $this->info('[' . now()->format('Y-m-d H:i:s') . '] Procesando schedules de renovacion de ssl...');
         
         $schedules = ProxySchedule::all();
 

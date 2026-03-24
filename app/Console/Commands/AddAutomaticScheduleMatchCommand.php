@@ -33,7 +33,7 @@ class AddAutomaticScheduleMatchCommand extends Command
      */
     public function handle(LaligaService $laLiga, ProxyScheduleService $proxySchedule)
     {
-        $this->info('[' . now()->format('Y-m-d H:i:s') . '] Procesando schedules...');
+        $this->info('[' . now()->format('Y-m-d H:i:s') . '] Procesando fechas de partidos para la creación del schedule...');
 
         $schedule_ids = ProxySite::where('affected_by_laliga', true)->pluck('id')->toArray();
         $dateFrom = Carbon::today();

@@ -30,7 +30,7 @@ class ProcessProxySchedulesCommand extends Command
     public function handle(CloudflareService $cloudflare, ProxyLogService $proxyLog)
     {
 
-        $this->info('[' . now()->format('Y-m-d H:i:s') . '] Procesando schedules...');
+        $this->info('[' . now()->format('Y-m-d H:i:s') . '] Procesando schedules de proxies...');
         
         $schedules = ProxySchedule::all();
 

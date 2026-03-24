@@ -32,10 +32,6 @@ class DashboardController extends Controller
         $countSchedulePending =  $schedules->where('status', 'pending')->count();
         $schedulePendingActive = ProxySchedule::whereIn('status', ['pending', 'active'])->get();
 
-        foreach ($sites as $site) {
-            $this->cloudflare->syncSiteStatus($site);
-        }
-
         return view('dashboard', compact('sites', 'logs', 'schedulePendingActive', 'schedules', 'countEnabled', 'countLaLiga', 'countSsl', 'countSchedulePending'));
     }
 

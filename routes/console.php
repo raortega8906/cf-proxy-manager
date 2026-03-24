@@ -18,3 +18,6 @@ Schedule::command('app:check-ssl-renewals-schedules-command')->everyMinute();
 
 // Schedule Automático Match:
 schedule::command('app:add-automatic-schedule-match-command')->daily();
+
+// Schedule para obtener el estado de los proxys:
+Schedule::command('app:sync-proxy-status-command')->everyFiveMinutes();
