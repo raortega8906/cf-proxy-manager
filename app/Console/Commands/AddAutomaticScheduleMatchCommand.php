@@ -41,8 +41,8 @@ class AddAutomaticScheduleMatchCommand extends Command
 
 
         // Pruebas:
-        // $dateFrom = Carbon::parse('2026-03-21');
-        // $dateTo = Carbon::parse('2026-03-21');
+        // $dateFrom = Carbon::parse('2026-04-12');
+        // $dateTo = Carbon::parse('2026-04-12');
 
         $matches = $laLiga->getMatches($dateFrom, $dateTo);
 
