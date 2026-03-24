@@ -19,5 +19,5 @@ Schedule::command('app:check-ssl-renewals-schedules-command')->everyMinute();
 // Schedule Automático Match:
 schedule::command('app:add-automatic-schedule-match-command')->daily();
 
-// Schedule para obtener el estado de los proxys:
-Schedule::command('app:sync-proxy-status-command')->everyFiveMinutes();
+// Schedule para obtener el estado de los proxys: (Dos minutos para si se interactúa con cloudflare se sincronice en la app)
+Schedule::command('app:sync-proxy-status-command')->everyTwoMinutes();
