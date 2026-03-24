@@ -67,33 +67,70 @@ class AddAutomaticScheduleMatchCommand extends Command
         $lastMatch  = Carbon::parse(end($matchesFormatted)['datetime'], 'Europe/Madrid');
         $date       = $firstMatch->format('d/m/Y');
 
-        $dataSchedule = [
-            'description' => "Schedule automático por partidos de liga el día {$date}",
-            'disable_at'  => $firstMatch->clone()->subHour(),
-            'enable_at'   => $lastMatch->clone()->addHours(3),
-        ];
-
-        // Verificar si ya existe un schedule con esa descripción
-        $exists = ProxySchedule::where('description', $dataSchedule['description'])->exists();
-
-        if ($exists) {
-            $this->line('  → Ya existe un schedule para hoy, se omite la creación.');
-            Log::error('  → Ya existe un schedule para hoy, se omite la creación.');
-
-            return ;
-        }
-
-        $proxySchedule->writeAutomaticSchedule(
-            'laliga_match', 
-            $dataSchedule['description'],
-            $dataSchedule['disable_at'],
-            $dataSchedule['enable_at'],
-            'pending',
-            $schedule_ids
-        );
-
         $email = config('mail.email');
         $domains = ProxySite::where('affected_by_laliga', true)->pluck('domain')->toArray();
+
+        // Un solo partido
+        if (count($matchesFormatted) === 1) {
+
+            $dataSchedule = [
+                'description' => "Schedule automático por partidos de liga el día {$date}",
+                'disable_at'  => $firstMatch->clone()->subHour(),
+                'enable_at'   => $lastMatch->clone()->addHours(3),
+            ];
+
+            // Verificar si ya existe un schedule con esa descripción
+            $exists = ProxySchedule::where('description', $dataSchedule['description'])->exists();
+
+            if ($exists) {
+                $this->line('  → Ya existe un schedule para hoy, se omite la creación.');
+                Log::error('  → Ya existe un schedule para hoy, se omite la creación.');
+
+                return;
+            }
+
+            $proxySchedule->writeAutomaticSchedule(
+                'laliga_match',
+                $dataSchedule['description'],
+                $dataSchedule['disable_at'],
+                $dataSchedule['enable_at'],
+                'pending',
+                $schedule_ids
+            );
+
+        } else {  // Varios partidos
+           
+            foreach ($matchesFormatted as $index => $match) {
+                $matchDatetime = Carbon::parse($match['datetime'], 'Europe/Madrid');
+                $matchNumber   = $index + 1;
+                $isLast        = $index === count($matchesFormatted) - 1;
+
+                $dataSchedule = [
+                    'description' => "Schedule automático por partidos de liga el día {$date} - Partido {$matchNumber} ({$match['home']} vs {$match['away']})",
+                    'disable_at'  => $matchDatetime->clone(),
+                    'enable_at'   => $matchDatetime->clone()->addHours($isLast ? 3 : 2),
+                ];
+
+                $exists = ProxySchedule::where('description', $dataSchedule['description'])->exists();
+
+                if ($exists) {
+                    $this->line("  → Ya existe el schedule para el partido {$matchNumber}, se omite.");
+                    Log::info("  → Ya existe el schedule para el partido {$matchNumber}, se omite.");
+                    continue;
+                }
+
+                $proxySchedule->writeAutomaticSchedule(
+                    'laliga_match',
+                    $dataSchedule['description'],
+                    $dataSchedule['disable_at'],
+                    $dataSchedule['enable_at'],
+                    'pending',
+                    $schedule_ids
+                );
+
+                $this->line("  → Schedule creado para: {$match['home']} vs {$match['away']} ({$match['datetime']})");
+            }
+        }
 
         Mail::to($email)->send(new ScheduleAutomaticLaLiga($email, $domains, $matchesFormatted));
 
