@@ -179,7 +179,7 @@
 <nav>
   <a href="/" class="nav-logo">
     <div class="nav-logo-icon">☁</div>
-    CF Proxy Manager 2
+    CF Proxy Manager
   </a>
   <div class="nav-links">
     <a href="#problema">El problema</a>
