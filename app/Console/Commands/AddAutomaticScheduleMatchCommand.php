@@ -41,8 +41,11 @@ class AddAutomaticScheduleMatchCommand extends Command
 
 
         // Pruebas:
-        // $dateFrom = Carbon::parse('2026-04-12');
-        // $dateTo = Carbon::parse('2026-04-12');
+        // $dateFrom = Carbon::parse('2026-03-21');
+        // $dateTo = Carbon::parse('2026-03-21');
+
+        // $dateFrom = Carbon::parse('2026-04-17');
+        // $dateTo = Carbon::parse('2026-04-17');
 
         $matches = $laLiga->getMatches($dateFrom, $dateTo);
 
@@ -98,15 +101,25 @@ class AddAutomaticScheduleMatchCommand extends Command
                 $schedule_ids
             );
 
+            $this->line("  → Schedule creado para: {$matchesFormatted['home']} vs {$matchesFormatted['away']} ({$matchesFormatted['datetime']})");
+
         } else {  // Varios partidos
-           
-            foreach ($matchesFormatted as $index => $match) {
-                $matchDatetime = Carbon::parse($match['datetime'], 'Europe/Madrid');
-                $matchNumber   = $index + 1;
-                $isLast        = $index === count($matchesFormatted) - 1;
+
+            // Agrupar partidos por horario
+            $matchesByTime = collect($matchesFormatted)->groupBy('datetime');
+            $groups        = $matchesByTime->values(); // re-indexar
+            $totalGroups   = $groups->count();
+
+            foreach ($groups as $index => $groupMatches) {
+                $matchDatetime = Carbon::parse($groupMatches->first()['datetime'], 'Europe/Madrid');
+                $groupNumber   = $index + 1;
+                $isLast        = $index === $totalGroups - 1;
+
+                // Si hay varios partidos en el mismo horario, listarlos todos en la descripción
+                $matchNames = $groupMatches->map(fn($m) => "{$m['home']} vs {$m['away']}")->implode(' | ');
 
                 $dataSchedule = [
-                    'description' => "Schedule automático por partidos de liga el día {$date} - Partido {$matchNumber} ({$match['home']} vs {$match['away']})",
+                    'description' => "Schedule automático por partidos de liga el día {$date} - Partido {$groupNumber} ({$matchNames})",
                     'disable_at'  => $matchDatetime->clone(),
                     'enable_at'   => $matchDatetime->clone()->addHours($isLast ? 3 : 2),
                 ];
@@ -114,8 +127,8 @@ class AddAutomaticScheduleMatchCommand extends Command
                 $exists = ProxySchedule::where('description', $dataSchedule['description'])->exists();
 
                 if ($exists) {
-                    $this->line("  → Ya existe el schedule para el partido {$matchNumber}, se omite.");
-                    Log::info("  → Ya existe el schedule para el partido {$matchNumber}, se omite.");
+                    $this->line("  → Ya existe el schedule para el grupo {$groupNumber} ({$matchDatetime->format('H:i')}), se omite.");
+                    Log::info("  → Ya existe el schedule para el grupo {$groupNumber}, se omite.");
                     continue;
                 }
 
@@ -128,7 +141,8 @@ class AddAutomaticScheduleMatchCommand extends Command
                     $schedule_ids
                 );
 
-                $this->line("  → Schedule creado para: {$match['home']} vs {$match['away']} ({$match['datetime']})");
+                $matchLog = $groupMatches->map(fn($m) => "{$m['home']} vs {$m['away']} ({$m['datetime']})")->implode(', ');
+                $this->line("  → Schedule creado para: {$matchLog}");
             }
         }
 

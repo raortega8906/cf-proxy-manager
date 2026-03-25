@@ -101,67 +101,133 @@
 
             <!-- SCHEDULE BOX -->
             <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:24px;">
+
+              @if(count($laLiga) === 1)
+              {{-- UN SOLO PARTIDO → UN SCHEDULE --}}
               <tr>
                 <td style="background-color:#060910;border-radius:12px;padding:24px 28px;border:1px solid #1e3a5f;">
 
                   <p style="font-family:Arial,sans-serif;font-size:10px;color:#4a6285;letter-spacing:0.12em;text-transform:uppercase;margin:0 0 14px 0;">Detalles del schedule</p>
 
-                  <!-- PROXY OFF -->
                   <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:10px;">
                     <tr>
-                      <td width="90" style="font-family:Arial,sans-serif;font-size:10px;color:#4a6285;letter-spacing:0.08em;text-transform:uppercase;vertical-align:middle;">
-                        Proxy OFF
-                      </td>
+                      <td width="90" style="font-family:Arial,sans-serif;font-size:10px;color:#4a6285;letter-spacing:0.08em;text-transform:uppercase;vertical-align:middle;">Proxy OFF</td>
                       <td style="font-family:'Courier New',monospace;font-size:13px;color:#ff6b35;vertical-align:middle;">
                         {{ \Carbon\Carbon::parse($laLiga[0]['datetime'])->subHour()->format('d/m/Y H:i') }} h
                       </td>
                     </tr>
                   </table>
-
                   <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:10px;">
                     <tr><td style="background-color:#1a2a3a;height:1px;font-size:1px;line-height:1px;">&nbsp;</td></tr>
                   </table>
-
-                  <!-- PROXY ON -->
                   <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:10px;">
                     <tr>
-                      <td width="90" style="font-family:Arial,sans-serif;font-size:10px;color:#4a6285;letter-spacing:0.08em;text-transform:uppercase;vertical-align:middle;">
-                        Proxy ON
-                      </td>
+                      <td width="90" style="font-family:Arial,sans-serif;font-size:10px;color:#4a6285;letter-spacing:0.08em;text-transform:uppercase;vertical-align:middle;">Proxy ON</td>
                       <td style="font-family:'Courier New',monospace;font-size:13px;color:#00d4ff;vertical-align:middle;">
-                        {{ \Carbon\Carbon::parse(end($laLiga)['datetime'])->addHours(3)->format('d/m/Y H:i') }} h
+                        {{ \Carbon\Carbon::parse($laLiga[0]['datetime'])->addHours(3)->format('d/m/Y H:i') }} h
                       </td>
                     </tr>
                   </table>
-
                   <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:10px;">
                     <tr><td style="background-color:#1a2a3a;height:1px;font-size:1px;line-height:1px;">&nbsp;</td></tr>
                   </table>
-
-                  <!-- ESTADO Y DOMINIOS -->
                   <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:8px;">
                     <tr>
-                      <td width="90" style="font-family:Arial,sans-serif;font-size:10px;color:#4a6285;letter-spacing:0.08em;text-transform:uppercase;vertical-align:middle;">
-                        Estado
-                      </td>
-                      <td style="font-family:Arial,sans-serif;font-size:13px;color:#ffd60a;vertical-align:middle;">
-                        Pendiente
-                      </td>
+                      <td width="90" style="font-family:Arial,sans-serif;font-size:10px;color:#4a6285;letter-spacing:0.08em;text-transform:uppercase;vertical-align:middle;">Estado</td>
+                      <td style="font-family:Arial,sans-serif;font-size:13px;color:#ffd60a;vertical-align:middle;">Pendiente</td>
                     </tr>
                   </table>
                   <table border="0" cellpadding="0" cellspacing="0" width="100%">
                     <tr>
-                      <td width="90" style="font-family:Arial,sans-serif;font-size:10px;color:#4a6285;letter-spacing:0.08em;text-transform:uppercase;vertical-align:middle;">
-                        Dominios
-                      </td>
-                      <td style="font-family:Arial,sans-serif;font-size:13px;color:#e2e8f0;vertical-align:middle;">
-                        {{ count($domains) }} afectados
-                      </td>
+                      <td width="90" style="font-family:Arial,sans-serif;font-size:10px;color:#4a6285;letter-spacing:0.08em;text-transform:uppercase;vertical-align:middle;">Dominios</td>
+                      <td style="font-family:Arial,sans-serif;font-size:13px;color:#e2e8f0;vertical-align:middle;">{{ count($domains) }} afectados</td>
                     </tr>
                   </table>
 
                 </td>
               </tr>
+
+              @else
+              {{-- VARIOS PARTIDOS → AGRUPAR POR HORARIO → UN SCHEDULE POR GRUPO --}}
+              @php
+                $groups      = collect($laLiga)->groupBy('datetime')->values();
+                $totalGroups = $groups->count();
+              @endphp
+
+              @foreach($groups as $index => $groupMatches)
+              @php
+                $groupNumber = $index + 1;
+                $isLast      = $index === $totalGroups - 1;
+                $disableAt   = \Carbon\Carbon::parse($groupMatches->first()['datetime']);
+                $enableAt    = $disableAt->clone()->addHours($isLast ? 3 : 2);
+              @endphp
+              <tr>
+                <td style="padding-bottom:10px;">
+                  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                      <td style="background-color:#060910;border-radius:12px;padding:20px 28px;border:1px solid #1e3a5f;">
+
+                        <!-- Cabecera del schedule -->
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:14px;">
+                          <tr>
+                            <td style="font-family:Arial,sans-serif;font-size:10px;color:#4a6285;letter-spacing:0.12em;text-transform:uppercase;">
+                              Schedule #{{ $groupNumber }}
+                            </td>
+                          </tr>
+                          {{-- Si hay varios partidos en el mismo horario, listarlos --}}
+                          @foreach($groupMatches as $gm)
+                          <tr>
+                            <td style="font-family:Arial,sans-serif;font-size:11px;color:#e2e8f0;padding-top:4px;">
+                              ⚽ {{ $gm['home'] }} <span style="color:#4a6285;">vs</span> {{ $gm['away'] }}
+                            </td>
+                          </tr>
+                          @endforeach
+                        </table>
+
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:10px;">
+                          <tr>
+                            <td width="90" style="font-family:Arial,sans-serif;font-size:10px;color:#4a6285;letter-spacing:0.08em;text-transform:uppercase;vertical-align:middle;">Proxy OFF</td>
+                            <td style="font-family:'Courier New',monospace;font-size:13px;color:#ff6b35;vertical-align:middle;">
+                              {{ $disableAt->format('d/m/Y H:i') }} h
+                            </td>
+                          </tr>
+                        </table>
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:10px;">
+                          <tr><td style="background-color:#1a2a3a;height:1px;font-size:1px;line-height:1px;">&nbsp;</td></tr>
+                        </table>
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:10px;">
+                          <tr>
+                            <td width="90" style="font-family:Arial,sans-serif;font-size:10px;color:#4a6285;letter-spacing:0.08em;text-transform:uppercase;vertical-align:middle;">Proxy ON</td>
+                            <td style="font-family:'Courier New',monospace;font-size:13px;color:#00d4ff;vertical-align:middle;">
+                              {{ $enableAt->format('d/m/Y H:i') }} h
+                            </td>
+                          </tr>
+                        </table>
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:10px;">
+                          <tr><td style="background-color:#1a2a3a;height:1px;font-size:1px;line-height:1px;">&nbsp;</td></tr>
+                        </table>
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:8px;">
+                          <tr>
+                            <td width="90" style="font-family:Arial,sans-serif;font-size:10px;color:#4a6285;letter-spacing:0.08em;text-transform:uppercase;vertical-align:middle;">Estado</td>
+                            <td style="font-family:Arial,sans-serif;font-size:13px;color:#ffd60a;vertical-align:middle;">Pendiente</td>
+                          </tr>
+                        </table>
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                          <tr>
+                            <td width="90" style="font-family:Arial,sans-serif;font-size:10px;color:#4a6285;letter-spacing:0.08em;text-transform:uppercase;vertical-align:middle;">Dominios</td>
+                            <td style="font-family:Arial,sans-serif;font-size:13px;color:#e2e8f0;vertical-align:middle;">{{ count($domains) }} afectados</td>
+                          </tr>
+                        </table>
+
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              @endforeach
+
+              @endif
+
             </table>
 
             <!-- SECTION TITLE: PARTIDOS -->
