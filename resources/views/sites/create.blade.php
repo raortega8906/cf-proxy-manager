@@ -84,7 +84,7 @@
                         <div class="invalid-feedback">{{ $err }}</div>
                     @endforeach
                     <div style="font-size:10px;color:var(--muted);margin-top:6px;">
-                        El proxy se desactivará 5 minutos antes y se reactivará 35 minutos después.
+                        El proxy se desactivará a las 02:00 y se reactivará a las 08:00 del día escogido.
                     </div>
                 </div>
             </div>
