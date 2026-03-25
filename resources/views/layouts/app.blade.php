@@ -206,6 +206,11 @@
         .justify-between { justify-content: space-between; }
         .gap-2 { gap: 8px; }
         .gap-3 { gap: 12px; }
+
+        /* INPUT DATE */
+        input[type="date"], input[type="datetime-local"] {
+            color-scheme: dark;
+        }
     </style>
     @stack('styles')
 </head>
