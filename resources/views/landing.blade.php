@@ -41,8 +41,8 @@
     .btn-primary:hover { background: #00eeff; }
     .btn-lg { padding: 14px 32px; font-size: 13px; border-radius: 10px; }
     .btn-xl { padding: 16px 40px; font-size: 14px; border-radius: 12px; }
-
-    .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 80px; position: relative; overflow: hidden; }
+                                                                                                                                                          /* antes 80 bottom */
+    .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 0px; position: relative; overflow: hidden; }
     .hero-bg { position: absolute; inset: 0; pointer-events: none; }
     .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(26,42,58,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(26,42,58,0.3) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%); }
     .hero-glow-1 { position: absolute; top: 15%; left: 50%; transform: translateX(-50%); width: 700px; height: 400px; background: radial-gradient(ellipse, rgba(0,212,255,0.08) 0%, transparent 70%); }
@@ -55,7 +55,7 @@
     .hero h1 .accent-orange { color: var(--orange); }
     .hero-sub { font-size: clamp(13px, 1.5vw, 15px); color: var(--muted2); max-width: 500px; line-height: 1.8; margin-bottom: 40px; }
     .hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 60px; }
-    .hero-stats { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; justify-content: center; padding: 20px 40px; background: rgba(13,21,32,0.8); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 64px; }
+    .hero-stats { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; justify-content: center; padding: 20px 40px; background: rgba(13,21,32,0.8); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 64px; margin-left: 25px; margin-right: 25px; width: 1000px;}
     .hero-stat-value { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 24px; color: var(--white); }
     .hero-stat-label { font-size: 10px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
     .hero-stat-divider { width: 1px; height: 40px; background: var(--border); }
@@ -82,6 +82,10 @@
     .section-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cyan); margin-bottom: 14px; }
     .section-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(28px, 4vw, 46px); line-height: 1.1; color: var(--white); margin-bottom: 16px; }
     .section-sub { font-size: 13px; color: var(--muted2); max-width: 560px; line-height: 1.8; }
+
+    section#problema {
+    padding-top: 50px !important;
+    }
 
     .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 52px; }
     .problem-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 24px; position: relative; overflow: hidden; transition: border-color 0.3s; }
@@ -226,7 +230,8 @@
     <a href="#como-funciona" class="btn btn-outline">Ver cómo funciona</a>
   </div>
   <div class="hero-stats">
-    <div style="text-align:center">
+    <img style="width: 100%" src="{{ asset('./images/cf-proxy-manager.png') }}">
+    {{-- <div style="text-align:center">
       <div class="hero-stat-value" style="color:var(--green)">0</div>
       <div class="hero-stat-label">Intervenciones manuales</div>
     </div>
@@ -280,7 +285,7 @@
           <div class="toggle-mini" style="background:var(--cyan)"><div class="toggle-mini-knob" style="left:18px"></div></div>
         </div>
       </div>
-    </div>
+    </div> --}}
   </div>
 </section>
 
