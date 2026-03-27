@@ -22,6 +22,10 @@
         html { scroll-behavior: smooth; }
         body { background: var(--bg); color: var(--text); font-family: 'DM Mono', monospace; min-height: 100vh; display: flex; }
 
+        /* ICONS */
+        .nav-logo { display: flex; align-items: center; gap: 12px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: var(--white); text-decoration: none; }
+        .nav-logo-icon { width: 32px; height: 32px; background: linear-gradient(135deg, var(--cyan), #0066ff); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+
         /* SIDEBAR */
         .sidebar {
             width: 220px; min-height: 100vh; flex-shrink: 0;
@@ -35,12 +39,8 @@
             border-bottom: 1px solid var(--border);
             margin-bottom: 16px;
         }
-        .logo-icon {
-            width: 32px; height: 32px; border-radius: 8px;
-            background: linear-gradient(135deg, var(--cyan), #0066ff);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 15px; box-shadow: 0 0 16px rgba(0,212,255,0.25);
-        }
+        .nav-logo { display: flex; align-items: center; gap: 12px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: var(--white); text-decoration: none; }
+        .nav-logo-icon { width: 32px; height: 32px; background: linear-gradient(135deg, var(--cyan), #0066ff); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
         .logo-text {
             font-family: 'Syne', sans-serif; font-weight: 800;
             font-size: 13px; color: var(--white); line-height: 1.2;
@@ -224,8 +224,8 @@
 {{-- SIDEBAR --}}
 <aside class="sidebar">
     <div class="sidebar-logo">
-        <a href="/" style="text-decoration:none;">
-            <div class="logo-icon">☁</div>
+        <a href="/" style="text-decoration:none;" class="nav-logo">
+            <div class="nav-logo-icon">☁</div>
         </a>
         <div>
             <div class="logo-text">CF Proxy</div>

@@ -44,12 +44,9 @@
             display: flex; align-items: center; gap: 10px;
             text-decoration: none; margin-bottom: 32px; position: relative; z-index: 1;
         }
-        .guest-logo-icon {
-            width: 36px; height: 36px; border-radius: 9px;
-            background: linear-gradient(135deg, var(--cyan), #0066ff);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 17px; box-shadow: 0 0 18px rgba(0,212,255,0.3);
-        }
+        /* ICONS */
+        .nav-logo { display: flex; align-items: center; gap: 12px; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: var(--white); text-decoration: none; padding-bottom: 20px;}
+        .nav-logo-icon { width: 32px; height: 32px; background: linear-gradient(135deg, var(--cyan), #0066ff); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
         .guest-logo-text {
             font-family: 'Syne', sans-serif; font-weight: 800;
             font-size: 15px; color: var(--white);
@@ -107,8 +104,8 @@
     </style>
 </head>
 <body>
-    <a href="{{ url('/') }}" class="guest-logo">
-        <div class="guest-logo-icon">☁</div>
+    <a href="{{ url('/') }}" class="nav-logo">
+        <div class="nav-logo-icon">☁</div>
         <div class="guest-logo-text">{{ config('app.name', 'CF Proxy Manager') }}</div>
     </a>
 
