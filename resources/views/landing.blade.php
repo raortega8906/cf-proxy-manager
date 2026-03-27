@@ -172,6 +172,11 @@
       .blocker-content { flex-direction: column; }
       footer { flex-direction: column; text-align: center; }
     }
+
+    /* SVG ICONS */
+    svg.size-2 {
+      width: 12%;
+    }
   </style>
 </head>
 <body>
@@ -187,11 +192,13 @@
     <a href="#features">Funcionalidades</a>
   </div>
   <div class="nav-cta">
-    @auth
-      <a href="{{ route('dashboard') }}" class="btn btn-primary">📊 Dashboard →</a>
-    @else
+    {{-- @auth --}}
+      <a href="{{ route('dashboard') }}" class="btn btn-primary">
+        📊 Dashboard →
+      </a>
+    {{-- @else
       <a href="{{ route('login') }}" class="btn btn-outline">Iniciar sesión</a>
-    @endauth
+    @endauth --}}
   </div>
 </nav>
 
@@ -208,12 +215,12 @@
   <h1>Tu proxy Cloudflare,<br/><span class="accent">siempre en el momento</span><br/><span class="accent-orange">correcto.</span></h1>
   <p class="hero-sub">Automatiza la activación y desactivación del proxy de Cloudflare cuando hay partidos de LaLiga o renovaciones SSL. Sin intervención manual, sin cortes inesperados.</p>
   <div class="hero-actions">
-    @auth
-      <a href="{{ route('dashboard') }}" class="btn btn-primary btn-lg">📊 Ir al dashboard →</a>
-    @else
-      <a href="{{ route('login') }}" class="btn btn-primary btn-lg">Acceder al panel →</a>
-    @endauth
-    <a href="#como-funciona" class="btn btn-outline btn-lg">Ver cómo funciona</a>
+    {{-- @auth --}}
+      <a href="{{ route('dashboard') }}" class="btn btn-primary">📊 Ir al dashboard →</a>
+    {{-- @else
+      <a href="{{ route('login') }}" class="btn btn-primary">Acceder al panel →</a>
+    @endauth --}}
+    <a href="#como-funciona" class="btn btn-outline">Ver cómo funciona</a>
   </div>
   <div class="hero-stats">
     <div style="text-align:center">
@@ -453,12 +460,12 @@
   <h2>Sin más sábados<br/>mirando Cloudflare.</h2>
   <p>Configura tus dominios una vez. El sistema hace el resto.</p>
   <div class="cta-actions">
-    @auth
-      <a href="{{ route('dashboard') }}" class="btn btn-primary btn-xl">📊 Ir al dashboard →</a>
-    @else
+    {{-- @auth --}}
+      <a href="{{ route('dashboard') }}" class="btn btn-primary">📊 Ir al dashboard →</a>
+    {{-- @else
       <a href="{{ route('login') }}" class="btn btn-primary btn-xl">Acceder al panel →</a>
       <a href="#como-funciona" class="btn btn-outline btn-lg">Ver cómo funciona</a>
-    @endauth
+    @endauth --}}
   </div>
 </section>
 
