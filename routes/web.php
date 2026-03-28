@@ -11,19 +11,19 @@ Route::get('/', function () {
     return view('landing');
 });
 
-// Route::middleware('auth', 'verified')->group(function () {
+Route::middleware('auth', 'verified')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::patch('/dashboard/deactivate-all', [DashboardController::class, 'deactivateProxyAll'])->name('dashboard.deactivateProxyAll');
     Route::patch('/dashboard/activate-all', [DashboardController::class, 'activateProxyAll'])->name('dashboard.activateProxyAll');
     Route::patch('/dashboard/{site}', [DashboardController::class, 'activateOrDeactivateProxy'])->name('dashboard.activateOrDeactivateProxy');
 
-    Route::middleware('auth', 'verified')->group(function () {
-    // Rutas Profile
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    });
+    // Route::middleware('auth', 'verified')->group(function () {
+        // Rutas Profile
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // });
 
     // Rutas de sitios (CRUD)
     Route::get('/sites', [ProxySiteController::class, 'index'])->name('sites.index');
@@ -45,6 +45,6 @@ Route::get('/', function () {
     // Rutas de logs (CRUD)
     Route::get('/logs/export', [ProxyLogController::class, 'export'])->name('logs.export');
     Route::get('/logs', [ProxyLogController::class, 'index'])->name('logs.index');
-// });
+});
 
 require __DIR__.'/auth.php';
