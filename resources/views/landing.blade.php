@@ -199,13 +199,13 @@
     <a href="#features">Funcionalidades</a>
   </div>
   <div class="nav-cta">
-    {{-- @auth --}}
+    @auth
       <a href="{{ route('dashboard') }}" class="btn btn-primary">
         📊 Dashboard →
       </a>
-    {{-- @else
+    @else
       <a href="{{ route('login') }}" class="btn btn-outline">Iniciar sesión</a>
-    @endauth --}}
+    @endauth
   </div>
 </nav>
 
@@ -222,70 +222,15 @@
   <h1>Tu proxy Cloudflare,<br/><span class="accent">siempre en el momento</span><br/><span class="accent-orange">correcto.</span></h1>
   <p class="hero-sub">Automatiza la activación y desactivación del proxy de Cloudflare cuando hay partidos de LaLiga o renovaciones SSL. Sin intervención manual, sin cortes inesperados.</p>
   <div class="hero-actions">
-    {{-- @auth --}}
+    @auth
       <a href="{{ route('dashboard') }}" class="btn btn-primary">📊 Ir al dashboard →</a>
-    {{-- @else
+    @else
       <a href="{{ route('login') }}" class="btn btn-primary">Acceder al panel →</a>
-    @endauth --}}
+    @endauth
     <a href="#como-funciona" class="btn btn-outline">Ver cómo funciona</a>
   </div>
   <div class="hero-stats">
     <img style="width: 100%" src="{{ asset('./images/cf-proxy-manager.png') }}">
-    {{-- <div style="text-align:center">
-      <div class="hero-stat-value" style="color:var(--green)">0</div>
-      <div class="hero-stat-label">Intervenciones manuales</div>
-    </div>
-    <div class="hero-stat-divider"></div>
-    <div style="text-align:center">
-      <div class="hero-stat-value" style="color:var(--cyan)">1 min</div>
-      <div class="hero-stat-label">Frecuencia scheduler</div>
-    </div>
-    <div class="hero-stat-divider"></div>
-    <div style="text-align:center">
-      <div class="hero-stat-value" style="color:var(--orange)">LaLiga</div>
-      <div class="hero-stat-label">Detección automática</div>
-    </div>
-    <div class="hero-stat-divider"></div>
-    <div style="text-align:center">
-      <div class="hero-stat-value" style="color:var(--yellow)">90 días</div>
-      <div class="hero-stat-label">Ciclo SSL automático</div>
-    </div>
-  </div>
-  <div class="mockup-wrap">
-    <div class="mockup-frame">
-      <div class="mockup-bar">
-        <div class="mockup-dot" style="background:#ff5f57"></div>
-        <div class="mockup-dot" style="background:#febc2e"></div>
-        <div class="mockup-dot" style="background:#28c840"></div>
-        <div class="mockup-url">cfproxy.caelix.es/dashboard</div>
-      </div>
-      <div class="mockup-body">
-        <div class="mockup-stat"><div class="mockup-stat-val" style="color:var(--green)">5/6</div><div class="mockup-stat-lbl">Proxy activo</div></div>
-        <div class="mockup-stat"><div class="mockup-stat-val" style="color:var(--orange)">4</div><div class="mockup-stat-lbl">Afect. LaLiga</div></div>
-        <div class="mockup-stat"><div class="mockup-stat-val" style="color:var(--cyan)">3</div><div class="mockup-stat-lbl">SSL Auto</div></div>
-        <div class="mockup-stat"><div class="mockup-stat-val" style="color:var(--yellow)">2</div><div class="mockup-stat-lbl">Pendientes</div></div>
-      </div>
-      <div class="mockup-list">
-        <div class="mockup-row">
-          <div class="mockup-dot-status" style="background:var(--green)"></div>
-          <div class="mockup-domain">tiendaonline.es</div>
-          <div class="mockup-tag" style="color:var(--orange);background:rgba(255,107,53,0.1)">⚽ LaLiga</div>
-          <div class="toggle-mini" style="background:var(--cyan)"><div class="toggle-mini-knob" style="left:18px"></div></div>
-        </div>
-        <div class="mockup-row">
-          <div class="mockup-dot-status" style="background:var(--orange)"></div>
-          <div class="mockup-domain">portalnoticias.es</div>
-          <div class="mockup-tag" style="color:var(--orange);background:rgba(255,107,53,0.1)">⚽ LaLiga</div>
-          <div class="toggle-mini" style="background:#1e3a5f"><div class="toggle-mini-knob" style="left:2px"></div></div>
-        </div>
-        <div class="mockup-row">
-          <div class="mockup-dot-status" style="background:var(--yellow)"></div>
-          <div class="mockup-domain">webcorp.es</div>
-          <div class="mockup-tag" style="color:var(--cyan);background:rgba(0,212,255,0.08)">🔒 SSL próximo</div>
-          <div class="toggle-mini" style="background:var(--cyan)"><div class="toggle-mini-knob" style="left:18px"></div></div>
-        </div>
-      </div>
-    </div> --}}
   </div>
 </section>
 
@@ -468,12 +413,12 @@
   <h2>Sin más sábados<br/>mirando Cloudflare.</h2>
   <p>Configura tus dominios una vez. El sistema hace el resto.</p>
   <div class="cta-actions">
-    {{-- @auth --}}
+    @auth
       <a href="{{ route('dashboard') }}" class="btn btn-primary">📊 Ir al dashboard →</a>
-    {{-- @else
+    @else
       <a href="{{ route('login') }}" class="btn btn-primary btn-xl">Acceder al panel →</a>
       <a href="#como-funciona" class="btn btn-outline btn-lg">Ver cómo funciona</a>
-    @endauth --}}
+    @endauth
   </div>
 </section>
 
