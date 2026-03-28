@@ -303,7 +303,7 @@ Credenciales de acceso:
 | Campo | Valor |
 |---|---|
 | Email | `manager@cfproxy.es` |
-| Contraseña | `laravel2026` |
+| Contraseña | `otro2026` |
 
 ### Scheduler
 
