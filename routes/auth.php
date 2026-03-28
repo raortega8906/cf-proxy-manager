@@ -18,11 +18,7 @@ Route::middleware('guest')->group(function () {
     // Route::post('register', [RegisteredUserController::class, 'store']);
 
     Route::get('/register', function () {
-        return redirect('/');
-    });
-
-    Route::get('/login', function () {
-        return redirect('/');
+        return redirect('/login');
     });
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
