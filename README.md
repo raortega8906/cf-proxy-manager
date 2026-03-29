@@ -39,9 +39,11 @@ Espero que les sea de ayuda.
 - **Dashboard** — estado en tiempo real de todos los dominios gestionados, sincronizado directamente desde la API de Cloudflare
 - **Gestión de sitios** — añade dominios por Zone ID de Cloudflare; la app descubre automáticamente el registro DNS
 - **Schedules de proxy** — crea ventanas de tiempo para desactivar/reactivar el proxy, de forma manual o automática
+- **Gestión manual de proxy** — desactiva o activa manualmente el proxy de un sitio
 - **Automatización LaLiga** — un cron diario consulta los partidos de La Liga en football-data.org y crea los schedules automáticamente
 - **Automatización SSL** — desactiva el proxy para la ventana del reto HTTP-01, lo reactiva y programa la siguiente renovación
 - **Logs de proxy** — registro completo de cada cambio de proxy con razón, estado y timestamp
+- **Notificación por email** — envío automático cada mañana cuando se detectan partidos de LaLiga en el día, incluyendo la ventana de desactivación programada, los partidos con sus horarios y los dominios que se verán afectados
 - **Exportación de logs** — descarga los logs como archivo `.xlsx` con formato `YYYYMMDD-logs-cfpm.xlsx`
 - **Controles masivos** — activa o desactiva todos los proxies a la vez desde el dashboard
 - **Almacenamiento cifrado** — los Zone IDs y DNS Record IDs de Cloudflare se cifran en reposo con AES-256-CBC
