@@ -315,19 +315,19 @@ php artisan schedule:work
 
 ---
 
-## ☁️ Despliegue en producción — CubePath + Coolify
+## ☁️ Despliegue en producción — CubePath + Coolify (Demo para Hackaton CubePath 2026)
 
 CF Proxy Manager está desplegado en producción sobre infraestructura de **CubePath**, usando un VPS nano ubicado en Barcelona, España.
 
 ### Infraestructura
 
-| Recurso | Detalle |
-|---|---|
-| Proveedor | CubePath |
-| Servidor | `starlight-dragon-407` — Barcelona, Spain |
-| Especificaciones | 1 vCPU · 2 GB RAM · 40 GB SSD |
-| Coste estimado | ~$0.17 / día |
-| URL producción | [https://cfproxy.caelix.es](https://cfproxy.caelix.es) |
+| Recurso | Detalle                                                       |
+|---|---------------------------------------------------------------|
+| Proveedor | CubePath                                                      |
+| Servidor | `starlight-dragon-407` — Barcelona, Spain                     |
+| Especificaciones | 1 vCPU · 2 GB RAM · 40 GB SSD                                 |
+| Coste estimado | ~$0.17 / día                                                  |
+| URL producción | [https://cfproxy.caelix.es](https://cfproxy.caelix.es) (Demo) |
 
 ### Coolify como plataforma de despliegue
 
