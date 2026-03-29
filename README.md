@@ -5,6 +5,7 @@
 </p>
 
 <p align="center">
+  <img src="https://img.shields.io/badge/versión-1.0.0-blue?style=flat-square" />
   <img src="https://img.shields.io/badge/Laravel-12-FF2D20?style=flat-square&logo=laravel&logoColor=white" />
   <img src="https://img.shields.io/badge/PHP-8.3-777BB4?style=flat-square&logo=php&logoColor=white" />
   <img src="https://img.shields.io/badge/Cloudflare-API-F38020?style=flat-square&logo=cloudflare&logoColor=white" />
@@ -394,6 +395,45 @@ Coolify mantiene un histórico de imágenes Docker construidas anteriormente. An
 
 - Un único VPS sin réplica es un punto único de fallo. Para un entorno más crítico lo natural sería añadir un segundo servidor o un balanceador de carga, ambos disponibles en CubePath.
 - El plan de 2 GB de RAM es suficiente para este caso de uso, pero proyectos con mayor carga de trabajo deberían dimensionar el servidor en consecuencia antes de ir a producción.
+
+---
+
+## 🗺 Próximas versiones
+
+CF Proxy Manager es un MVP funcional. Estas son las funcionalidades planificadas para versiones futuras:
+
+### Notificaciones y alertas
+- **Webhooks y Slack** — notificaciones en tiempo real cuando un proxy se desactiva o reactiva, integrables con Slack, Discord o cualquier sistema vía webhook
+- **Alertas de fallo** — email automático cuando un schedule falla, cuando Cloudflare devuelve error o cuando un dominio no responde tras reactivar el proxy
+
+### Gestión multi-cuenta y equipos
+- **Multi-cuenta Cloudflare** — gestionar dominios de distintas cuentas Cloudflare desde un único panel, ideal para agencias con múltiples clientes
+- **Grupos de dominios** — agrupar sitios por cliente o proyecto y aplicar acciones masivas, schedules y configuraciones por grupo
+- **Multi-usuario con roles** — sistema de permisos con roles admin, editor y solo lectura para equipos de agencia
+
+### Analítica y visibilidad
+- **Histórico de disponibilidad** — gráfico temporal por dominio mostrando cuándo estuvo activo o desactivado el proxy, con correlación de eventos LaLiga y SSL
+
+### Integraciones y extensibilidad
+- **API REST propia** — endpoints documentados para integrar CF Proxy Manager con sistemas externos, pipelines CI/CD o automatizaciones propias
+- **Soporte multi-proveedor DNS** — extensión del sistema a otros proveedores DNS más allá de Cloudflare
+
+### Acceso móvil
+- **App móvil / NativePHP** — gestión de toggles, visualización de estado y aprobación de schedules desde el teléfono, especialmente útil los días de partido
+
+---
+
+## 📌 Historial de versiones
+
+| Versión | Descripción                                                                                                                     |
+|---|---------------------------------------------------------------------------------------------------------------------------------|
+| `v1.0.0` | MVP inicial en producción — LaLiga, SSL, logs, dashboard, deploy en CubePath (En pruebas por: Midudev - Hackatón CubePath 2026) |
+| `v1.1.0` | Alertas por email de fallos + notificaciones Slack                                                                              |
+| `v1.2.0` | Multi-cuenta Cloudflare                                                                                                         |
+| `v1.3.0` | Grupos de dominios + roles de usuario                                                                                           |
+| `v2.0.0` | API REST propia + soporte multi-proveedor DNS                                                                                   |
+
+> El proyecto sigue **Semantic Versioning**. El número mayor cambia con cambios arquitectónicos, el del medio con nuevas funcionalidades y el menor con fixes y mejoras.
 
 ---
 
