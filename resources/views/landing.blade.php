@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CF Proxy Manager — Automatiza Cloudflare</title>
   <!-- Favicon -->
-  <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/x-icon">
-  <link rel="shortcut icon" href="{{ asset('images/logo.ico') }}" type="image/x-icon">
+  <link rel="icon" href="{{ asset('images/logo-v2.png') }}" type="image/x-icon">
+  <link rel="shortcut icon" href="{{ asset('images/logo-v2.ico') }}" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
