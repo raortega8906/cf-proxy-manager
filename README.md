@@ -425,13 +425,13 @@ CF Proxy Manager es un MVP funcional. Estas son las funcionalidades planificadas
 
 ## 📌 Historial de versiones
 
-| Versión   | Descripción                                                                                                                     |
-|-----------|---------------------------------------------------------------------------------------------------------------------------------|
-| `v1.0.0`✅ | MVP inicial en producción — LaLiga, SSL, logs, dashboard, deploy en CubePath (En pruebas por: Midudev - Hackatón CubePath 2026) |
-| `v1.1.0`  | Alertas por email de fallos + notificaciones Slack                                                                              |
-| `v1.2.0`  | Multi-cuenta Cloudflare                                                                                                         |
-| `v1.3.0`  | Grupos de dominios + roles de usuario                                                                                           |
-| `v2.0.0`  | API REST propia + soporte multi-proveedor DNS                                                                                   |
+| Versión   | Descripción                                                                                                                      |
+|-----------|----------------------------------------------------------------------------------------------------------------------------------|
+| `v1.0.0`✅ | MVP inicial en producción — LaLiga, SSL, logs, dashboard, deploy en CubePath (En pruebas para: Hackaton CubePath 2026 - Midudev) |
+| `v1.1.0`  | Alertas por email de fallos + notificaciones Slack                                                                               |
+| `v1.2.0`  | Multi-cuenta Cloudflare                                                                                                          |
+| `v1.3.0`  | Grupos de dominios + roles de usuario                                                                                            |
+| `v2.0.0`  | API REST propia + soporte multi-proveedor DNS                                                                                    |
 
 > El proyecto sigue **Semantic Versioning**. El número mayor cambia con cambios arquitectónicos, el del medio con nuevas funcionalidades y el menor con fixes y mejoras.
 
