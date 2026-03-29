@@ -442,3 +442,4 @@ CF Proxy Manager es un MVP funcional. Estas son las funcionalidades planificadas
 ## 📄 Licencia
 
 Este proyecto es software de código abierto licenciado bajo la [licencia MIT](https://opensource.org/licenses/MIT).
+
