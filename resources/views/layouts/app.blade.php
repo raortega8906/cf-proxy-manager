@@ -7,8 +7,8 @@
     <title>@yield('title', 'CF Proxy Manager')</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <!-- Favicon -->
-    <link rel="icon" href="{{ asset('./images/logo.png') }}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ asset('./images/logo.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/logo.ico') }}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
