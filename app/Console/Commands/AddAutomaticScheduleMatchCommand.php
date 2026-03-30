@@ -39,7 +39,7 @@ class AddAutomaticScheduleMatchCommand extends Command
 //        $dateFrom = Carbon::today();
 //        $dateTo = Carbon::today();
 
-        // Pruebas:
+        // Pruebas para la Hackatón:
         // $dateFrom = Carbon::parse('2026-03-21');
         // $dateTo = Carbon::parse('2026-03-21');
 
