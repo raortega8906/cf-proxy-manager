@@ -1,4 +1,4 @@
-FROM serversideup/php:8.3-fpm-nginx@sha256:59c6f82b2af6c82517f3a71702411400577631694986bb8265bbf4ffba269129
+FROM serversideup/php:8.3-fpm-nginx
 
 USER root
 
