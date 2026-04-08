@@ -8,8 +8,6 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-// Ajustar tiempos de ejecución en las pruebas
-
 // Schedule Manual LaLiga:
 Schedule::command('app:process-proxy-schedules-command')->everyMinute();
 

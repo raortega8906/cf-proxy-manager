@@ -18,12 +18,10 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::patch('/dashboard/activate-all', [DashboardController::class, 'activateProxyAll'])->name('dashboard.activateProxyAll');
     Route::patch('/dashboard/{site}', [DashboardController::class, 'activateOrDeactivateProxy'])->name('dashboard.activateOrDeactivateProxy');
 
-    // Route::middleware('auth', 'verified')->group(function () {
-        // Rutas Profile
-        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    // });
+    // Rutas Profile
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Rutas de sitios (CRUD)
     Route::get('/sites', [ProxySiteController::class, 'index'])->name('sites.index');
