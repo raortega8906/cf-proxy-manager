@@ -405,7 +405,7 @@ Coolify mantiene un histórico de imágenes Docker construidas anteriormente. An
 CF Proxy Manager es un MVP funcional. Estas son las funcionalidades planificadas para versiones futuras:
 
 ### Notificaciones y alertas
-- **Webhooks y Slack** — notificaciones en tiempo real cuando un proxy se desactiva o reactiva, integrables con Slack, Discord o cualquier sistema vía webhook
+- **Slack** — notificaciones en tiempo real cuando un proxy se desactiva o reactiva, integrables con Slack
 - **Alertas de fallo** — email automático cuando un schedule falla, cuando Cloudflare devuelve error o cuando un dominio no responde tras reactivar el proxy
 
 ### Gestión multi-cuenta y equipos
@@ -417,8 +417,8 @@ CF Proxy Manager es un MVP funcional. Estas son las funcionalidades planificadas
 - **Histórico de disponibilidad** — gráfico temporal por dominio mostrando cuándo estuvo activo o desactivado el proxy, con correlación de eventos LaLiga y SSL
 
 ### Integraciones y extensibilidad
-- **API REST propia** — endpoints documentados para integrar CF Proxy Manager con sistemas externos, pipelines CI/CD o automatizaciones propias
 - **Soporte multi-proveedor DNS** — extensión del sistema a otros proveedores DNS más allá de Cloudflare
+- **API REST propia** — endpoints documentados para integrar CF Proxy Manager con sistemas externos, pipelines CI/CD o automatizaciones propias
 
 ### Acceso móvil
 - **App móvil / NativePHP** — gestión de toggles, visualización de estado y aprobación de schedules desde el teléfono, especialmente útil los días de partido
@@ -427,13 +427,13 @@ CF Proxy Manager es un MVP funcional. Estas son las funcionalidades planificadas
 
 ## 📌 Historial de versiones
 
-| Versión   | Descripción                                                                                                                      |
-|-----------|----------------------------------------------------------------------------------------------------------------------------------|
-| `v1.0.0`✅ | MVP inicial en producción — LaLiga, SSL, logs, dashboard, deploy en CubePath (En pruebas para: Hackaton CubePath 2026 - Midudev) |
-| `v1.1.0`  | Alertas por email de fallos + notificaciones Slack                                                                               |
-| `v1.2.0`  | Multi-cuenta Cloudflare                                                                                                          |
-| `v1.3.0`  | Grupos de dominios + roles de usuario                                                                                            |
-| `v2.0.0`  | API REST propia + soporte multi-proveedor DNS                                                                                    |
+| Versión   | Descripción                                                                   |
+|-----------|-------------------------------------------------------------------------------|
+| `v1.0.0`✅ | MVP inicial en producción — LaLiga, SSL, logs, dashboard, deploy en CubePath  |
+| `v1.1.0`  | Alertas por email de fallos + notificaciones Slack                            |
+| `v1.2.0`  | Multi-cuenta Cloudflare                                                       |
+| `v1.3.0`  | Grupos de dominios + roles de usuario                                         |
+| `v2.0.0`  | API REST propia + soporte multi-proveedor DNS                                 |
 
 > El proyecto sigue **Semantic Versioning**. El número mayor cambia con cambios arquitectónicos, el del medio con nuevas funcionalidades y el menor con fixes y mejoras.
 
@@ -442,4 +442,3 @@ CF Proxy Manager es un MVP funcional. Estas son las funcionalidades planificadas
 ## 📄 Licencia
 
 Este proyecto es software de código abierto licenciado bajo la [licencia MIT](https://opensource.org/licenses/MIT).
-
