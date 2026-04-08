@@ -117,6 +117,41 @@ class CloudflareService {
         }
     }
 
+    // Probar cuando haya bloqueo:
+//    public function isBlockedByLaliga(ProxySite $site): bool
+//    {
+//        try {
+//            $response = Http::timeout(10)
+//                ->withoutVerifying()
+//                ->get('http://' . $site->domain);
+//
+//            $body = $response->body();
+//            $status = $response->status();
+//
+//            // El bloqueo de LaLiga típicamente devuelve 451 (Unavailable For Legal Reasons)
+//            // o en algunos casos 200 con página de bloqueo inyectada por el operador
+//            $isLegalBlock = $status === 451;
+//
+//            // Señales específicas del bloqueo LaLiga (todas deben coincidir para mayor precisión)
+//            $signals = [
+//                str_contains($body, 'Liga Nacional de Fútbol Profesional'),
+//                str_contains($body, 'Telefónica Audiovisual Digital') || str_contains($body, 'Telefonica Audiovisual Digital'),
+//                str_contains($body, '1005/2024-H') || str_contains($body, 'Juzgado de lo Mercantil'),
+//            ];
+//
+//            $matchedSignals = array_sum($signals); // Cuántas señales coinciden
+//
+//            // Consideramos bloqueado si:
+//            // - Es un 451 explícito, O
+//            // - Al menos 2 de las 3 señales específicas coinciden
+//            return $isLegalBlock || $matchedSignals >= 2;
+//
+//        } catch (\Exception $e) {
+//            Log::warning("[Cloudflare] isBlockedByLaliga check failed for {$site->domain}: {$e->getMessage()}");
+//            return false;
+//        }
+//    }
+
      /**
      * Activa o desactiva el proxy (nube naranja) de un DNS record.
      *
@@ -137,7 +172,7 @@ class CloudflareService {
             ->patch("{$this->api_url}/zones/{$zone_id}/dns_records/{$record_id}", [
                 'proxied' => $enabled
             ]);
-            
+
         } else {
 
             $enabled = false;
