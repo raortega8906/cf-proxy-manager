@@ -420,9 +420,6 @@ CF Proxy Manager es un MVP funcional. Estas son las funcionalidades planificadas
 - **Soporte multi-proveedor DNS** — extensión del sistema a otros proveedores DNS más allá de Cloudflare
 - **API REST propia** — endpoints documentados para integrar CF Proxy Manager con sistemas externos, pipelines CI/CD o automatizaciones propias
 
-### Acceso móvil
-- **App móvil / NativePHP** — gestión de toggles, visualización de estado y aprobación de schedules desde el teléfono, especialmente útil los días de partido
-
 ---
 
 ## 📌 Historial de versiones
