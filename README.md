@@ -16,11 +16,11 @@
 
 ## 📖 ¿Qué es esto?
 
-**Javier Tebas**, presidente de LaLiga, y amparado en una sentencia del Juzgado de lo Mercantil nº 6 de Barcelona, decidió que la mejor manera de combatir la piratería era ordenar a los operadores españoles bloquear rangos enteros de IPs de Cloudflare durante los días de partido. Una solución tan elegante como tumbar todo un edificio para matar una cucaracha en el quinto piso.
+Desde LaLiga, y apoyándose en una sentencia del Juzgado de lo Mercantil nº 6 de Barcelona, se impulsó una estrategia para combatir la piratería basada en solicitar a los operadores españoles el bloqueo de rangos completos de IPs asociados a Cloudflare durante los días de partido. Una medida que, aunque busca ser efectiva, puede resultar demasiado amplia en su aplicación.
 
-El resultado es predecible: webs que no tienen absolutamente nada que ver con el fútbol pirata — desde la RAE hasta startups, medios locales, herramientas educativas y proyectos personales — caen bloqueadas cada fin de semana porque comparten rango de IP con algún dominio en la lista de Tebas. "Brillante".
+El efecto es bastante claro: sitios web sin relación con el fútbol pirata —desde instituciones como la Real Academia Española hasta startups, medios locales, herramientas educativas o proyectos personales— pueden verse afectados al compartir esos rangos de IP. Como consecuencia, algunos servicios experimentan interrupciones puntuales durante los fines de semana.
 
-**CF Proxy Manager** nació de esa realidad. Desactiva automáticamente el proxy de Cloudflare (la nube naranja) en los dominios afectados antes de que empiecen los partidos, y lo reactiva cuando terminan. Al exponer temporalmente la IP real del servidor, el dominio escapa del bloqueo por rango sin necesidad de intervención manual cada fin de semana. También gestiona las renovaciones de certificados SSL que requieren desactivar el proxy de forma puntual.
+En este contexto surge **CF Proxy Manager**. Esta herramienta automatiza la desactivación del proxy de Cloudflare (la conocida “nube naranja”) en los dominios potencialmente afectados antes del inicio de los partidos, reactivándolo una vez finalizan. Al exponer temporalmente la IP real del servidor, se evita el bloqueo por rango sin necesidad de intervención manual constante. Además, facilita la gestión de renovaciones de certificados SSL que requieren desactivar el proxy de forma puntual.
 
 ### El problema en una captura
 
