@@ -303,10 +303,10 @@ php artisan db:seed
 
 Credenciales de acceso:
 
-| Campo | Valor |
-|---|---|
+| Campo | Valor                |
+|---|----------------------|
 | Email | `manager@cfproxy.es` |
-| Contraseña | `otro2026` |
+| Contraseña | `laravel2026`        |
 
 ### Scheduler
 
