@@ -194,9 +194,9 @@
     CF Proxy Manager
   </a>
   <div class="nav-links">
-    <a href="#problema">El problema</a>
-    <a href="#como-funciona">Cómo funciona</a>
-    <a href="#features">Funcionalidades</a>
+      <a href="#problema">El problema</a>
+      <a href="#features">Funcionalidades</a>
+      <a href="#como-funciona">Cómo funciona</a>
   </div>
   <div class="nav-cta">
     @auth
@@ -427,9 +427,9 @@
     <div class="nav-logo-icon" style="width:26px;height:26px;font-size:12px">☁</div>
     CF Proxy Manager
   </div>
-  <p>© 2026 CF Proxy Manager · Laravel + Cloudflare API v4 · Deployado en CubePath</p>
+    <p>© {{ date("Y") }} CF Proxy Manager · Developed by <a href="https://github.com/raortega8906/" target="_blank" rel="noopener noreferrer">Rafael A. Ortega</a></p>
   <div style="display:flex;gap:20px">
-    <a href="https://github.com/raortega8906/cf-proxy-manager" target="_blank">GitHub</a>
+    <a href="https://github.com/raortega8906/cf-proxy-manager" target="_blank" rel="noopener noreferrer">GitHub</a>
   </div>
 </footer>
 
