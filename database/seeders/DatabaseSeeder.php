@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name' => 'Admin CF P Manager',
             'email' => 'manager@cfproxy.es',
-            'password' => Hash::make('otro2026'),
+            'password' => Hash::make('otro20263'),
         ]);
     }
 }
