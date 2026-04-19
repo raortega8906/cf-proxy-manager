@@ -8,6 +8,7 @@ use App\Models\ProxySchedule;
 use App\Models\ProxySite;
 use Illuminate\Contracts\View\View;
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 
 class ProxyScheduleController extends Controller
 {
@@ -32,7 +33,7 @@ class ProxyScheduleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProxyScheduleRequest $request)
+    public function store(StoreProxyScheduleRequest $request): RedirectResponse
     {
         $validated = $request->validated();
         $validated['status']     = 'pending';
@@ -68,7 +69,7 @@ class ProxyScheduleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ProxySchedule $proxySchedule)
+    public function edit(ProxySchedule $proxySchedule): View
     {
         return view('schedules.edit', compact('proxySchedule'));
     }
@@ -76,7 +77,7 @@ class ProxyScheduleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProxyScheduleRequest $request, ProxySchedule $proxySchedule)
+    public function update(UpdateProxyScheduleRequest $request, ProxySchedule $proxySchedule): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -113,7 +114,7 @@ class ProxyScheduleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProxySchedule $proxySchedule)
+    public function destroy(ProxySchedule $proxySchedule): RedirectResponse
     {
         $proxySchedule->delete();
 

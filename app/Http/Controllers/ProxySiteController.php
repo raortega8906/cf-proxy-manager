@@ -93,7 +93,7 @@ class ProxySiteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProxySiteRequest $request, ProxySite $proxySite)
+    public function update(UpdateProxySiteRequest $request, ProxySite $proxySite): RedirectResponse
     {
         $data = $request->validated();
 
