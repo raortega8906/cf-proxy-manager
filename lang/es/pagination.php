@@ -4,12 +4,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Pagination Language Lines
+    | Líneas de idioma para autenticación
     |--------------------------------------------------------------------------
     |
-    | The following language lines are used by the paginator library to build
-    | the simple pagination links. You are free to change them to anything
-    | you want to customize your views to better match your application.
+    | Las siguientes líneas se utilizan durante la autenticación para los
+    | distintos mensajes que se muestran al usuario. Puedes modificarlas
+    | según los requisitos de tu aplicación.
     |
     */
 
