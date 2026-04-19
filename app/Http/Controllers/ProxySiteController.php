@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProxySiteRequest;
 use App\Http\Requests\UpdateProxySiteRequest;
 use App\Models\ProxyLog;
+use App\Models\ProxySchedule;
 use App\Models\ProxySite;
 use App\Services\CloudflareService;
 use App\Services\ProxyLogService;
@@ -66,7 +67,7 @@ class ProxySiteController extends Controller
                 $flag = true;
                 break;
 
-            } 
+            }
 
         }
 
@@ -78,7 +79,7 @@ class ProxySiteController extends Controller
         $data['proxy_enabled'] = $proxy_enabled;
 
         ProxySite::create($data);
-        
+
         return redirect()->route('sites.index')->with('success', 'Sitio creado correctamente.');
     }
 
@@ -125,7 +126,7 @@ class ProxySiteController extends Controller
     {
         $action = '';
         $message = '';
-        
+
         $response = $this->cloudflare->setProxyStatus($site);
 
         if ( $site->proxy_enabled ) {
@@ -144,7 +145,7 @@ class ProxySiteController extends Controller
                 'action' => $action,
                 'reason' => 'manual',
                 'status' => 'success',
-                'message' => $message, 
+                'message' => $message,
                 'site_id' => $site->id
             ]);
 
@@ -154,5 +155,26 @@ class ProxySiteController extends Controller
         $this->proxyLog->writeLogs($site, $action, 'manual', 'error', $message);
 
         return redirect()->back()->with(['error' => 'No se pudo cambiar el estado del proxy en Cloudflare.']);
+    }
+
+    public function detail(ProxySite $proxySite): View
+    {
+        $logs = ProxyLog::where('site_id', $proxySite->id)
+            ->latest()
+            ->get();
+
+        $schedules = ProxySchedule::whereJsonContains('site_ids', $proxySite->id)
+            ->latest()
+            ->paginate(5);
+
+        $timelineData = $logs->map(fn($log) => [
+            'action'  => $log->action,
+            'reason'  => $log->reason,
+            'status'  => $log->status,
+            'date'    => $log->created_at->format('d/m H:i'),
+            'ts'      => $log->created_at->timestamp,
+        ])->values()->toJson();
+
+        return view('sites.detail', compact('proxySite', 'logs', 'schedules', 'timelineData'));
     }
 }

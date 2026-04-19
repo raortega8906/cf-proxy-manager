@@ -79,6 +79,7 @@
                         </form>
                     <td>
                         <div class="flex gap-2">
+                            <a href="{{ route('sites.detail', $site) }}" class="btn btn-ghost btn-sm">Detalle</a>
                             <a href="{{ route('sites.edit', $site) }}" class="btn btn-ghost btn-sm">Editar</a>
                             <form action="{{ route('sites.destroy', $site) }}" method="POST"
                                 onsubmit="return confirm('¿Eliminar {{ $site->name }}?')">
