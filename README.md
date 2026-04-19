@@ -343,7 +343,7 @@ CF Proxy Manager es un MVP funcional. Estas son las funcionalidades planificadas
 
 | Versión   | Descripción                                                                  |
 |-----------|------------------------------------------------------------------------------|
-| `v1.0.0`✅ | MVP inicial en producción — LaLiga, SSL, logs, dashboard |
+| `v1.0.0`✅ | MVP inicial — LaLiga, SSL, logs, dashboard |
 | `v1.1.0`  | Alertas por email de fallos + notificaciones Slack                           |
 | `v1.2.0`  | Multi-cuenta Cloudflare                                                      |
 | `v1.3.0`  | Grupos de dominios + roles de usuario                                        |
