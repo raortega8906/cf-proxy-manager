@@ -59,7 +59,7 @@ app/
 │   ├── CheckSiteSslCommand.php                # Crea los schedules con el ssl_next_renewal del sitio (cada día a las 00:05)
 │   │── CheckSslRenewalsSchedulesCommand.php   # Procesa los schedules SSL (cada minuto)
 │   │── ProcessProxySchedulesCommand.php       # Procesa los schedules de LaLiga (cada minuto)
-│   └── SyncProxyStatusCommand.php             # Evita el N+1 actualizando el estado del proxy de los sitios (cada dos 5 minutos)
+│   └── SyncProxyStatusCommand.php             # Evita el N+1 actualizando el estado del proxy de los sitios (cada dos 2 minutos)
 ├── Exports/
 │   └── ProxyLogsExport.php                    # Exportación Excel de los logs
 ├── Http/Controllers/
