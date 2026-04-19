@@ -139,20 +139,12 @@ class ProxySiteController extends Controller
 
         if ($response) {
 
-            $this->proxyLog->writeLogs($site, $action, 'manual', 'success', $message);
-
-            ProxyLog::create([
-                'action' => $action,
-                'reason' => 'manual',
-                'status' => 'success',
-                'message' => $message,
-                'site_id' => $site->id
-            ]);
+            $this->proxyLog->writeLogs($site, $action, 'manual', true, $message);
 
             return redirect()->back()->with('success', 'Proxy activado o desactivado correctamente en Cloudflare.');
         }
 
-        $this->proxyLog->writeLogs($site, $action, 'manual', 'error', $message);
+        $this->proxyLog->writeLogs($site, $action, 'manual', false, $message);
 
         return redirect()->back()->with(['error' => 'No se pudo cambiar el estado del proxy en Cloudflare.']);
     }
