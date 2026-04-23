@@ -263,9 +263,9 @@ Importante: También en la configuración del token se puede restringir para una
 
 ## 🚀 Instalación local
 
-### Requisitos
+### Requisitos (PHP recomendado para actualizar a laravel 13)
 
-- PHP 8.2+
+- PHP 8.3+
 - Composer
 - MySQL 8.0+ o compatible
 - Cuenta de Cloudflare con token de API
