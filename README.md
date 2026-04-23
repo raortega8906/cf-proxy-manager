@@ -168,7 +168,7 @@ CF Proxy Manager envía un email automático cada vez que se crea un schedule au
 
 ## 🔧 Configuración
 
-### Variables de entorno
+### Variables de entorno (Hay un env.example con estos datos para rellenar)
 
 ```env
 # Aplicación
