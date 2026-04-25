@@ -75,7 +75,7 @@ app/
 │   ├── ProxySchedule.php
 │   └── ProxyLog.php
 └── Services/
-    ├── CloudflareService.php                  # Integración con la API de Cloudflare
+    ├── CloudflareService.php                   # Integración con la API de Cloudflare
     ├── LaligaService.php                      # Integración con la API de football-data.org
     ├── ProxyLogService.php                    # Escritura centralizada de logs
     └── ProxyScheduleService.php               # Creación automática de schedules
