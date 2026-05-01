@@ -384,28 +384,6 @@
         </div>
       </div>
     </div>
-    <div class="api-box">
-      <div class="api-header">
-        <div class="api-title">⚽ football-data.org — API de partidos</div>
-        <span class="api-badge">LaLiga · Competition PD</span>
-      </div>
-      <div class="api-desc">Consulta los partidos de LaLiga del día, obtiene fechas y horas en UTC y calcula los márgenes de desactivación y reactivación. Si no hay partidos ese día, no se crea ningún schedule.</div>
-      <div class="api-endpoint">GET https://api.football-data.org/v4/competitions/PD/matches?dateFrom=YYYY-MM-DD&dateTo=YYYY-MM-DD</div>
-      <div class="api-tags">
-        <span class="api-tag green">✓ Plan gratuito</span>
-        <span class="api-tag green">✓ 100 req/día</span>
-        <span class="api-tag cyan">✓ Fechas UTC</span>
-        <span class="api-tag cyan">✓ LaLiga EA Sports</span>
-        <span class="api-tag yellow">⚡ Sin partidos = sin schedule</span>
-      </div>
-    </div>
-    <div class="tech-grid">
-      <div class="tech-card"><div class="tech-icon">⚡</div><div class="tech-name">Laravel 12</div><div class="tech-desc">Framework + Scheduler</div></div>
-      <div class="tech-card"><div class="tech-icon">☁</div><div class="tech-name">Cloudflare API v4</div><div class="tech-desc">PATCH dns_records</div></div>
-      <div class="tech-card"><div class="tech-icon">⚽</div><div class="tech-name">football-data.org</div><div class="tech-desc">Fixtures LaLiga</div></div>
-      <div class="tech-card"><div class="tech-icon">🗄</div><div class="tech-name">MySQL + Cron</div><div class="tech-desc">Cada minuto</div></div>
-    </div>
-  </div>
 </section>
 
 <section class="cta-section">
