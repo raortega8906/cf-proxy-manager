@@ -92,7 +92,7 @@ routes/
 
 ### Flujo en día de partido de LaLiga
 ```
-00:00     →  AddAutomaticScheduleMatchCommand se ejecuta
+00:00     →   AddAutomaticScheduleMatchCommand se ejecuta
               Consulta football-data.org con los partidos de LaLiga del día
               
               Si hay un solo partido:
