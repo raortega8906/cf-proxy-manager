@@ -16,7 +16,7 @@
 
 ## 📖 ¿Qué es esto?
 
-Desde LaLiga, y apoyándose en una sentencia del Juzgado de lo Mercantil nº 6 de Barcelona, se impulsó una estrategia para combatir la piratería basada en solicitar a los operadores españoles el bloqueo de rangos completos de IPs asociados a Cloudflare durante los días de partido. Una medida que, aunque busca ser efectiva, puede resultar demasiado amplia en su aplicación.
+Desde LaLiga, se impulsó una estrategia para combatir la piratería basada en solicitar a los operadores españoles el bloqueo de rangos completos de IPs asociados a Cloudflare durante los días de partido. Una medida que, aunque busca ser efectiva, puede resultar demasiado amplia en su aplicación.
 
 El efecto es bastante claro: sitios web sin relación con el fútbol pirata —desde instituciones como la Real Academia Española hasta startups, medios locales, herramientas educativas o proyectos personales— pueden verse afectados al compartir esos rangos de IP. Como consecuencia, algunos servicios experimentan interrupciones puntuales durante los fines de semana.
 
@@ -29,8 +29,6 @@ Cuando un dominio queda atrapado en un bloqueo, los visitantes ven esto:
 > *"El acceso a la presente dirección IP ha sido bloqueado en cumplimiento de lo dispuesto en la Sentencia de 18 de diciembre de 2024, dictada por el Juzgado de lo Mercantil nº 6 de Barcelona en el marco del procedimiento ordinario instado por la Liga Nacional de Fútbol Profesional..."*
 
 CF Proxy Manager convierte ese problema en algo que se gestiona solo.
-
-Espero que les sea de ayuda.
 
 ---
 
