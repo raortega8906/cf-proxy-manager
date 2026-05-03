@@ -105,7 +105,7 @@ routes/
               En ambos casos verifica que no exista ya un schedule para ese partido
               Envía email de notificación con los partidos y dominios afectados
 
-Cada min  →  ProcessProxySchedulesCommand se ejecuta
+Cada min  →   ProcessProxySchedulesCommand se ejecuta
               Filtra schedules de tipo laliga_match en estado pending o active
               
               Si disable_at <= ahora y estado pending:
@@ -119,14 +119,14 @@ Cada min  →  ProcessProxySchedulesCommand se ejecuta
 
 ### Flujo de renovación SSL
 ```
-00:05     →  CheckSiteSslCommand se ejecuta
+00:05     →   CheckSiteSslCommand se ejecuta
               Busca sitios con ssl_auto_renewal = true y ssl_next_renewal = hoy
               Agrupa todos los sitios que renuevan hoy en un único schedule
               Actualiza ssl_next_renewal +3 meses en cada sitio afectado
               Verifica que no exista ya un schedule SSL para hoy antes de crear
               Crea un ProxySchedule: disable_at = 02:00, enable_at = 08:00
 
-Cada min  →  CheckSslRenewalsSchedulesCommand se ejecuta
+Cada min  →   CheckSslRenewalsSchedulesCommand se ejecuta
               Filtra schedules de tipo ssl_renewal en estado pending o active
               
               Si disable_at <= ahora y estado pending:
@@ -140,7 +140,7 @@ Cada min  →  CheckSslRenewalsSchedulesCommand se ejecuta
 
 ### Sincronización de estado
 ```
-Cada 2 min →  SyncProxyStatusCommand se ejecuta
+Cada 2 min →   SyncProxyStatusCommand se ejecuta
                Consulta la API de Cloudflare para cada dominio registrado
                Actualiza proxy_enabled en base de datos con el estado real
                Mantiene el dashboard coherente sin bloquear al usuario
