@@ -22,7 +22,7 @@ El efecto es bastante claro: sitios web sin relación con el fútbol pirata —d
 
 En este contexto surge **CF Proxy Manager**. Esta herramienta automatiza la desactivación del proxy de Cloudflare (la conocida “nube naranja”) en los dominios potencialmente afectados antes del inicio de los partidos, reactivándolo una vez finalizan. Al exponer temporalmente la IP real del servidor, se evita el bloqueo por rango sin necesidad de intervención manual constante. Además, facilita la gestión de renovaciones de certificados SSL que requieren desactivar el proxy de forma puntual.
 
-### El problema en una captura
+### El problema:
 
 Cuando un dominio queda atrapado en un bloqueo, los visitantes ven esto:
 
